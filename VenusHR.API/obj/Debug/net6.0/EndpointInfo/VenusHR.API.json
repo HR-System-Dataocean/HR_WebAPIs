@@ -1,0 +1,2256 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "VenusHR.API",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/AnnualVacationRequest/SaveRequest": {
+      "post": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { }
+            },
+            "text/json": {
+              "schema": { }
+            },
+            "application/*+json": {
+              "schema": { }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetAnnualVacsBalancesByEMP/{EmpID}/{ToDate}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "EmpID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ToDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/api/GeatServicePeriod/{EmployeeID}/{EndServiceDate}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "EndServiceDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetRequestStages/{RequestSerial}/{FormCode}/{Lang}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "RequestSerial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FormCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetSelfServiceRequestDetails/{requestType}/{ReauestID}/{Lang}/{ConfigID}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ReauestID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ConfigID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetMySelfServiceRequestDetails/{requestType}/{ReauestID}/{Lang}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ReauestID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetAnnualVacationRequestByID/{RequestSerial}/{Lang}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "RequestSerial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_VacationRequest"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_VacationRequest"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_VacationRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/AnnualVacationRequest/GetEmployeeRequests/{employeeId}/{Lang}": {
+      "get": {
+        "tags": [
+          "AnnualVacationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/CheckInOut": {
+      "post": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "CheckType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/GetHistory": {
+      "get": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ToDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/DailySummary": {
+      "get": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "FromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ToDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/MonthlyReport": {
+      "get": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Year",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Month",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/Employee/{employeeId}": {
+      "get": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllMasterData/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllCities/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllNationalities/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllBanks/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllReligions/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllMaritalStatus/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllBloodGroups/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllEducations/{Lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HRMaster/SaveNewEmployeeForm": {
+      "post": {
+        "tags": [
+          "HRMaster"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_NewEmployee"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_NewEmployee"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hrs_NewEmployee"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_NewEmployee"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_NewEmployee"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_NewEmployee"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Login/Login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SysUser"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SysUser"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SysUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ILoginServices"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ILoginServices"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ILoginServices"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetAllRequestTypes": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetAllEmployees/{Lang}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IMaster"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetEmployeeByID/{id}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_Employees"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_Employees"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hrs_Employees"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetUserNotificationCount/{EmployeeID}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetAllVacationsTypes/{Lang}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetEndOfServiceAllResignationReason/{Lang}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetEndOfServiceAllExperienceRate/{Lang}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SMaster/GetAllPendingRequests/{EmployeeID}/{Lang}": {
+      "get": {
+        "tags": [
+          "SMaster"
+        ],
+        "parameters": [
+          {
+            "name": "EmployeeID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SMaster/SaveRequestAction": {
+      "post": {
+        "tags": [
+          "SMaster"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SS_RequestAction"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SS_RequestAction"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SS_RequestAction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SS_RequestAction"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Hrs_Employees": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "oldCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyEngName": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyArbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "familyArbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "fatherEngName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fatherArbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fatherArbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "grandEngName": {
+            "type": "string",
+            "nullable": true
+          },
+          "grandArbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "grandArbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "birthCityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "religionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maritalStatusId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "nullable": true
+          },
+          "bloodGroupId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bankId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nationalityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "bankAccountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "bankAccNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "departmentId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "gosinumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "gosijoinDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "gosiexcludeDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "joinDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "excludeDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "companyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regComputerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "branchId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sponsorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "e_Mail": {
+            "type": "string",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "nullable": true
+          },
+          "mobile": {
+            "type": "string",
+            "nullable": true
+          },
+          "managerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "machineCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "sectorId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ssnNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "passPortNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "entryNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "cost1": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cost2": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cost3": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cost4": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "laborOfficeNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "locationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "whours": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "isProjectRelated": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isSpecialForce": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "maxLoanDedution": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ledgerCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "workE_Mail": {
+            "type": "string",
+            "nullable": true
+          },
+          "hasTaqat": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "bankAccountType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Hrs_EmployeesVacations": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vacationTypeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "expectedStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expectedEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "employeeRequestRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "isContracial": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "actualStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "actualEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regComputerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "totalDays": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "remainingDays": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "consumDays": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "hijriExpectedStartDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "hijriExpectedEndDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "hijriActualStartDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "hijriActualEndDate": {
+            "type": "string",
+            "nullable": true
+          },
+          "overDueVacation": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "paymentTrnId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "totalBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "paidFromBalance": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "remainingBalance": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "vactiondays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "overdueDays": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "parentVacationId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "zeroingBalance": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Hrs_Mobile_Attendance": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "checkingDatetime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "deviceID": {
+            "type": "string",
+            "nullable": true
+          },
+          "deviceModel": {
+            "type": "string",
+            "nullable": true
+          },
+          "osVersion": {
+            "type": "string",
+            "nullable": true
+          },
+          "networkType": {
+            "type": "string",
+            "nullable": true
+          },
+          "distanceFromLocation": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "checkType": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Hrs_NewEmployee": {
+        "required": [
+          "addressAsPerContract",
+          "bankId",
+          "birthCityId",
+          "birthDate",
+          "bloodGroupId",
+          "familyNameArabic",
+          "familyNameEnglish",
+          "fatherNameArabic",
+          "fatherNameEnglish",
+          "firstNameArabic",
+          "firstNameEnglish",
+          "genderId",
+          "graduationDate",
+          "grandfatherNameArabic",
+          "grandfatherNameEnglish",
+          "ibanno",
+          "isTransfered",
+          "lastEducationCertificateId",
+          "maritalStatusId",
+          "mobile",
+          "nationalityId",
+          "passportExpireDate",
+          "passportIssueDate",
+          "passportNo",
+          "personalEmail",
+          "profissionID",
+          "religionId",
+          "remarks",
+          "ssnoExpireDate",
+          "ssnoIssueDate"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ssno": {
+            "type": "string",
+            "nullable": true
+          },
+          "ssnoIssueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ssnoExpireDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "firstNameEnglish": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "fatherNameEnglish": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "grandfatherNameEnglish": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "familyNameEnglish": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "firstNameArabic": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "fatherNameArabic": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "grandfatherNameArabic": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "familyNameArabic": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "birthDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "birthCityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nationalityId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "religionId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "genderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maritalStatusId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "bloodGroupId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personalEmail": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mobile": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "passportNo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "passportIssueDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "passportExpireDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "bankId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ibanno": {
+            "maxLength": 14,
+            "minLength": 1,
+            "type": "string"
+          },
+          "lastEducationCertificateId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "graduationDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "remarks": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "isTransfered": {
+            "type": "boolean"
+          },
+          "profissionID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "addressAsPerContract": {
+            "maxLength": 500,
+            "minLength": 0,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ILoginServices": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IMaster": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "SS_RequestAction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "actionSerial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requestSerial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ss_EmployeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "formCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "configId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "employeeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seen": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "actionId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "actionDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "confirmedNoOfdays": {
+            "type": "string",
+            "nullable": true
+          },
+          "actionRemarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "isHidden": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "hoursCount": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "overtimeDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "overtimeType": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minutsCount": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SS_VacationRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "vacationTypeID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vacationType": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "totalBalance": {
+            "type": "number",
+            "format": "double"
+          },
+          "noOfDays": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "alternativeUser": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUser": {
+            "type": "string",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "employeeID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requestStautsTypeId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SysUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isArabic": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "canChangePassword": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "resetSearchCriteria": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "resetReportCriteria": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sessionIdleTime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "enforceAlphaNumericPwd": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "passwordExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "passwordChangedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regComputerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "relEmployee": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "levelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deviceToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

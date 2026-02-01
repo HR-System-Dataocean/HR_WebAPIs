@@ -1,0 +1,58 @@
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.deps.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.runtimeconfig.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.AssemblyReference.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfoInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.CopyComplete
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\refint\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.genruntimeconfig.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\ref\VenusHR.Infrastructure.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.deps.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.runtimeconfig.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.AssemblyReference.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfoInputs.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfo.cs
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR..524D09DB.Up2Date
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\refint\VenusHR.Infrastructure.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.genruntimeconfig.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\ref\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.sourcelink.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.AssemblyReference.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfoInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.AssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.csproj.CoreCompileInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.deps.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.runtimeconfig.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR..524D09DB.Up2Date
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\refint\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\VenusHR.Infrastructure.genruntimeconfig.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Infrastructure\obj\Debug\net6.0\ref\VenusHR.Infrastructure.dll

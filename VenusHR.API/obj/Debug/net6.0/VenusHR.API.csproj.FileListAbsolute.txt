@@ -1,0 +1,289 @@
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.Development.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.exe
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.deps.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.runtimeconfig.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Identity.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Humanizer.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.CodeDom.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Runtime.Caching.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Permissions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Json.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.AssemblyReference.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfoInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.CoreCompileInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.build.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.development.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.VenusHR.API.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.build.VenusHR.API.props
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.VenusHR.API.props
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.VenusHR.API.props
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.pack.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\scopedcss\bundle\VenusHR.API.styles.css
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.CopyComplete
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\refint\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.genruntimeconfig.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\ref\VenusHR.API.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.Development.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.exe
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.deps.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.runtimeconfig.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Core.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Identity.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Humanizer.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.CodeDom.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Runtime.Caching.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Permissions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Json.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.AssemblyReference.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfoInputs.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfo.cs
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.CoreCompileInputs.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cs
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.build.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.development.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.VenusHR.API.Microsoft.AspNetCore.StaticWebAssets.props
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.build.VenusHR.API.props
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.buildMultiTargeting.VenusHR.API.props
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets\msbuild.buildTransitive.VenusHR.API.props
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.pack.json
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\scopedcss\bundle\VenusHR.API.styles.css
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR..B9286B31.Up2Date
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\refint\VenusHR.API.dll
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.pdb
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.genruntimeconfig.cache
+D:\Projects_24\DO_ERP\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\ref\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.sourcelink.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.AssemblyReference.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\rpswa.dswa.cache.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.GeneratedMSBuildEditorConfig.editorconfig
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfoInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.AssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.csproj.CoreCompileInputs.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.MvcApplicationPartsAssemblyInfo.cs
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.Development.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\appsettings.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.staticwebassets.endpoints.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.exe
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.deps.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.runtimeconfig.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.API.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Azure.Identity.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Humanizer.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Bcl.AsyncInterfaces.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Caching.Memory.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Options.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Extensions.Primitives.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.OpenApi.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Mono.TextTemplating.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Newtonsoft.Json.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.CodeDom.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Diagnostics.DiagnosticSource.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Runtime.Caching.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Security.Permissions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Encodings.Web.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Text.Json.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\System.Windows.Extensions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Infrastructure.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\rjimswa.dswa.cache.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\rjsmrazor.dswa.cache.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\rjsmcshtml.dswa.cache.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\scopedcss\bundle\VenusHR.API.styles.css
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.build.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.build.json.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.development.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.build.endpoints.json
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\staticwebassets.upToDateCheck.txt
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR..B9286B31.Up2Date
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\refint\VenusHR.API.dll
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.pdb
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\VenusHR.API.genruntimeconfig.cache
+D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.API\obj\Debug\net6.0\ref\VenusHR.API.dll
