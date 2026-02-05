@@ -59,6 +59,7 @@ namespace VenusHR.Core.Master
         public int? VactionTypeCaculation { get; set; }
 
         public int? ExceededDaysType { get; set; }
+        public bool? RequiredAttach { get; set; }
 
-     }
+    }
 }
