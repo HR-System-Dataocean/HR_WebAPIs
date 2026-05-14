@@ -49,6 +49,9 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<Hrs_Profession> Hrs_Professions { get; set; }
         public virtual DbSet<SysUser> Sys_Users { get; set; }
 
+        public virtual DbSet<hrs_Fingerprint_Users> hrs_Fingerprint_Users { get; set; }
+        public virtual DbSet<hrs_Fingerprint_CheckInOut> hrs_Fingerprint_CheckInOut { get; set; }
+
         public virtual DbSet<SS_Configuration> SS_Configuration { get; set; }
         public virtual DbSet<SS_VacationRequest> SS_VacationRequest { get; set; }
         public virtual DbSet<SS_AdvanceHousingRequest> SS_AdvanceHousingRequest { get; set; }
@@ -91,6 +94,7 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<sys_Documents> sys_Documents { get; set; }
         public virtual DbSet<sys_DocumentsDetails> sys_DocumentsDetails { get; set; }
         public virtual DbSet<sys_ObjectsAttachments> sys_ObjectsAttachments { get; set; }
+        public virtual DbSet<RevokedToken> RevokedTokens { get; set; }
  
 
 
@@ -105,6 +109,13 @@ namespace VenusHR.Infrastructure.Presistence
 
         #endregion
         #region Methods
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<hrs_Fingerprint_CheckInOut>().HasNoKey();
+        }
+
         public Task<int> SaveChangesAsync()
         {
             return base.SaveChangesAsync();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces.Documents;
@@ -8,6 +9,7 @@ namespace VenusHR.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class DocumentsController : ControllerBase
     {
         private readonly IDocumentsService _documentsService;

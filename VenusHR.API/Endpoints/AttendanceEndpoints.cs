@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using VenusHR.Application.Common.Interfaces.Attendance;
 using VenusHR.Core.Master;
 using WorkFlow_EF;
@@ -8,19 +9,19 @@ public static class AttendanceEndpoints
     public static void MapAttendanceEndpoints(this WebApplication app)
     {
         // Check In/Out
-        app.MapPost("/api/attendance/check-in-out", CheckInOut);
+        app.MapPost("/api/attendance/check-in-out", CheckInOut).RequireAuthorization();
 
         // Get Attendance History
-        app.MapGet("/api/attendance/history", GetAttendanceHistory);
+        app.MapGet("/api/attendance/history", GetAttendanceHistory).RequireAuthorization();
 
         // Daily Summary
-        app.MapGet("/api/attendance/daily-summary", GetDailySummary);
+        app.MapGet("/api/attendance/daily-summary", GetDailySummary).RequireAuthorization();
 
         // Monthly Report
-        app.MapGet("/api/attendance/monthly-report", GetMonthlyReport);
+        app.MapGet("/api/attendance/monthly-report", GetMonthlyReport).RequireAuthorization();
 
         // Employee Attendance
-        app.MapGet("/api/attendance/employee/{employeeId}", GetEmployeeAttendance);
+        app.MapGet("/api/attendance/employee/{employeeId}", GetEmployeeAttendance).RequireAuthorization();
     }
 
     // =========== Check In/Out ===========

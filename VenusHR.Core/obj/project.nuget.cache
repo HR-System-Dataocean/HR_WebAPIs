@@ -1,12 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XGDRCwWXBO0=",
+  "dgSpecHash": "upfm9JDc144=",
   "success": true,
-  "projectFilePath": "D:\\Data Ocean\\SourceCode\\NewHRCore\\VenusHR_API_SourceCode 2-11-2024\\VenusHR\\VenusHR.Core\\VenusHR.Core.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Ahmed\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\Ahmed\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\Ahmed\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
-  ],
+  "projectFilePath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj",
+  "expectedPackageFiles": [],
   "logs": []
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VenusHR.Application.Common.Interfaces.SelfService;
 using VenusHR.Core.Master;
@@ -10,6 +11,7 @@ namespace VenusHR.API.Controllers.SelfService
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SMasterController : ControllerBase
     {
         private ApplicationDBContext _context;

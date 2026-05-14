@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces.HR_Master;
 using VenusHR.Application.Common.Interfaces.Login;
+using VenusHR.Core.Login;
+using VenusHR.Infrastructure.Services;
 using WorkFlow_EF;
 
 namespace VenusHR.Infrastructure.Presistence.Login
@@ -14,11 +16,13 @@ namespace VenusHR.Infrastructure.Presistence.Login
     {
         private readonly ApplicationDBContext _context;
         private GeneralOutputClass<object> Result;  
-        public LoginServices(ApplicationDBContext context) 
+        private readonly IJwtService _jwtService;
+
+        public LoginServices(ApplicationDBContext context, IJwtService jwtService) 
         { 
             _context = context;
+            _jwtService = jwtService;
             Result = new GeneralOutputClass<object>();
-
         }
         public object Login(string username, string password,int Lang, string deviceToken)
         {
@@ -45,18 +49,32 @@ namespace VenusHR.Infrastructure.Presistence.Login
                             user.DeviceToken = deviceToken;  
                             _context.SaveChanges();
                         }
-                        Result.ErrorCode = 1;
-                        Result.ErrorMessage = "Success";
-                        Result.ResultObject= _context.Hrs_Employees.SingleOrDefault(F => F.Code == username);
+                        var employee = _context.Hrs_Employees.SingleOrDefault(F => F.Code == username);
+                        if (employee != null)
+                        {
+                            var token = _jwtService.GenerateToken(employee);
+                            Result.ErrorCode = 1;
+                            Result.ErrorMessage = "Success";
+                            Result.ResultObject = new
+                            {
+                                Employee = employee,
+                                Token = token,
+                                TokenExpiry = DateTime.UtcNow.AddMinutes(60)
+                            };
+                        }
+                        else
+                        {
+                            Result.ErrorCode = 0;
+                            Result.ErrorMessage = "Employee not found";
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-
                     Result.ErrorCode = 0;
-                    Result.ErrorMessage = "Failed";
+                    Result.ErrorMessage = ex.Message;
                 }
-              
+
             }
             return Result;
         }

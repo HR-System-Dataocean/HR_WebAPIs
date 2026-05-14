@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VenusHR.Application.Common.Interfaces.HR_Master;
@@ -10,6 +11,7 @@ namespace VenusHR.API.Controllers.Login
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private ApplicationDBContext _context;

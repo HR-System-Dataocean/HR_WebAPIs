@@ -1,5 +1,6 @@
 ﻿// HRMasterEndpoints.cs
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using VenusHR.Application.Common.Interfaces.HR_Master;
 using VenusHR.Core.Master;
 using WorkFlow_EF;
@@ -11,60 +12,60 @@ namespace YourNamespace
         public static void MapHRMasterEndpoints(this WebApplication app)
         {
             // 🔹 1. System Lookups
-            app.MapGet("/api/hr-master/lookups/all/{lang}", GetAllMasterData);
-            app.MapGet("/api/hr-master/lookups/by-type/{lookupType}/{lang}", GetLookupByType);
-            app.MapGet("/api/hr-master/lookups/search", SearchLookups);
+            app.MapGet("/api/hr-master/lookups/all/{lang}", GetAllMasterData).RequireAuthorization();
+            app.MapGet("/api/hr-master/lookups/by-type/{lookupType}/{lang}", GetLookupByType).RequireAuthorization();
+            app.MapGet("/api/hr-master/lookups/search", SearchLookups).RequireAuthorization();
 
             // 🔹 2. Cities
-            app.MapGet("/api/hr-master/cities/all/{lang}", GetAllCities);
-            app.MapGet("/api/hr-master/cities/{id:int}/{lang}", GetCityById);
+            app.MapGet("/api/hr-master/cities/all/{lang}", GetAllCities).RequireAuthorization();
+            app.MapGet("/api/hr-master/cities/{id:int}/{lang}", GetCityById).RequireAuthorization();
 
             // 🔹 3. Nationalities
-            app.MapGet("/api/hr-master/nationalities/all/{lang}", GetAllNationalities);
-            app.MapGet("/api/hr-master/nationalities/{id:int}/{lang}", GetNationalityById);
-            app.MapPost("/api/hr-master/nationalities", CreateNationality);
-            app.MapPut("/api/hr-master/nationalities/{id:int}", UpdateNationality);
+            app.MapGet("/api/hr-master/nationalities/all/{lang}", GetAllNationalities).RequireAuthorization();
+            app.MapGet("/api/hr-master/nationalities/{id:int}/{lang}", GetNationalityById).RequireAuthorization();
+            app.MapPost("/api/hr-master/nationalities", CreateNationality).RequireAuthorization();
+            app.MapPut("/api/hr-master/nationalities/{id:int}", UpdateNationality).RequireAuthorization();
 
             // 🔹 4. Banks
-            app.MapGet("/api/hr-master/banks/all/{lang}", GetAllBanks);
-            app.MapGet("/api/hr-master/banks/{id:int}/{lang}", GetBankById);
-            app.MapPost("/api/hr-master/banks", CreateBank);
-            app.MapPut("/api/hr-master/banks/{id:int}", UpdateBank);
+            app.MapGet("/api/hr-master/banks/all/{lang}", GetAllBanks).RequireAuthorization();
+            app.MapGet("/api/hr-master/banks/{id:int}/{lang}", GetBankById).RequireAuthorization();
+            app.MapPost("/api/hr-master/banks", CreateBank).RequireAuthorization();
+            app.MapPut("/api/hr-master/banks/{id:int}", UpdateBank).RequireAuthorization();
 
             // 🔹 5. Religions
-            app.MapGet("/api/hr-master/religions/all/{lang}", GetAllReligions);
-            app.MapGet("/api/hr-master/religions/{id:int}/{lang}", GetReligionById);
+            app.MapGet("/api/hr-master/religions/all/{lang}", GetAllReligions).RequireAuthorization();
+            app.MapGet("/api/hr-master/religions/{id:int}/{lang}", GetReligionById).RequireAuthorization();
 
             // 🔹 6. Marital Status
-            app.MapGet("/api/hr-master/marital-status/all/{lang}", GetAllMaritalStatus);
-            app.MapGet("/api/hr-master/marital-status/{id:int}/{lang}", GetMaritalStatusById);
+            app.MapGet("/api/hr-master/marital-status/all/{lang}", GetAllMaritalStatus).RequireAuthorization();
+            app.MapGet("/api/hr-master/marital-status/{id:int}/{lang}", GetMaritalStatusById).RequireAuthorization();
 
             // 🔹 7. Blood Groups
-            app.MapGet("/api/hr-master/blood-groups/all/{lang}", GetAllBloodGroups);
-            app.MapGet("/api/hr-master/blood-groups/{id:int}/{lang}", GetBloodGroupById);
-            app.MapPost("/api/hr-master/blood-groups", CreateBloodGroup);
-            app.MapPut("/api/hr-master/blood-groups/{id:int}", UpdateBloodGroup);
-            app.MapDelete("/api/hr-master/blood-groups/{id:int}", DeleteBloodGroup);
+            app.MapGet("/api/hr-master/blood-groups/all/{lang}", GetAllBloodGroups).RequireAuthorization();
+            app.MapGet("/api/hr-master/blood-groups/{id:int}/{lang}", GetBloodGroupById).RequireAuthorization();
+            app.MapPost("/api/hr-master/blood-groups", CreateBloodGroup).RequireAuthorization();
+            app.MapPut("/api/hr-master/blood-groups/{id:int}", UpdateBloodGroup).RequireAuthorization();
+            app.MapDelete("/api/hr-master/blood-groups/{id:int}", DeleteBloodGroup).RequireAuthorization();
 
             // 🔹 8. Educations
-            app.MapGet("/api/hr-master/educations/all/{lang}", GetAllEducations);
-            app.MapGet("/api/hr-master/educations/{id:int}/{lang}", GetEducationById);
-            app.MapPost("/api/hr-master/educations", CreateEducation);
-            app.MapPut("/api/hr-master/educations/{id:int}", UpdateEducation);
+            app.MapGet("/api/hr-master/educations/all/{lang}", GetAllEducations).RequireAuthorization();
+            app.MapGet("/api/hr-master/educations/{id:int}/{lang}", GetEducationById).RequireAuthorization();
+            app.MapPost("/api/hr-master/educations", CreateEducation).RequireAuthorization();
+            app.MapPut("/api/hr-master/educations/{id:int}", UpdateEducation).RequireAuthorization();
 
             // 🔹 9. Professions
-            app.MapGet("/api/hr-master/professions/all/{lang}", GetAllProfessions);
-            app.MapGet("/api/hr-master/professions/{id:int}/{lang}", GetProfessionById);
+            app.MapGet("/api/hr-master/professions/all/{lang}", GetAllProfessions).RequireAuthorization();
+            app.MapGet("/api/hr-master/professions/{id:int}/{lang}", GetProfessionById).RequireAuthorization();
 
             // 🔹 10. Companies
-            app.MapGet("/api/hr-master/companies/all/{lang}", GetAllCompanies);
-            app.MapGet("/api/hr-master/companies/{id:int}/{lang}", GetCompanyById);
+            app.MapGet("/api/hr-master/companies/all/{lang}", GetAllCompanies).RequireAuthorization();
+            app.MapGet("/api/hr-master/companies/{id:int}/{lang}", GetCompanyById).RequireAuthorization();
 
             // 🔹 11. Employees
-            app.MapPost("/api/hr-master/employees/new", SaveNewEmployeeForm);
+            app.MapPost("/api/hr-master/employees/new", SaveNewEmployeeForm).RequireAuthorization();
 
             // 🔹 12. Health Check
-            app.MapGet("/api/hr-master/health", TestConnection);
+            app.MapGet("/api/hr-master/health", TestConnection).RequireAuthorization();
         }
 
         // =========== Implementation Methods ===========

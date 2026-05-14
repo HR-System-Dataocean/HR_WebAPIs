@@ -44,3 +44,19 @@ D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\Venu
 D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Application\obj\Debug\net6.0\refint\VenusHR.Application.dll
 D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.pdb
 D:\Data Ocean\SourceCode\NewHRCore\VenusHR_API_SourceCode 2-11-2024\VenusHR\VenusHR.Application\obj\Debug\net6.0\ref\VenusHR.Application.dll
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.deps.json
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.dll
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Core.dll
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.csproj.AssemblyReference.cache
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.AssemblyInfoInputs.cache
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.AssemblyInfo.cs
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.csproj.CoreCompileInputs.cache
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.sourcelink.json
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR..40DC8959.Up2Date
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.dll
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\refint\VenusHR.Application.dll
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.pdb
+D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\ref\VenusHR.Application.dll

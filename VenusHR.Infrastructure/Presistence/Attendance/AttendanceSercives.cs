@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using VenusHR.Application.Common.Interfaces.Attendance;
 using VenusHR.Core.Master;
 using WorkFlow_EF;
@@ -122,6 +123,155 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
 
             return Result;
         }
+
+        public object ImportFingerprintUsers(List<hrs_Fingerprint_Users> users, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+
+            try
+            {
+                if (users == null || users.Count == 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "القائمة فارغة" : "Empty users list";
+                    Result.ErrorCode = 0;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0 };
+                    return Result;
+                }
+
+                var invalidRow = users.FirstOrDefault(u => u == null || u.USERID <= 0 || string.IsNullOrWhiteSpace(u.BADGENUMBER));
+                if (invalidRow != null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "بيانات المستخدم غير صحيحة (USERID/BADGENUMBER)" : "Invalid user data (USERID/BADGENUMBER)";
+                    Result.ErrorCode = 0;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0 };
+                    return Result;
+                }
+
+                var distinctUsers = users
+                    .GroupBy(u => new { u.USERID, Badge = u.BADGENUMBER.Trim() })
+                    .Select(g =>
+                    {
+                        var item = g.First();
+                        item.BADGENUMBER = item.BADGENUMBER.Trim();
+                        return item;
+                    })
+                    .ToList();
+
+                var keys = distinctUsers.Select(u => new { u.USERID, u.BADGENUMBER }).ToList();
+
+                var existingKeys = _context.hrs_Fingerprint_Users
+                    .Where(x => keys.Any(k => k.USERID == x.USERID && k.BADGENUMBER == x.BADGENUMBER))
+                    .Select(x => new { x.USERID, x.BADGENUMBER })
+                    .ToList();
+
+                var toInsert = distinctUsers
+                    .Where(u => !existingKeys.Any(e => e.USERID == u.USERID && e.BADGENUMBER == u.BADGENUMBER))
+                    .ToList();
+
+                var skipped = distinctUsers.Count - toInsert.Count;
+
+                if (toInsert.Count == 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "لا توجد سجلات جديدة للإضافة" : "No new rows to insert";
+                    Result.ErrorCode = 1;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = skipped };
+                    return Result;
+                }
+
+                using var transaction = _context.Database.BeginTransaction();
+
+                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT hrs_Fingerprint_Users ON");
+                _context.hrs_Fingerprint_Users.AddRange(toInsert);
+                var insertedRows = _context.SaveChanges();
+                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT hrs_Fingerprint_Users OFF");
+
+                transaction.Commit();
+
+                Result.ErrorMessage = (Lang == 1) ? "تمت الإضافة بنجاح" : "Inserted successfully";
+                Result.ErrorCode = 1;
+                Result.ResultObject = new { InsertedRows = insertedRows, SkippedDuplicates = skipped };
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء الاستيراد" : "Error during import";
+                Result.ErrorCode = 0;
+                Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0, Error = ex.Message };
+            }
+
+            return Result;
+        }
+
+        public object ImportCheckInOut(List<hrs_Fingerprint_CheckInOut> records, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+
+            try
+            {
+                if (records == null || records.Count == 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "القائمة فارغة" : "Empty records list";
+                    Result.ErrorCode = 0;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0 };
+                    return Result;
+                }
+
+                var invalidRow = records.FirstOrDefault(r => r == null || r.USERID <= 0 || r.CHECKTIME == default);
+                if (invalidRow != null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "بيانات السجل غير صحيحة (USERID/CHECKTIME)" : "Invalid record data (USERID/CHECKTIME)";
+                    Result.ErrorCode = 0;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0 };
+                    return Result;
+                }
+
+                var distinctRecords = records
+                    .GroupBy(r => new { r.USERID, r.CHECKTIME })
+                    .Select(g => g.First())
+                    .ToList();
+
+                var keys = distinctRecords.Select(r => new { r.USERID, r.CHECKTIME }).ToList();
+
+                var existingKeys = _context.hrs_Fingerprint_CheckInOut
+                    .Where(x => keys.Any(k => k.USERID == x.USERID && k.CHECKTIME == x.CHECKTIME))
+                    .Select(x => new { x.USERID, x.CHECKTIME })
+                    .ToList();
+
+                var toInsert = distinctRecords
+                    .Where(r => !existingKeys.Any(e => e.USERID == r.USERID && e.CHECKTIME == r.CHECKTIME))
+                    .Select(r =>
+                    {
+                        r.Auto_Date = DateTime.Now;
+                        return r;
+                    })
+                    .ToList();
+
+                var skipped = distinctRecords.Count - toInsert.Count;
+
+                if (toInsert.Count == 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "لا توجد سجلات جديدة للإضافة" : "No new rows to insert";
+                    Result.ErrorCode = 1;
+                    Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = skipped };
+                    return Result;
+                }
+
+                _context.hrs_Fingerprint_CheckInOut.AddRange(toInsert);
+                var insertedRows = _context.SaveChanges();
+
+                Result.ErrorMessage = (Lang == 1) ? "تمت الإضافة بنجاح" : "Inserted successfully";
+                Result.ErrorCode = 1;
+                Result.ResultObject = new { InsertedRows = insertedRows, SkippedDuplicates = skipped };
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء الاستيراد" : "Error during import";
+                Result.ErrorCode = 0;
+                Result.ResultObject = new { InsertedRows = 0, SkippedDuplicates = 0, Error = ex.Message };
+            }
+
+            return Result;
+        }
+
         public object GetAttendanceHistory(int EmployeeID, DateTime? FromDate = null, DateTime? ToDate = null)
         {
             Result = new GeneralOutputClass<object>();

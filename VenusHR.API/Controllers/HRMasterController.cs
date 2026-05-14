@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces.HR_Master;
@@ -9,6 +10,7 @@ namespace VenusHR.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class HRMasterController : ControllerBase
     {
         private readonly IHRMaster _hrMaster;

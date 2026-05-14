@@ -1,14 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using VenusHR.Application.Common.Interfaces.Login;
 using VenusHR.Core.Login;
+using VenusHR.Infrastructure.Services;
 
 public static class LoginEndpoints
 {
     public static void MapLoginEndpoints(this WebApplication app)
     {
-         app.MapPost("/api/auth/login", Login);
-        app.MapGet("/api/auth/status", Status);
-        app.MapPost("/api/auth/logout", Logout);
+         app.MapPost("/api/auth/login", Login).AllowAnonymous();
+        app.MapGet("/api/auth/status", Status).RequireAuthorization();
+        app.MapPost("/api/auth/logout", Logout).RequireAuthorization();
     }
 
     private static async Task<IResult> Login(
@@ -29,10 +31,16 @@ public static class LoginEndpoints
         return Results.Ok(new { Status = "API is running" });
     }
 
-    private static IResult Logout()
+    private static async Task<IResult> Logout(HttpContext httpContext, IJwtService jwtService)
     {
-        return Results.Ok(new { Message = "Logged out" });
+        var authHeader = httpContext.Request.Headers["Authorization"].FirstOrDefault();
+        
+        if (authHeader != null && authHeader.StartsWith("Bearer "))
+        {
+            var token = authHeader.Substring("Bearer ".Length).Trim();
+            await jwtService.RevokeTokenAsync(token, "User logout");
+        }
+        
+        return Results.Ok(new { Message = "Logged out successfully" });
     }
 }
-
-  

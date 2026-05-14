@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "VenusHR.API",
-    "version": "1.0"
+    "title": "VenusHR API",
+    "version": "v1"
   },
   "paths": {
     "/api/AnnualVacationRequest/SaveRequest": {
@@ -90,17 +90,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               }
             }
@@ -139,17 +139,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               }
             }
@@ -196,17 +196,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_EmployeesVacations"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_EmployeesVacations"
                 }
               }
             }
@@ -334,17 +334,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_VacationRequest"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_VacationRequest"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_VacationRequest"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_VacationRequest"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_VacationRequest"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_VacationRequest"
                 }
               }
             }
@@ -410,17 +410,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Mobile_Attendance"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Mobile_Attendance"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_Mobile_Attendance"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Mobile_Attendance"
               }
             }
           }
@@ -605,14 +605,1411 @@
         }
       }
     },
-    "/api/HRMaster/GetAllMasterData/{Lang}": {
+    "/api/Attendance/ImportFingerprintUsers": {
+      "post": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_Users"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_Users"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_Users"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Attendance/ImportCheckInOut": {
+      "post": {
+        "tags": [
+          "Attendance"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_CheckInOut"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_CheckInOut"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Fingerprint_CheckInOut"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/attendance/check-in-out": {
+      "post": {
+        "tags": [
+          "AttendanceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "checkType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Mobile_Attendance"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/attendance/history": {
+      "get": {
+        "tags": [
+          "AttendanceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/attendance/daily-summary": {
+      "get": {
+        "tags": [
+          "AttendanceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/attendance/monthly-report": {
+      "get": {
+        "tags": [
+          "AttendanceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeID",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/attendance/employee/{employeeId}": {
+      "get": {
+        "tags": [
+          "AttendanceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/upload-attachment": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "DocumentId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "ObjectId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "RecordId": {
+                    "type": "integer",
+                    "format": "int64"
+                  },
+                  "File": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "EngName": {
+                    "type": "string"
+                  },
+                  "ArbName": {
+                    "type": "string"
+                  },
+                  "IssueDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "IssuedCityId": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "ExpiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "DocumentNumber": {
+                    "type": "string"
+                  },
+                  "ReferenceNumber": {
+                    "type": "string"
+                  },
+                  "LastRenewalDate": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "FolderName": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "DocumentId": {
+                  "style": "form"
+                },
+                "ObjectId": {
+                  "style": "form"
+                },
+                "RecordId": {
+                  "style": "form"
+                },
+                "File": {
+                  "style": "form"
+                },
+                "EngName": {
+                  "style": "form"
+                },
+                "ArbName": {
+                  "style": "form"
+                },
+                "IssueDate": {
+                  "style": "form"
+                },
+                "IssuedCityId": {
+                  "style": "form"
+                },
+                "ExpiryDate": {
+                  "style": "form"
+                },
+                "DocumentNumber": {
+                  "style": "form"
+                },
+                "ReferenceNumber": {
+                  "style": "form"
+                },
+                "LastRenewalDate": {
+                  "style": "form"
+                },
+                "FolderName": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/add-document": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.AddDocumentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.AddDocumentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.AddDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/GetAttachments": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "ObjectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/download/{attachmentId}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/delete-attachment/{attachmentId}": {
+      "delete": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/document-details": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "ObjectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RecordId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/document-types": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "isForCompany",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "documentTypesGroupId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/document-detail/{documentDetailId}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "documentDetailId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/update-document/{documentDetailId}": {
+      "put": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "documentDetailId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.UpdateDocumentRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.UpdateDocumentRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.API.Controllers.UpdateDocumentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/delete-document/{documentDetailId}": {
+      "delete": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "documentDetailId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Documents/attachment-info/{attachmentId}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "parameters": [
+          {
+            "name": "attachmentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllMasterData/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllCities/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetCityById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllNationalities/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetNationalityById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/CreateNationality": {
+      "post": {
+        "tags": [
+          "HRMaster"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/UpdateNationality/{id}": {
+      "put": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllBanks/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetBankById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/CreateBank": {
+      "post": {
+        "tags": [
+          "HRMaster"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/UpdateBank/{id}": {
+      "put": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllReligions/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetReligionById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllMaritalStatus/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetMaritalStatusById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetAllBloodGroups/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetBloodGroupById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/CreateBloodGroup": {
+      "post": {
+        "tags": [
+          "HRMaster"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/UpdateBloodGroup/{id}": {
+      "put": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/DeleteBloodGroup/{id}": {
+      "delete": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -628,134 +2025,102 @@
         }
       }
     },
-    "/api/HRMaster/GetAllCities/{Lang}": {
+    "/api/HRMaster/GetAllEducations/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "lang",
             "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllNationalities/{Lang}": {
+    "/api/HRMaster/GetEducationById/{id}/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllBanks/{Lang}": {
-      "get": {
+    "/api/HRMaster/CreateEducation": {
+      "post": {
         "tags": [
           "HRMaster"
         ],
-        "parameters": [
-          {
-            "name": "Lang",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllReligions/{Lang}": {
-      "get": {
+    "/api/HRMaster/UpdateEducation/{id}": {
+      "put": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -764,146 +2129,211 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllMaritalStatus/{Lang}": {
+    "/api/HRMaster/GetAllProfessions/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "lang",
             "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 0
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllBloodGroups/{Lang}": {
+    "/api/HRMaster/GetProfessionById/{id}/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
     },
-    "/api/HRMaster/GetAllEducations/{Lang}": {
+    "/api/HRMaster/GetAllCompanies/{lang}": {
       "get": {
         "tags": [
           "HRMaster"
         ],
         "parameters": [
           {
-            "name": "Lang",
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetCompanyById/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IMaster"
-                }
-              }
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/GetLookupByType/{lookupType}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "lookupType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/SearchLookups": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lookupType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -917,41 +2347,898 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_NewEmployee"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_NewEmployee"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_NewEmployee"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_NewEmployee"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Hrs_NewEmployee"
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_NewEmployee"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Hrs_NewEmployee"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Hrs_NewEmployee"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Hrs_NewEmployee"
-                }
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/HRMaster/TestConnection": {
+      "get": {
+        "tags": [
+          "HRMaster"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/lookups/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/lookups/by-type/{lookupType}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lookupType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/lookups/search": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lookupType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/cities/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/cities/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/nationalities/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/nationalities/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/nationalities": {
+      "post": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
               }
             }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/nationalities/{id}": {
+      "put": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Nationalities"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/banks/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/banks/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/banks": {
+      "post": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/banks/{id}": {
+      "put": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.sys_Banks"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/religions/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/religions/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/marital-status/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/marital-status/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/blood-groups/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/blood-groups/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/blood-groups": {
+      "post": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/blood-groups/{id}": {
+      "put": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_BloodGroups"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/educations/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/educations/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/educations": {
+      "post": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/educations/{id}": {
+      "put": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.hrs_Educations"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/professions/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/professions/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/companies/all/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/companies/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/employees/new": {
+      "post": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_NewEmployee"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/hr-master/health": {
+      "get": {
+        "tags": [
+          "HRMasterEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -975,17 +3262,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SysUser"
+                "$ref": "#/components/schemas/VenusHR.Core.Login.SysUser"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SysUser"
+                "$ref": "#/components/schemas/VenusHR.Core.Login.SysUser"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SysUser"
+                "$ref": "#/components/schemas/VenusHR.Core.Login.SysUser"
               }
             }
           }
@@ -996,20 +3283,574 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILoginServices"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.Login.ILoginServices"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILoginServices"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.Login.ILoginServices"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILoginServices"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.Login.ILoginServices"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": [
+          "LoginEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.Login.SysUser"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/auth/status": {
+      "get": {
+        "tags": [
+          "LoginEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": [
+          "LoginEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/save-request": {
+      "post": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/balances/{empId}/{toDate}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "empId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "toDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/service-period/{employeeId}/{endServiceDate}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "endServiceDate",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/stages/{requestSerial}/{formCode}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "requestSerial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "formCode",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/request-details/{requestType}/{requestId}/{lang}/{configId}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "configId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/my-request-details/{requestType}/{requestId}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "requestType",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/request/{requestSerial}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "requestSerial",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/vacation/employee-requests/{employeeId}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/request-types": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/employees/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/employee/{id}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/notifications/count/{employeeId}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/vacation-types/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/resignation-reasons/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/experience-rates/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/pending-requests/{employeeId}/{lang}": {
+      "get": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "parameters": [
+          {
+            "name": "employeeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/self-service/master/request-action": {
+      "post": {
+        "tags": [
+          "SelfServiceEndpoints"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -1025,17 +3866,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               }
             }
@@ -1065,17 +3906,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IMaster"
+                  "$ref": "#/components/schemas/VenusHR.Application.Common.Interfaces.SelfService.IMaster"
                 }
               }
             }
@@ -1113,17 +3954,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_Employees"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Employees"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_Employees"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Employees"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Hrs_Employees"
+                  "$ref": "#/components/schemas/VenusHR.Core.Master.Hrs_Employees"
                 }
               }
             }
@@ -1152,17 +3993,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               }
             }
@@ -1270,17 +4111,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               }
             }
@@ -1297,17 +4138,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SS_RequestAction"
+                "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/SS_RequestAction"
+                "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/SS_RequestAction"
+                "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
               }
             }
           }
@@ -1318,17 +4159,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SS_RequestAction"
+                  "$ref": "#/components/schemas/VenusHR.Core.SelfService.SS_RequestAction"
                 }
               }
             }
@@ -1339,7 +4180,201 @@
   },
   "components": {
     "schemas": {
-      "Hrs_Employees": {
+      "VenusHR.API.Controllers.AddDocumentRequest": {
+        "type": "object",
+        "properties": {
+          "documentId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "objectId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "recordId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "documentNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "issuedCityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "referenceNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastRenewalDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.API.Controllers.UpdateDocumentRequest": {
+        "type": "object",
+        "properties": {
+          "documentNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "issueDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "issuedCityId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastRenewalDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "referenceNumber": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Application.Common.Interfaces.Login.ILoginServices": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "VenusHR.Application.Common.Interfaces.SelfService.IMaster": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "VenusHR.Core.Login.SysUser": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "isAdmin": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "isArabic": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "canChangePassword": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "resetSearchCriteria": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "resetReportCriteria": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "sessionIdleTime": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "enforceAlphaNumericPwd": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "passwordExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "passwordChangedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regComputerId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "relEmployee": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "levelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "deviceToken": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Core.Master.Hrs_Employees": {
         "type": "object",
         "properties": {
           "id": {
@@ -1618,7 +4653,7 @@
         },
         "additionalProperties": false
       },
-      "Hrs_EmployeesVacations": {
+      "VenusHR.Core.Master.Hrs_EmployeesVacations": {
         "type": "object",
         "properties": {
           "id": {
@@ -1762,7 +4797,7 @@
         },
         "additionalProperties": false
       },
-      "Hrs_Mobile_Attendance": {
+      "VenusHR.Core.Master.Hrs_Mobile_Attendance": {
         "type": "object",
         "properties": {
           "id": {
@@ -1818,7 +4853,7 @@
         },
         "additionalProperties": false
       },
-      "Hrs_NewEmployee": {
+      "VenusHR.Core.Master.Hrs_NewEmployee": {
         "required": [
           "addressAsPerContract",
           "bankId",
@@ -1985,15 +5020,507 @@
         },
         "additionalProperties": false
       },
-      "ILoginServices": {
+      "VenusHR.Core.Master.hrs_BloodGroups": {
         "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regComputerID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
         "additionalProperties": false
       },
-      "IMaster": {
+      "VenusHR.Core.Master.hrs_Educations": {
         "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "level": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "requiredYears": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "companyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regComputerID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
         "additionalProperties": false
       },
-      "SS_RequestAction": {
+      "VenusHR.Core.Master.hrs_Fingerprint_CheckInOut": {
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "auto_Date": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "checktime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "checktype": {
+            "type": "string",
+            "nullable": true
+          },
+          "verifycode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sensorid": {
+            "type": "string",
+            "nullable": true
+          },
+          "memoinfo": {
+            "type": "string",
+            "nullable": true
+          },
+          "workCode": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "sn": {
+            "type": "string",
+            "nullable": true
+          },
+          "userExtFmt": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "isManual": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Core.Master.hrs_Fingerprint_Users": {
+        "type": "object",
+        "properties": {
+          "userid": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "badgenumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "ssn": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "pager": {
+            "type": "string",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "hiredday": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          },
+          "ophone": {
+            "type": "string",
+            "nullable": true
+          },
+          "fphone": {
+            "type": "string",
+            "nullable": true
+          },
+          "verificationmethod": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultdeptid": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "securityflags": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "att": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "inlate": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "outearly": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "overtime": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sep": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "holiday": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "minzu": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          },
+          "lunchduration": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "mVerifyPass": {
+            "type": "string",
+            "nullable": true
+          },
+          "photo": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "notes": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "privilege": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "inheritDeptSch": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "inheritDeptSchClass": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "autoSchPlan": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "minAutoSchInterval": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "registerOT": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "inheritDeptRule": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "emprivilege": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "cardNo": {
+            "type": "string",
+            "nullable": true
+          },
+          "f_PassportExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "f_IDCardExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "f_InsuranceExpiry": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dMedical": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dLabor": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dPassport": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "dvisa": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Core.Master.sys_Banks": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "companyID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regComputerID": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Core.Master.sys_Nationalities": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "code": {
+            "type": "string",
+            "nullable": true
+          },
+          "engName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName": {
+            "type": "string",
+            "nullable": true
+          },
+          "arbName4S": {
+            "type": "string",
+            "nullable": true
+          },
+          "isMainNationality": {
+            "type": "boolean"
+          },
+          "travelRoute": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "travelClass": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "remarks": {
+            "type": "string",
+            "nullable": true
+          },
+          "regUserID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regComputerID": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "regDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cancelDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ticketAmount": {
+            "type": "number",
+            "format": "double"
+          },
+          "ticketPrice": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VenusHR.Core.SelfService.SS_RequestAction": {
         "type": "object",
         "properties": {
           "id": {
@@ -2073,7 +5600,7 @@
         },
         "additionalProperties": false
       },
-      "SS_VacationRequest": {
+      "VenusHR.Core.SelfService.SS_VacationRequest": {
         "type": "object",
         "properties": {
           "id": {
@@ -2144,113 +5671,19 @@
           }
         },
         "additionalProperties": false
-      },
-      "SysUser": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "code": {
-            "type": "string",
-            "nullable": true
-          },
-          "engName": {
-            "type": "string",
-            "nullable": true
-          },
-          "arbName": {
-            "type": "string",
-            "nullable": true
-          },
-          "arbName4S": {
-            "type": "string",
-            "nullable": true
-          },
-          "password": {
-            "type": "string",
-            "nullable": true
-          },
-          "isAdmin": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "isArabic": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "canChangePassword": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "resetSearchCriteria": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "resetReportCriteria": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "sessionIdleTime": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "enforceAlphaNumericPwd": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "passwordExpiry": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "passwordChangedOn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "remarks": {
-            "type": "string",
-            "nullable": true
-          },
-          "regUserId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "regComputerId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "regDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "cancelDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "relEmployee": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "levelId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "deviceToken": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme. Enter 'Bearer' [space] and then your token in the text input below.",
+        "scheme": "Bearer"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VenusHR.Core.Master;
 
 namespace VenusHR.Application.Common.Interfaces.Attendance
 {
@@ -10,6 +11,9 @@ namespace VenusHR.Application.Common.Interfaces.Attendance
     {
         object CheckInOut(int EmployeeID,double Latitude,double longitude, DateTime CheckingDatetime, string DeviceID,string deviceModel,string osVersion,string networkType,int Lang,string CheckType);
         object GetAttendanceHistory(int EmployeeID,DateTime? FromDate=null,DateTime? ToDate =null);
+
+        object ImportFingerprintUsers(List<hrs_Fingerprint_Users> users, int Lang);
+        object ImportCheckInOut(List<hrs_Fingerprint_CheckInOut> records, int Lang);
 
     }
 }

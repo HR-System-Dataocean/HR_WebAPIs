@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using VenusHR.Application.Common.Interfaces.Attendance;
 using VenusHR.Application.Common.Interfaces.HR_Master;
 using VenusHR.Application.Common.Interfaces.Login;
@@ -9,6 +10,7 @@ using WorkFlow_EF;
 
 namespace VenusHR.API.Controllers.Attendance
 {
+    [Authorize]
     public class AttendanceController : Controller
     {
         private ApplicationDBContext _context;
@@ -219,6 +221,94 @@ namespace VenusHR.API.Controllers.Attendance
                 {
                     Status = false,
                     Message = (Lang == 1) ? "حدث خطأ في جلب سجل الموظف" : "Error retrieving employee attendance",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost, Route("api/Attendance/ImportFingerprintUsers")]
+        public ActionResult<object> ImportFingerprintUsers([FromBody] List<hrs_Fingerprint_Users> users, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                if (users == null)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = (Lang == 1) ? "بيانات الطلب غير صحيحة" : "Invalid request data"
+                    });
+                }
+
+                var result = _Attendance.ImportFingerprintUsers(users, Lang);
+
+                if (result is GeneralOutputClass<object> output && output.ErrorCode == 0)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = output.ErrorMessage,
+                        Result = output.ResultObject
+                    });
+                }
+
+                return Ok(new
+                {
+                    Status = true,
+                    Message = ((GeneralOutputClass<object>)result).ErrorMessage,
+                    Result = ((GeneralOutputClass<object>)result).ResultObject
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = false,
+                    Message = (Lang == 1) ? "حدث خطأ في الخادم" : "Server error occurred",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost, Route("api/Attendance/ImportCheckInOut")]
+        public ActionResult<object> ImportCheckInOut([FromBody] List<hrs_Fingerprint_CheckInOut> records, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                if (records == null)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = (Lang == 1) ? "بيانات الطلب غير صحيحة" : "Invalid request data"
+                    });
+                }
+
+                var result = _Attendance.ImportCheckInOut(records, Lang);
+
+                if (result is GeneralOutputClass<object> output && output.ErrorCode == 0)
+                {
+                    return BadRequest(new
+                    {
+                        Status = false,
+                        Message = output.ErrorMessage,
+                        Result = output.ResultObject
+                    });
+                }
+
+                return Ok(new
+                {
+                    Status = true,
+                    Message = ((GeneralOutputClass<object>)result).ErrorMessage,
+                    Result = ((GeneralOutputClass<object>)result).ResultObject
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    Status = false,
+                    Message = (Lang == 1) ? "حدث خطأ في الخادم" : "Server error occurred",
                     Error = ex.Message
                 });
             }

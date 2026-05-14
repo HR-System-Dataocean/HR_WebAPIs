@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using VenusHR.Application.Common.Interfaces.SelfService;
 using VenusHR.Core.SelfService;
 using VenusHR.Infrastructure.Presistence;
@@ -9,25 +10,25 @@ public static class SelfServiceEndpoints
     public static void MapSelfServiceEndpoints(this WebApplication app)
     {
         // 🔹 1. Annual Vacation Requests
-        app.MapPost("/api/self-service/vacation/save-request", SaveRequest);
-        app.MapGet("/api/self-service/vacation/balances/{empId:int}/{toDate:datetime}", GetAnnualVacsBalancesByEMP);
-        app.MapGet("/api/self-service/vacation/service-period/{employeeId:int}/{endServiceDate:datetime}", GeatServicePeriod);
-        app.MapGet("/api/self-service/vacation/stages/{requestSerial:int}/{formCode}/{lang:int}", GetRequestStages);
-        app.MapGet("/api/self-service/vacation/request-details/{requestType}/{requestId:int}/{lang:int}/{configId:int}", GetSelfServiceRequestDetails);
-        app.MapGet("/api/self-service/vacation/my-request-details/{requestType}/{requestId:int}/{lang:int}", GetMySelfServiceRequestDetails);
-        app.MapGet("/api/self-service/vacation/request/{requestSerial:int}/{lang:int}", GetAnnualVacationRequestByID);
-        app.MapGet("/api/self-service/vacation/employee-requests/{employeeId:int}/{lang:int}", GetEmployeeRequests);
+        app.MapPost("/api/self-service/vacation/save-request", SaveRequest).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/balances/{empId:int}/{toDate:datetime}", GetAnnualVacsBalancesByEMP).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/service-period/{employeeId:int}/{endServiceDate:datetime}", GeatServicePeriod).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/stages/{requestSerial:int}/{formCode}/{lang:int}", GetRequestStages).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/request-details/{requestType}/{requestId:int}/{lang:int}/{configId:int}", GetSelfServiceRequestDetails).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/my-request-details/{requestType}/{requestId:int}/{lang:int}", GetMySelfServiceRequestDetails).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/request/{requestSerial:int}/{lang:int}", GetAnnualVacationRequestByID).RequireAuthorization();
+        app.MapGet("/api/self-service/vacation/employee-requests/{employeeId:int}/{lang:int}", GetEmployeeRequests).RequireAuthorization();
 
         // 🔹 2. Master Endpoints (من SMaster Controller)
-        app.MapGet("/api/self-service/master/request-types", GetAllRequestTypes);
-        app.MapGet("/api/self-service/master/employees/{lang:int}", GetAllEmployees);
-        app.MapGet("/api/self-service/master/employee/{id:int}/{lang:int}", GetEmployeeByID);
-        app.MapGet("/api/self-service/master/notifications/count/{employeeId}", GetUserNotificationCount);
-        app.MapGet("/api/self-service/master/vacation-types/{lang:int}", GetAllVacationsTypes);
-        app.MapGet("/api/self-service/master/resignation-reasons/{lang:int}", GetEndOfServiceAllResignationReason);
-        app.MapGet("/api/self-service/master/experience-rates/{lang:int}", GetEndOfServiceAllExperienceRate);
-        app.MapGet("/api/self-service/master/pending-requests/{employeeId:int}/{lang:int}", GetAllPendingRequests);
-        app.MapPost("/api/self-service/master/request-action", SaveRequestAction);
+        app.MapGet("/api/self-service/master/request-types", GetAllRequestTypes).RequireAuthorization();
+        app.MapGet("/api/self-service/master/employees/{lang:int}", GetAllEmployees).RequireAuthorization();
+        app.MapGet("/api/self-service/master/employee/{id:int}/{lang:int}", GetEmployeeByID).RequireAuthorization();
+        app.MapGet("/api/self-service/master/notifications/count/{employeeId}", GetUserNotificationCount).RequireAuthorization();
+        app.MapGet("/api/self-service/master/vacation-types/{lang:int}", GetAllVacationsTypes).RequireAuthorization();
+        app.MapGet("/api/self-service/master/resignation-reasons/{lang:int}", GetEndOfServiceAllResignationReason).RequireAuthorization();
+        app.MapGet("/api/self-service/master/experience-rates/{lang:int}", GetEndOfServiceAllExperienceRate).RequireAuthorization();
+        app.MapGet("/api/self-service/master/pending-requests/{employeeId:int}/{lang:int}", GetAllPendingRequests).RequireAuthorization();
+        app.MapPost("/api/self-service/master/request-action", SaveRequestAction).RequireAuthorization();
 
         // 🔹 3. إضافة Endpoints إضافية لو عندك
         // app.MapGet("/api/self-service/leaves/types", GetAllLeavesTypes);

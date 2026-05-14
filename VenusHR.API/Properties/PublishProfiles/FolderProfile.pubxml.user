@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>D:\Data Ocean\Publish</_PublishTargetUrl>
-    <History>True|2024-09-12T12:43:04.7023921Z;</History>
+    <History>True|2026-05-12T06:10:07.8078779Z||;True|2026-05-12T08:45:53.2141986+03:00||;True|2026-05-08T22:43:39.5634702+03:00||;True|2026-05-01T07:56:05.6740632+03:00||;True|2026-04-22T19:54:51.4887349+02:00||;True|2026-04-22T19:19:19.8923809+02:00||;True|2026-04-21T06:04:21.8213376+02:00||;True|2026-03-03T22:06:07.9156905+02:00||;True|2026-02-09T06:32:53.7545634+02:00||;True|2024-09-12T15:43:04.7023921+03:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>

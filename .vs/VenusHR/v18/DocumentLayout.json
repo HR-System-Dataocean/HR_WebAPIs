@@ -1,0 +1,228 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.infrastructure\\presistence\\login\\loginservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|solutionrelative:venushr.infrastructure\\presistence\\login\\loginservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.infrastructure\\presistence\\attendance\\attendancesercives.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|solutionrelative:venushr.infrastructure\\presistence\\attendance\\attendancesercives.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\controllers\\attendance\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\controllers\\attendance\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\controllers\\login\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\controllers\\login\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\controllers\\selfservice\\smastercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\controllers\\selfservice\\smastercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\10.0.102\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6ED80C3-EE79-47FF-A76A-19EB05D6A911}|VenusHR.Core\\VenusHR.Core.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.core\\master\\hrs_vacationstypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6ED80C3-EE79-47FF-A76A-19EB05D6A911}|VenusHR.Core\\VenusHR.Core.csproj|solutionrelative:venushr.core\\master\\hrs_vacationstypes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.infrastructure\\presistence\\selfservice\\masterservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{86ED7F22-D74E-409D-B3AF-3EBE9644CAA6}|VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj|solutionrelative:venushr.infrastructure\\presistence\\selfservice\\masterservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|d:\\ocapp\\aaagithup\\hr_webapis\\venushr.api\\venushr.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{36FB6711-8A3E-40F4-8E78-43384B58996B}|VenusHR.API\\VenusHR.API.csproj|solutionrelative:venushr.api\\venushr.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 583,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:132:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\appsettings.json",
+              "RelativeDocumentMoniker": "VenusHR.API\\appsettings.json",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\appsettings.json",
+              "RelativeToolTip": "VenusHR.API\\appsettings.json",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-05-12T17:34:46.616Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AttendanceController.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\Attendance\\AttendanceController.cs",
+              "RelativeDocumentMoniker": "VenusHR.API\\Controllers\\Attendance\\AttendanceController.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\Attendance\\AttendanceController.cs",
+              "RelativeToolTip": "VenusHR.API\\Controllers\\Attendance\\AttendanceController.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACUAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-08T02:59:12.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "hrs_VacationsTypes.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Core\\Master\\hrs_VacationsTypes.cs",
+              "RelativeDocumentMoniker": "VenusHR.Core\\Master\\hrs_VacationsTypes.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Core\\Master\\hrs_VacationsTypes.cs",
+              "RelativeToolTip": "VenusHR.Core\\Master\\hrs_VacationsTypes.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAAD0AAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T07:42:10.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MasterService.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\SelfService\\MasterService.cs",
+              "RelativeDocumentMoniker": "VenusHR.Infrastructure\\Presistence\\SelfService\\MasterService.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\SelfService\\MasterService.cs",
+              "RelativeToolTip": "VenusHR.Infrastructure\\Presistence\\SelfService\\MasterService.cs",
+              "ViewState": "AgIAAIwAAAAAAAAAAAAiwJAAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-05T07:41:47.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "VenusHR.API.csproj",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\VenusHR.API.csproj",
+              "RelativeDocumentMoniker": "VenusHR.API\\VenusHR.API.csproj",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\VenusHR.API.csproj",
+              "RelativeToolTip": "VenusHR.API\\VenusHR.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAawBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-02-05T07:03:36.028Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginServices.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\Login\\LoginServices.cs",
+              "RelativeDocumentMoniker": "VenusHR.Infrastructure\\Presistence\\Login\\LoginServices.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\Login\\LoginServices.cs",
+              "RelativeToolTip": "VenusHR.Infrastructure\\Presistence\\Login\\LoginServices.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAAACkAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-01T03:57:31.363Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Program.cs",
+              "RelativeDocumentMoniker": "VenusHR.API\\Program.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Program.cs",
+              "RelativeToolTip": "VenusHR.API\\Program.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAEwHsAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-21T03:16:04.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AttendanceSercives.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\Attendance\\AttendanceSercives.cs",
+              "RelativeDocumentMoniker": "VenusHR.Infrastructure\\Presistence\\Attendance\\AttendanceSercives.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\Presistence\\Attendance\\AttendanceSercives.cs",
+              "RelativeToolTip": "VenusHR.Infrastructure\\Presistence\\Attendance\\AttendanceSercives.cs",
+              "ViewState": "AgIAAA0BAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T02:15:51.89Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\Login\\LoginController.cs",
+              "RelativeDocumentMoniker": "VenusHR.API\\Controllers\\Login\\LoginController.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\Login\\LoginController.cs",
+              "RelativeToolTip": "VenusHR.API\\Controllers\\Login\\LoginController.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-01T03:51:59.907Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Microsoft.PackageDependencyResolution.targets",
+              "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "ToolTip": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\Sdks\\Microsoft.NET.Sdk\\targets\\Microsoft.PackageDependencyResolution.targets",
+              "ViewState": "AgIAAP8AAAAAAAAAAAAuwAkBAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2026-02-05T07:48:52.628Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SMasterController.cs",
+              "DocumentMoniker": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\SelfService\\SMasterController.cs",
+              "RelativeDocumentMoniker": "VenusHR.API\\Controllers\\SelfService\\SMasterController.cs",
+              "ToolTip": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\Controllers\\SelfService\\SMasterController.cs",
+              "RelativeToolTip": "VenusHR.API\\Controllers\\SelfService\\SMasterController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T07:28:41.122Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 30,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

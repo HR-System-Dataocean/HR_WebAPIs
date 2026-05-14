@@ -1,12 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "/hdpPIQnRzPrdhJxlvNsftoIQvgck1TKGmEkRRJigug=",
-  "Source": "VenusHR.API",
-  "BasePath": "_content/VenusHR.API",
-  "Mode": "Default",
-  "ManifestType": "Publish",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
-}
+{"Version":1,"Hash":"U5TihClS4Cy6tAaNUaj6raSQoW0aVJtWo8hY8NMWMYo=","Source":"VenusHR.API","BasePath":"/","Mode":"Root","ManifestType":"Publish","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}
