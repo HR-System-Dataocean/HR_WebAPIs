@@ -5,6 +5,8 @@ using VenusHR.Application.Common.Interfaces.SelfService;
 using VenusHR.Core.Master;
 using VenusHR.Core.SelfService;
 using VenusHR.Infrastructure.Presistence;
+using VenusHR.API.Models;
+using WorkFlow_EF;
 
 namespace VenusHR.API.Controllers.SelfService
 {
@@ -22,67 +24,238 @@ namespace VenusHR.API.Controllers.SelfService
 
         }
         [HttpPost("SaveRequest")]
-        public ActionResult<List<object>> SaveRequest([FromBody] dynamic requestData, [FromQuery] string requestType)
+        public ActionResult<ApiResponse<object>> SaveRequest([FromBody] dynamic requestData, [FromQuery] string requestType, [FromQuery] int Lang = 0)
         {
-            var result = _AnnualVacationRequestService.SaveSelfServiceRequest(requestData, requestType);
-            return Ok(result);
+            try
+            {
+                var result = _AnnualVacationRequestService.SaveSelfServiceRequest(requestData, requestType);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل حفظ الطلب" : "Failed to save request";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم حفظ الطلب بنجاح" : "Request saved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
         [HttpGet, Route("GetAnnualVacsBalancesByEMP/{EmpID}/{ToDate}")]
-        public ActionResult<Hrs_EmployeesVacations> GetEmpAnnualVacationRemainingBalanceByEmpCode(int EmpID, DateTime ToDate)
+        public ActionResult<ApiResponse<object>> GetEmpAnnualVacationRemainingBalanceByEmpCode(int EmpID, DateTime ToDate, [FromQuery] int Lang = 0)
         {
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetAnnualVacsBalancesByEMP(EmpID, ToDate);
 
-            var Result = _AnnualVacationRequestService.GetAnnualVacsBalancesByEMP(EmpID, ToDate);
-            return Ok(Result);
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب رصيد الإجازات" : "Failed to retrieve vacation balance";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب رصيد الإجازات بنجاح" : "Vacation balance retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
         [HttpGet, Route("api/GeatServicePeriod/{EmployeeID}/{EndServiceDate}/")]
-        public ActionResult<Hrs_EmployeesVacations> GeatServicePeriod(int EmployeeID, DateTime EndServiceDate)
+        public ActionResult<ApiResponse<object>> GeatServicePeriod(int EmployeeID, DateTime EndServiceDate, [FromQuery] int Lang = 0)
         {
+            try
+            {
+                var Result = _AnnualVacationRequestService.GeatServicePeriod(EmployeeID, EndServiceDate);
 
-            var Result = _AnnualVacationRequestService.GeatServicePeriod(EmployeeID, EndServiceDate);
-            return Ok(Result);
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب فترة الخدمة" : "Failed to retrieve service period";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب فترة الخدمة بنجاح" : "Service period retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
 
  
 
 
         [HttpGet, Route("GetRequestStages/{RequestSerial}/{FormCode}/{Lang}")]
-        public ActionResult<Hrs_EmployeesVacations> GetRequestStages(int RequestSerial, string FormCode, int Lang)
+        public ActionResult<ApiResponse<object>> GetRequestStages(int RequestSerial, string FormCode, int Lang)
         {
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetRequestStages(RequestSerial, FormCode, Lang);
 
-            var Result = _AnnualVacationRequestService.GetRequestStages(RequestSerial, FormCode, Lang);
-            return Ok(Result);
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب مراحل الطلب" : "Failed to retrieve request stages";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب مراحل الطلب بنجاح" : "Request stages retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
 
         [HttpGet, Route("GetSelfServiceRequestDetails/{requestType}/{ReauestID}/{Lang}/{ConfigID}")]
-        public ActionResult  GetSelfServiceRequestDetails(string requestType, int ReauestID, int Lang, int ConfigID)
+        public ActionResult<ApiResponse<object>> GetSelfServiceRequestDetails(string requestType, int ReauestID, int Lang, int ConfigID)
         {
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetSelfServiceRequestDetails(requestType, ReauestID, Lang, ConfigID);
 
-            var Result = _AnnualVacationRequestService.GetSelfServiceRequestDetails(requestType, ReauestID, Lang,ConfigID);
-            return Ok(Result);
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب تفاصيل الطلب" : "Failed to retrieve request details";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب تفاصيل الطلب بنجاح" : "Request details retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
 
 
         [HttpGet, Route("GetMySelfServiceRequestDetails/{requestType}/{ReauestID}/{Lang}")]
-        public ActionResult GetMySelfServiceRequestDetails(string requestType, int ReauestID, int Lang)
+        public ActionResult<ApiResponse<object>> GetMySelfServiceRequestDetails(string requestType, int ReauestID, int Lang)
         {
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetMySelfServiceRequestDetails(requestType, ReauestID, Lang);
 
-            var Result = _AnnualVacationRequestService.GetMySelfServiceRequestDetails(requestType, ReauestID, Lang);
-            return Ok(Result);
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب تفاصيل طلبي" : "Failed to retrieve my request details";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب تفاصيل طلبي بنجاح" : "My request details retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
 
          [HttpGet, Route("GetAnnualVacationRequestByID/{RequestSerial}/{Lang}")]
 
-        public ActionResult<SS_VacationRequest> GetAnnualVacationRequestByID(int RequestSerial, int Lang)
+        public ActionResult<ApiResponse<object>> GetAnnualVacationRequestByID(int RequestSerial, int Lang)
         {
-            var Result = _AnnualVacationRequestService.GetAnnualVacationRequestByID(RequestSerial,Lang);
-            return Ok(Result);
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetAnnualVacationRequestByID(RequestSerial, Lang);
+
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب طلب الإجازة" : "Failed to retrieve vacation request";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب طلب الإجازة بنجاح" : "Vacation request retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
         [HttpGet("GetEmployeeRequests/{employeeId}/{Lang}")]
 
-        public ActionResult GetEmployeeRequests(int employeeId, int Lang)
+        public ActionResult<ApiResponse<object>> GetEmployeeRequests(int employeeId, int Lang)
         {
-            var Result = _AnnualVacationRequestService.GetEmployeeRequests(employeeId, Lang);
-            return Ok(Result);
+            try
+            {
+                var Result = _AnnualVacationRequestService.GetEmployeeRequests(employeeId, Lang);
+
+                if (Result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب طلبات الموظف" : "Failed to retrieve employee requests";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب طلبات الموظف بنجاح" : "Employee requests retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces.Documents;
 using WorkFlow_EF;
+using VenusHR.API.Models;
 
 namespace VenusHR.API.Controllers
 {
@@ -20,7 +21,7 @@ namespace VenusHR.API.Controllers
         }
 
         [HttpPost("upload-attachment")]
-        public async Task<ActionResult<object>> UploadAttachment(
+        public async Task<ActionResult<ApiResponse<object>>> UploadAttachment(
             [FromForm] UploadAttachmentRequest request,
             [FromQuery] int Lang = 0)
         {
@@ -28,20 +29,14 @@ namespace VenusHR.API.Controllers
             {
                 if (request == null || request.File == null || request.File.Length == 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "الملف مطلوب" : "File is required"
-                    });
+                    var message = Lang == 1 ? "الملف مطلوب" : "File is required";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 if (request.DocumentId <= 0 || request.ObjectId <= 0 || request.RecordId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّفات المستند غير صحيحة" : "Invalid document identifiers"
-                    });
+                    var message = Lang == 1 ? "معرّفات المستند غير صحيحة" : "Invalid document identifiers";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 using (var stream = request.File.OpenReadStream())
@@ -63,22 +58,31 @@ namespace VenusHR.API.Controllers
                         request.FolderName
                     );
 
-                    return Ok(result);
+                    if (result is GeneralOutputClass<object> output)
+                    {
+                        if (output.ErrorCode == 0)
+                        {
+                            var message = Lang == 1 ? "فشل رفع الملف" : "Failed to upload file";
+                            return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                        }
+
+                        var successMsg = Lang == 1 ? "تم رفع الملف بنجاح" : "File uploaded successfully";
+                        return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                    }
+
+                    var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                    return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء رفع الملف" : "Error uploading file",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء رفع الملف" : "Error uploading file";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpPost("add-document")]
-        public ActionResult<object> AddDocument(
+        public ActionResult<ApiResponse<object>> AddDocument(
             [FromBody] AddDocumentRequest request,
             [FromQuery] int Lang = 0)
         {
@@ -86,29 +90,20 @@ namespace VenusHR.API.Controllers
             {
                 if (request == null)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "بيانات الطلب غير صحيحة" : "Invalid request data"
-                    });
+                    var message = Lang == 1 ? "بيانات الطلب غير صحيحة" : "Invalid request data";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 if (request.DocumentId <= 0 || request.ObjectId <= 0 || request.RecordId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّفات المستند غير صحيحة" : "Invalid document identifiers"
-                    });
+                    var message = Lang == 1 ? "معرّفات المستند غير صحيحة" : "Invalid document identifiers";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 if (string.IsNullOrEmpty(request.DocumentNumber))
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "رقم المستند مطلوب" : "Document number is required"
-                    });
+                    var message = Lang == 1 ? "رقم المستند مطلوب" : "Document number is required";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.AddDocumentDetail(
@@ -123,21 +118,30 @@ namespace VenusHR.API.Controllers
                     request.LastRenewalDate
                 );
 
-                return Ok(result);
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل إضافة المستند" : "Failed to add document";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم إضافة المستند بنجاح" : "Document added successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء إضافة المستند" : "Error adding document",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء إضافة المستند" : "Error adding document";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("GetAttachments")]
-        public ActionResult<object> GetAttachments(
+        public ActionResult<ApiResponse<object>> GetAttachments(
             [FromQuery] int ObjectId,
             [FromQuery] long RecordId,
             [FromQuery] int Lang = 0)
@@ -146,48 +150,51 @@ namespace VenusHR.API.Controllers
             {
                 if (ObjectId <= 0 || RecordId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّفات السجل غير صحيحة" : "Invalid record identifiers"
-                    });
+                    var message = Lang == 1 ? "معرّفات السجل غير صحيحة" : "Invalid record identifiers";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.GetAttachments(ObjectId, RecordId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب المرفقات" : "Failed to retrieve attachments";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب المرفقات بنجاح" : "Attachments retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء جلب المرفقات" : "Error retrieving attachments",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب المرفقات" : "Error retrieving attachments";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("download/{attachmentId}")]
-         public ActionResult DownloadAttachment(
-    int attachmentId,
-    [FromQuery] int Lang = 0)
+        public ActionResult DownloadAttachment(
+            int attachmentId,
+            [FromQuery] int Lang = 0)
         {
             try
             {
                 if (attachmentId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المرفق غير صحيح" : "Invalid attachment ID"
-                    });
+                    var nmessage = Lang == 1 ? "معرّف المرفق غير صحيح" : "Invalid attachment ID";
+                    return BadRequest(ApiResponse<object>.Fail(nmessage));
                 }
 
                 var result = _documentsService.GetAttachmentInfo(attachmentId);
 
                 if (result is GeneralOutputClass<object> output && output.ErrorCode == 1)
                 {
-                    // استخدام reflection بدلاً من dynamic
                     var resultObject = output.ResultObject;
                     if (resultObject != null)
                     {
@@ -211,25 +218,18 @@ namespace VenusHR.API.Controllers
                     }
                 }
 
-                return NotFound(new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "الملف غير موجود" : "File not found"
-                });
+                var message = Lang == 1 ? "الملف غير موجود" : "File not found";
+                return NotFound(ApiResponse<object>.Fail(message, 1));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء تحميل الملف" : "Error downloading file",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء تحميل الملف" : "Error downloading file";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpDelete("delete-attachment/{attachmentId}")]
-        public ActionResult<object> DeleteAttachment(
+        public ActionResult<ApiResponse<object>> DeleteAttachment(
             int attachmentId,
             [FromQuery] int Lang = 0)
         {
@@ -237,29 +237,36 @@ namespace VenusHR.API.Controllers
             {
                 if (attachmentId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المرفق غير صحيح" : "Invalid attachment ID"
-                    });
+                    var message = Lang == 1 ? "معرّف المرفق غير صحيح" : "Invalid attachment ID";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.DeleteAttachment(attachmentId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل حذف المرفق" : "Failed to delete attachment";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم حذف المرفق بنجاح" : "Attachment deleted successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء حذف المرفق" : "Error deleting attachment",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء حذف المرفق" : "Error deleting attachment";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("document-details")]
-        public ActionResult<object> GetDocumentDetails(
+        public ActionResult<ApiResponse<object>> GetDocumentDetails(
             [FromQuery] int ObjectId,
             [FromQuery] int RecordId,
             [FromQuery] int Lang = 0)
@@ -268,29 +275,36 @@ namespace VenusHR.API.Controllers
             {
                 if (ObjectId <= 0 || RecordId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّفات السجل غير صحيحة" : "Invalid record identifiers"
-                    });
+                    var message = Lang == 1 ? "معرّفات السجل غير صحيحة" : "Invalid record identifiers";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.GetDocumentDetails(ObjectId, RecordId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب المستندات" : "Failed to retrieve documents";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب المستندات بنجاح" : "Documents retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء جلب المستندات" : "Error retrieving documents",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب المستندات" : "Error retrieving documents";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("document-types")]
-        public ActionResult<object> GetDocumentTypes(
+        public ActionResult<ApiResponse<object>> GetDocumentTypes(
             [FromQuery] bool? isForCompany = null,
             [FromQuery] int? documentTypesGroupId = null,
             [FromQuery] int Lang = 0)
@@ -298,21 +312,31 @@ namespace VenusHR.API.Controllers
             try
             {
                 var result = _documentsService.GetDocumentTypes(isForCompany, documentTypesGroupId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب أنواع المستندات" : "Failed to retrieve document types";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب أنواع المستندات بنجاح" : "Document types retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء جلب أنواع المستندات" : "Error retrieving document types",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب أنواع المستندات" : "Error retrieving document types";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("document-detail/{documentDetailId}")]
-        public ActionResult<object> GetDocumentDetail(
+        public ActionResult<ApiResponse<object>> GetDocumentDetail(
             int documentDetailId,
             [FromQuery] int Lang = 0)
         {
@@ -320,29 +344,36 @@ namespace VenusHR.API.Controllers
             {
                 if (documentDetailId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المستند غير صحيح" : "Invalid document ID"
-                    });
+                    var message = Lang == 1 ? "معرّف المستند غير صحيح" : "Invalid document ID";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.GetDocumentDetail(documentDetailId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب تفاصيل المستند" : "Failed to retrieve document details";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب تفاصيل المستند بنجاح" : "Document details retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء جلب تفاصيل المستند" : "Error retrieving document details",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب تفاصيل المستند" : "Error retrieving document details";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpPut("update-document/{documentDetailId}")]
-        public ActionResult<object> UpdateDocumentDetail(
+        public ActionResult<ApiResponse<object>> UpdateDocumentDetail(
             int documentDetailId,
             [FromBody] UpdateDocumentRequest request,
             [FromQuery] int Lang = 0)
@@ -351,11 +382,8 @@ namespace VenusHR.API.Controllers
             {
                 if (documentDetailId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المستند غير صحيح" : "Invalid document ID"
-                    });
+                    var message = Lang == 1 ? "معرّف المستند غير صحيح" : "Invalid document ID";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.UpdateDocumentDetail(
@@ -368,21 +396,30 @@ namespace VenusHR.API.Controllers
                     request.ReferenceNumber
                 );
 
-                return Ok(result);
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل تحديث المستند" : "Failed to update document";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم تحديث المستند بنجاح" : "Document updated successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء تحديث المستند" : "Error updating document",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء تحديث المستند" : "Error updating document";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpDelete("delete-document/{documentDetailId}")]
-        public ActionResult<object> DeleteDocumentDetail(
+        public ActionResult<ApiResponse<object>> DeleteDocumentDetail(
             int documentDetailId,
             [FromQuery] int Lang = 0)
         {
@@ -390,29 +427,36 @@ namespace VenusHR.API.Controllers
             {
                 if (documentDetailId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المستند غير صحيح" : "Invalid document ID"
-                    });
+                    var message = Lang == 1 ? "معرّف المستند غير صحيح" : "Invalid document ID";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.DeleteDocumentDetail(documentDetailId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل حذف المستند" : "Failed to delete document";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم حذف المستند بنجاح" : "Document deleted successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء حذف المستند" : "Error deleting document",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء حذف المستند" : "Error deleting document";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
 
         [HttpGet("attachment-info/{attachmentId}")]
-        public ActionResult<object> GetAttachmentInfo(
+        public ActionResult<ApiResponse<object>> GetAttachmentInfo(
             int attachmentId,
             [FromQuery] int Lang = 0)
         {
@@ -420,24 +464,31 @@ namespace VenusHR.API.Controllers
             {
                 if (attachmentId <= 0)
                 {
-                    return BadRequest(new
-                    {
-                        Status = false,
-                        Message = (Lang == 1) ? "معرّف المرفق غير صحيح" : "Invalid attachment ID"
-                    });
+                    var message = Lang == 1 ? "معرّف المرفق غير صحيح" : "Invalid attachment ID";
+                    return BadRequest(ApiResponse<object>.Fail(message));
                 }
 
                 var result = _documentsService.GetAttachmentInfo(attachmentId);
-                return Ok(result);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب معلومات المرفق" : "Failed to retrieve attachment info";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب معلومات المرفق بنجاح" : "Attachment info retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    Status = false,
-                    Message = (Lang == 1) ? "حدث خطأ أثناء جلب معلومات المرفق" : "Error retrieving attachment info",
-                    Error = ex.Message
-                });
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب معلومات المرفق" : "Error retrieving attachment info";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
     }
