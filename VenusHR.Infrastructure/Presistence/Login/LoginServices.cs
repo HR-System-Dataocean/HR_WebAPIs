@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -24,24 +24,55 @@ namespace VenusHR.Infrastructure.Presistence.Login
             _jwtService = jwtService;
             Result = new GeneralOutputClass<object>();
         }
-        public object Login(string username, string password,int Lang, string deviceToken)
+        
+        public object Login(string username, string password, int Lang, string deviceToken)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                Result.ErrorCode = 1;
+                Result.ErrorCode = 0;
                 if (Lang == 1)
                 {
-                    Result.ErrorMessage = "Pleas Enter User Name and Password";
-
+                    Result.ErrorMessage = "برجاء ادخال اسم المستخدم و كلمة المرور";
                 }
-                else { Result.ErrorMessage = "برجاء ادخال اسم المستخدم و كلمة المرور"; }
+                else 
+                { 
+                    Result.ErrorMessage = "Please enter username and password";
+                }
             }
             else
             {
                 try
                 {
                     string ORGPassword = _context.Sys_Users.Where(U => U.Code == username).Select(U => U.Password).FirstOrDefault();
-                    if (ORGPassword == Encrypt(password, "DataOcean", false))
+                    
+                    // Check if user exists
+                    if (string.IsNullOrEmpty(ORGPassword))
+                    {
+                        Result.ErrorCode = 0;
+                        if (Lang == 1)
+                        {
+                            Result.ErrorMessage = "اسم المستخدم غير صحيح";
+                        }
+                        else
+                        {
+                            Result.ErrorMessage = "Invalid username";
+                        }
+                    }
+                    // Check if password matches
+                    else if (ORGPassword != Encrypt(password, "DataOcean", false))
+                    {
+                        Result.ErrorCode = 0;
+                        if (Lang == 1)
+                        {
+                            Result.ErrorMessage = "اسم المستخدم أو كلمة المرور غير صحيحة";
+                        }
+                        else
+                        {
+                            Result.ErrorMessage = "Invalid username or password";
+                        }
+                    }
+                    // Password matches - successful login
+                    else
                     {
                         var user = _context.Sys_Users.FirstOrDefault(U => U.Code == username);
                         if (user != null)
@@ -49,12 +80,13 @@ namespace VenusHR.Infrastructure.Presistence.Login
                             user.DeviceToken = deviceToken;  
                             _context.SaveChanges();
                         }
+                        
                         var employee = _context.Hrs_Employees.SingleOrDefault(F => F.Code == username);
                         if (employee != null)
                         {
                             var token = _jwtService.GenerateToken(employee);
                             Result.ErrorCode = 1;
-                            Result.ErrorMessage = "Success";
+                            Result.ErrorMessage = Lang == 1 ? "تم تسجيل الدخول بنجاح" : "Login successful";
                             Result.ResultObject = new
                             {
                                 Employee = employee,
@@ -65,16 +97,15 @@ namespace VenusHR.Infrastructure.Presistence.Login
                         else
                         {
                             Result.ErrorCode = 0;
-                            Result.ErrorMessage = "Employee not found";
+                            Result.ErrorMessage = Lang == 1 ? "الموظف غير موجود" : "Employee not found";
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     Result.ErrorCode = 0;
-                    Result.ErrorMessage = ex.Message;
+                    Result.ErrorMessage = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
                 }
-
             }
             return Result;
         }
@@ -127,7 +158,5 @@ namespace VenusHR.Infrastructure.Presistence.Login
         {
              return new string(text.Where(c => char.IsLetterOrDigit(c)).ToArray());
         }
-
-        
     }
 }
