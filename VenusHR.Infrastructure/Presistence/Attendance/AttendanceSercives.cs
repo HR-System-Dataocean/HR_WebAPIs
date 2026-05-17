@@ -28,45 +28,74 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             Result = new GeneralOutputClass<object>();
             try
             {
-                 var GetDefaultLocation = from sys_Locations in _context.sys_Locations
-                                         join Hrs_Employees in _context.Hrs_Employees
-                                         on sys_Locations.ID equals Hrs_Employees.LocationId
-                                         where (Hrs_Employees.id == EmployeeID)
-                                         select new
-                                         {
-                                             sys_Locations.latitude,
-                                             sys_Locations.longitude,
-                                             sys_Locations.allowedRadius
-                                         };
+                 // Get location from sys_Locations (default location)
+                var locationFromSysLocations = from sys_Locations in _context.sys_Locations
+                                               join Hrs_Employees in _context.Hrs_Employees
+                                               on sys_Locations.ID equals Hrs_Employees.LocationId
+                                               where Hrs_Employees.id == EmployeeID
+                                               select new
+                                               {
+                                                   latitude = (double?)sys_Locations.latitude,
+                                                   longitude = (double?)sys_Locations.longitude,
+                                                   allowedRadius = (double?)sys_Locations.allowedRadius
+                                               };
 
-                var defaultLocation = GetDefaultLocation.FirstOrDefault();
+                // Get location from hrs_LocationGeoPoints (employee-specific geo points)
+                var locationFromGeoPoints = from geoPoints in _context.hrs_LocationGeoPoints
+                                            where geoPoints.EmployeeID == EmployeeID
+                                               && (geoPoints.Active == null || geoPoints.Active == true)
+                                            select new
+                                            {
+                                                latitude = (double?)geoPoints.Latitude,
+                                                longitude = (double?)geoPoints.Longitude,
+                                                allowedRadius = (double?)geoPoints.AllowedRadius
+                                            };
 
-                if (defaultLocation == null)
+                // Union both queries to get all possible locations
+                var allLocations = locationFromSysLocations.Union(locationFromGeoPoints).ToList();
+
+                if (allLocations == null || !allLocations.Any())
                 {
                     Result.ErrorMessage = (Lang == 1) ? "لم يتم العثور على موقع افتراضي للموظف" : "No default location found for employee";
                     Result.ErrorCode = 0;
                     return Result;
                 }
 
-                 if (string.IsNullOrEmpty(defaultLocation.latitude.ToString()) || string.IsNullOrEmpty(defaultLocation.longitude.ToString()) || string.IsNullOrEmpty(defaultLocation.allowedRadius.ToString()))
+                // Loop through all locations to check if employee is within range of any
+                bool isWithinAnyRange = false;
+                double? closestDistance = null;
+                double? matchedAllowedRadius = null;
+
+                foreach (var location in allLocations)
                 {
-                    Result.ErrorMessage = (Lang == 1) ? "إحداثيات الموقع غير مكتملة" : "Location coordinates are incomplete";
-                    Result.ErrorCode = 0;
-                    return Result;
+                    if (location.latitude == null || location.longitude == null || location.allowedRadius == null)
+                        continue;
+
+                    if (!double.TryParse(location.latitude.ToString(), out double allowedLatitude) ||
+                        !double.TryParse(location.longitude.ToString(), out double allowedLongitude) ||
+                        !double.TryParse(location.allowedRadius.ToString(), out double allowedRadius))
+                        continue;
+
+                    double distance = CalculateDistance(Latitude, longitude, allowedLatitude, allowedLongitude);
+
+                    // Track the closest distance for reporting
+                    if (closestDistance == null || distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        matchedAllowedRadius = allowedRadius;
+                    }
+
+                    // If within range of this location, allow check-in
+                    if (distance <= allowedRadius)
+                    {
+                        isWithinAnyRange = true;
+                        matchedAllowedRadius = allowedRadius;
+                        closestDistance = distance;
+                        break; // Found a valid location, no need to check others
+                    }
                 }
 
-                 if (!double.TryParse(defaultLocation.latitude.ToString(), out double allowedLatitude) ||
-                    !double.TryParse(defaultLocation.longitude.ToString(), out double allowedLongitude) ||
-                    !double.TryParse(defaultLocation.allowedRadius.ToString(), out double allowedRadius))
-                {
-                    Result.ErrorMessage = (Lang == 1) ? "خطأ في تنسيق إحداثيات الموقع" : "Error in location coordinates format";
-                    Result.ErrorCode = 0;
-                    return Result;
-                }
-
-                 double distance = CalculateDistance(Latitude, longitude, allowedLatitude, allowedLongitude);
-
-                 if (distance <= allowedRadius)
+                if (isWithinAnyRange)
                 {
                      var attendanceRecord = new Hrs_Mobile_Attendance
                     {
@@ -78,7 +107,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                         DeviceModel = deviceModel,
                         OSVersion = osVersion,
                         NetworkType = networkType,
-                        DistanceFromLocation = distance,
+                        DistanceFromLocation = closestDistance ?? 0,
                          CreatedDate = DateTime.Now,
                          CheckType=CheckType
                     };
@@ -90,7 +119,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     {
                         CheckInId = attendanceRecord.ID,
                         CheckInTime = CheckingDatetime,
-                        Distance = Math.Round(distance, 2),
+                        Distance = Math.Round(closestDistance ?? 0, 2),
                         Message = (Lang == 1) ? "تم تسجيل الحضور بنجاح" : "Check-in successful",
                         IsWithinRange = true
                     };
@@ -102,15 +131,15 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                      Result.ResultObject = new
                     {
                         IsWithinRange = false,
-                        AllowedRadius = allowedRadius,
-                        ActualDistance = Math.Round(distance, 2),
+                        AllowedRadius = matchedAllowedRadius ?? 0,
+                        ActualDistance = Math.Round(closestDistance ?? 0, 2),
                         Message = (Lang == 1) ?
-                            $"أنت خارج نطاق الموقع المسموح. المسافة: {Math.Round(distance, 2)} متر (المسموح: {allowedRadius} متر)" :
-                            $"You are outside the allowed location range. Distance: {Math.Round(distance, 2)} meters (Allowed: {allowedRadius} meters)"
+                            $"أنت خارج نطاق الموقع المسموح. المسافة: {Math.Round(closestDistance ?? 0, 2)} متر (المسموح: {matchedAllowedRadius ?? 0} متر)" :
+                            $"You are outside the allowed location range. Distance: {Math.Round(closestDistance ?? 0, 2)} meters (Allowed: {matchedAllowedRadius ?? 0} meters)"
                     };
                     Result.ErrorMessage = (Lang == 1) ?
-                        $"أنت خارج نطاق الموقع المسموح. المسافة: {Math.Round(distance, 2)} متر" :
-                        $"You are outside the allowed location range. Distance: {Math.Round(distance, 2)} meters";
+                        $"أنت خارج نطاق الموقع المسموح. المسافة: {Math.Round(closestDistance ?? 0, 2)} متر" :
+                        $"You are outside the allowed location range. Distance: {Math.Round(closestDistance ?? 0, 2)} meters";
                     Result.ErrorCode = 0;
                 }
             }

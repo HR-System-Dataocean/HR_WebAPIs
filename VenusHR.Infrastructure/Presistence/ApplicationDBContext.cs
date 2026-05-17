@@ -95,6 +95,7 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<sys_DocumentsDetails> sys_DocumentsDetails { get; set; }
         public virtual DbSet<sys_ObjectsAttachments> sys_ObjectsAttachments { get; set; }
         public virtual DbSet<RevokedToken> RevokedTokens { get; set; }
+        public virtual DbSet<hrs_LocationGeoPoints> hrs_LocationGeoPoints { get; set; }
  
 
 
