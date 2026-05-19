@@ -160,9 +160,52 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             Result = new GeneralOutputClass<object>();
             try
             {
+                var today = DateTime.Now.Date;
+                var todayRecords = _context.Hrs_Mobile_Attendance
+                    .Where(a => a.EmployeeID == employeeId && a.CheckingDatetime.Date == today)
+                    .OrderBy(a => a.CheckingDatetime)
+                    .ToList();
+
+                var firstRecord = todayRecords.FirstOrDefault(a => a.CheckType?.ToUpper() == "IN") ?? todayRecords.FirstOrDefault();
+                var lastRecord = todayRecords.LastOrDefault(a => a.CheckType?.ToUpper() == "OUT") ?? todayRecords.LastOrDefault();
+
+                TimeSpan? workingHours = null;
+                if (firstRecord != null && lastRecord != null && firstRecord != lastRecord)
+                {
+                    workingHours = lastRecord.CheckingDatetime - firstRecord.CheckingDatetime;
+                }
+
+                var todayAttendance = new
+                {
+                    Date = today.ToString("yyyy-MM-dd"),
+                    CheckIn = firstRecord != null ? new
+                    {
+                        Time = firstRecord.CheckingDatetime.ToString("HH:mm:ss"),
+                        Type = firstRecord.CheckType,
+                        Latitude = firstRecord.Latitude,
+                        Longitude = firstRecord.Longitude,
+                        Distance = firstRecord.DistanceFromLocation,
+                        Device = firstRecord.DeviceModel,
+                        Location = $"{firstRecord.Latitude:F4}, {firstRecord.Longitude:F4}"
+                    } : null,
+                    CheckOut = lastRecord != null && lastRecord != firstRecord ? new
+                    {
+                        Time = lastRecord.CheckingDatetime.ToString("HH:mm:ss"),
+                        Type = lastRecord.CheckType,
+                        Latitude = lastRecord.Latitude,
+                        Longitude = lastRecord.Longitude,
+                        Distance = lastRecord.DistanceFromLocation,
+                        Device = lastRecord.DeviceModel,
+                        Location = $"{lastRecord.Latitude:F4}, {lastRecord.Longitude:F4}"
+                    } : null,
+                    WorkingHours = workingHours?.ToString(@"hh\:mm\:ss"),
+                    Status = GetDayStatus(firstRecord, lastRecord),
+                    TotalRecords = todayRecords.Count
+                };
+
                 if (Lang == 1)
                 {
-                    Result.ResultObject = from Hrs_Employees in _context.Hrs_Employees
+                    var employeeData = (from Hrs_Employees in _context.Hrs_Employees
                                           join sys_Departments in _context.sys_Departments
                                           on Hrs_Employees.DepartmentId equals sys_Departments.ID
                                           join hrs_Contracts in _context.hrs_Contracts
@@ -170,13 +213,13 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_Positions in _context.hrs_Positions
                                           on hrs_Contracts.PositionID equals hrs_Positions.Id
                                           where (Hrs_Employees.id == employeeId)
-                                          select new { Position = hrs_Positions.ArbName, Department = sys_Departments.ArbName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { Position = hrs_Positions.ArbName, Department = sys_Departments.ArbName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName }).FirstOrDefault();
 
-
+                    Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
                 }
                 else
                 {
-                    Result.ResultObject = from Hrs_Employees in _context.Hrs_Employees
+                    var employeeData = (from Hrs_Employees in _context.Hrs_Employees
                                           join sys_Departments in _context.sys_Departments
                                           on Hrs_Employees.DepartmentId equals sys_Departments.ID
                                           join hrs_Contracts in _context.hrs_Contracts
@@ -184,7 +227,9 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_Positions in _context.hrs_Positions
                                           on hrs_Contracts.PositionID equals hrs_Positions.Id
                                           where (Hrs_Employees.id == employeeId)
-                                          select new { Position = hrs_Positions.EngName, Department = sys_Departments.EngName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { Position = hrs_Positions.EngName, Department = sys_Departments.EngName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName }).FirstOrDefault();
+
+                    Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
                 }
                 Result.ErrorCode = 1;
  
@@ -198,6 +243,18 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
             return Result;
+        }
+
+        private string GetDayStatus(VenusHR.Core.Master.Hrs_Mobile_Attendance checkIn, VenusHR.Core.Master.Hrs_Mobile_Attendance checkOut)
+        {
+            if (checkIn == null && checkOut == null)
+                return "Absent";
+            else if (checkIn != null && checkOut != null && checkIn != checkOut)
+                return "Present";
+            else if (checkIn != null || checkOut != null)
+                return "Partial";
+            else
+                return "Unknown";
         }
 
         public object GetEndOfServiceAllExperienceRate(int Lang)
