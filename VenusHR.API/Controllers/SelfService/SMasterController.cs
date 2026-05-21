@@ -255,6 +255,133 @@ namespace VenusHR.API.Controllers.SelfService
             }
         }
 
+        [HttpGet, Route("GetEmployeeMonthlyTransactions/{employeeId}/{fiscalPeriodId}")]
+        public ActionResult<ApiResponse<object>> GetEmployeeMonthlyTransactions(
+            int employeeId,
+            int fiscalPeriodId,
+            [FromQuery] int Lang = 0,
+            [FromQuery] bool hideNotPaid = true)
+        {
+            try
+            {
+                object result = _Master.GetEmployeeMonthlyTransactions(employeeId, fiscalPeriodId, Lang, hideNotPaid);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب المعاملة الشهرية" : "Failed to retrieve monthly transaction";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب المعاملة الشهرية بنجاح" : "Monthly transaction retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet, Route("GetEmployeeDependants/{employeeId}")]
+        public ActionResult<ApiResponse<object>> GetEmployeeDependants(int employeeId, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                object result = _Master.GetEmployeeDependants(employeeId, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب بيانات المرافقين" : "Failed to retrieve employee dependants";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب بيانات المرافقين بنجاح" : "Employee dependants retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet, Route("GetEmployeeVacationBalance/{employeeId}")]
+        public ActionResult<ApiResponse<object>> GetEmployeeVacationBalance(
+            int employeeId,
+            [FromQuery] int Lang = 0,
+            [FromQuery] int? vacationTypeId = null,
+            [FromQuery] DateTime? balanceDate = null,
+            [FromQuery] DateTime? vacationEndDate = null,
+            [FromQuery] int? vacationId = null)
+        {
+            try
+            {
+                object result = _Master.GetEmployeeVacationBalance(
+                    employeeId, Lang, vacationTypeId, balanceDate, vacationEndDate, vacationId);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب رصيد الإجازة" : "Failed to retrieve vacation balance";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب رصيد الإجازة بنجاح" : "Vacation balance retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet, Route("GetEmployeeHealthInsurance/{employeeId}")]
+        public ActionResult<ApiResponse<object>> GetEmployeeHealthInsurance(int employeeId, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                object result = _Master.GetEmployeeHealthInsurance(employeeId, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب بيانات التأمين الصحي" : "Failed to retrieve health insurance data";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب بيانات التأمين الصحي بنجاح" : "Health insurance data retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
         [HttpPost, Route("SaveRequestAction")]
         public ActionResult<ApiResponse<object>> SaveRequestAction(SS_RequestAction RequestAction, [FromQuery] int Lang = 0)
         {
