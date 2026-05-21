@@ -213,7 +213,22 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_Positions in _context.hrs_Positions
                                           on hrs_Contracts.PositionID equals hrs_Positions.Id
                                           where (Hrs_Employees.id == employeeId)
-                                          select new { Position = hrs_Positions.ArbName, Department = sys_Departments.ArbName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName }).FirstOrDefault();
+                                          select new {
+                                              Hrs_Employees.Code,
+                                              Position = hrs_Positions.ArbName,
+                                              Department = sys_Departments.ArbName,
+                                              PhoneNo = Hrs_Employees.Phone,
+                                              Mobile = Hrs_Employees.Mobile,
+                                              Email = Hrs_Employees.WorkE_Mail,
+                                              PersonalEmail = Hrs_Employees.E_Mail,
+                                              EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName,
+                                              JoinDate = Hrs_Employees.JoinDate,
+                                              ManagerId = Hrs_Employees.ManagerId,
+                                              BranchId = Hrs_Employees.BranchId,
+                                              LocationId = Hrs_Employees.LocationId,
+                                              SsnNo = Hrs_Employees.SsnNo,
+                                              PassPortNo = Hrs_Employees.PassPortNo
+                                          }).FirstOrDefault();
 
                     Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
                 }
@@ -227,7 +242,22 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_Positions in _context.hrs_Positions
                                           on hrs_Contracts.PositionID equals hrs_Positions.Id
                                           where (Hrs_Employees.id == employeeId)
-                                          select new { Position = hrs_Positions.EngName, Department = sys_Departments.EngName, PhoneNo = Hrs_Employees.Phone, Email = Hrs_Employees.WorkE_Mail, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName }).FirstOrDefault();
+                                          select new {
+                                              Hrs_Employees.Code,
+                                              Position = hrs_Positions.EngName,
+                                              Department = sys_Departments.EngName,
+                                              PhoneNo = Hrs_Employees.Phone,
+                                              Mobile = Hrs_Employees.Mobile,
+                                              Email = Hrs_Employees.WorkE_Mail,
+                                              PersonalEmail = Hrs_Employees.E_Mail,
+                                              EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName,
+                                              JoinDate = Hrs_Employees.JoinDate,
+                                              ManagerId = Hrs_Employees.ManagerId,
+                                              BranchId = Hrs_Employees.BranchId,
+                                              LocationId = Hrs_Employees.LocationId,
+                                              SsnNo = Hrs_Employees.SsnNo,
+                                              PassPortNo = Hrs_Employees.PassPortNo
+                                          }).FirstOrDefault();
 
                     Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
                 }
