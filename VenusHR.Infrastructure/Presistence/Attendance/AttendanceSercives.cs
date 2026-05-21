@@ -29,21 +29,24 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             try
             {
                  // Get location from sys_Locations (default location)
-                var locationFromSysLocations = from sys_Locations in _context.sys_Locations
-                                               join Hrs_Employees in _context.Hrs_Employees
-                                               on sys_Locations.ID equals Hrs_Employees.LocationId
-                                               where Hrs_Employees.id == EmployeeID
-                                               select new
-                                               {
-                                                   latitude = (double?)sys_Locations.latitude,
-                                                   longitude = (double?)sys_Locations.longitude,
-                                                   allowedRadius = (double?)sys_Locations.allowedRadius
-                                               };
+                //var locationFromSysLocations = from sys_Locations in _context.sys_Locations
+                //                               join Hrs_Employees in _context.Hrs_Employees
+                //                               on sys_Locations.ID equals Hrs_Employees.LocationId
+                //                               where Hrs_Employees.id == EmployeeID
+                //                               select new
+                //                               {
+                //                                   latitude = (double?)sys_Locations.latitude,
+                //                                   longitude = (double?)sys_Locations.longitude,
+                //                                   allowedRadius = (double?)sys_Locations.allowedRadius
+                //                               };
 
                 // Get location from hrs_LocationGeoPoints (employee-specific geo points)
                 var locationFromGeoPoints = from geoPoints in _context.hrs_LocationGeoPoints
-                                            where geoPoints.EmployeeID == EmployeeID
-                                               && (geoPoints.Active == null || geoPoints.Active == true)
+                                            join sys_Locations in _context.sys_Locations on geoPoints.LocationID equals sys_Locations.ID
+                                            join Hrs_Employees in _context.Hrs_Employees
+                                               on sys_Locations.ID equals Hrs_Employees.LocationId
+                                            where Hrs_Employees.id == EmployeeID
+                                            && (geoPoints.Active == null || geoPoints.Active == true)
                                             select new
                                             {
                                                 latitude = (double?)geoPoints.Latitude,
@@ -52,7 +55,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                                             };
 
                 // Union both queries to get all possible locations
-                var allLocations = locationFromSysLocations.Union(locationFromGeoPoints).ToList();
+                var allLocations = (locationFromGeoPoints).ToList();
 
                 if (allLocations == null || !allLocations.Any())
                 {
