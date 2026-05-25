@@ -23,25 +23,48 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
 
         }
 
-        public object CheckInOut(int EmployeeID, double Latitude, double longitude, DateTime CheckingDatetime, string DeviceID, string deviceModel, string osVersion, string networkType, int Lang,string CheckType)
+        public object CheckInOut(int EmployeeID, double Latitude, double longitude, DateTime CheckingDatetime, string DeviceID, string deviceModel, string osVersion, string networkType, int Lang, string CheckType, string? macAddress = null)
         {
             Result = new GeneralOutputClass<object>();
             try
             {
-                 // Get location from sys_Locations (default location)
-                //var locationFromSysLocations = from sys_Locations in _context.sys_Locations
-                //                               join Hrs_Employees in _context.Hrs_Employees
-                //                               on sys_Locations.ID equals Hrs_Employees.LocationId
-                //                               where Hrs_Employees.id == EmployeeID
-                //                               select new
-                //                               {
-                //                                   latitude = (double?)sys_Locations.latitude,
-                //                                   longitude = (double?)sys_Locations.longitude,
-                //                                   allowedRadius = (double?)sys_Locations.allowedRadius
-                //                               };
+                var employee = _context.Hrs_Employees.FirstOrDefault(e => e.id == EmployeeID);
+                if (employee == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
 
-                // Get location from hrs_LocationGeoPoints (employee-specific geo points)
-                var locationFromGeoPoints = from geoPoints in _context.hrs_LocationGeoPoints
+                var incomingMac = !string.IsNullOrWhiteSpace(macAddress) ? macAddress.Trim() :
+                                  !string.IsNullOrWhiteSpace(DeviceID) ? DeviceID.Trim() : null;
+
+                if (string.IsNullOrWhiteSpace(incomingMac))
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "معرف الجهاز (MAC Address) مطلوب" : "Device identifier (MAC Address) is required";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                if (!string.IsNullOrWhiteSpace(employee.MacAddress))
+                {
+                    if (!string.Equals(employee.MacAddress.Trim(), incomingMac, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Result.ErrorMessage = (Lang == 1)
+                            ? "هذا الجهاز غير مسجل. يرجى التواصل مع إدارة الموارد البشرية لتغيير الجهاز"
+                            : "This device is not registered. Please contact HR to change your device";
+                        Result.ErrorCode = 0;
+                        return Result;
+                    }
+                }
+                else
+                {
+                    employee.MacAddress = incomingMac;
+                    _context.SaveChanges();
+                }
+
+                 // Get location from hrs_LocationGeoPoints (employee-specific geo points)
+                var allLocations = (from geoPoints in _context.hrs_LocationGeoPoints
                                             join sys_Locations in _context.sys_Locations on geoPoints.LocationID equals sys_Locations.ID
                                             join Hrs_Employees in _context.Hrs_Employees
                                                on sys_Locations.ID equals Hrs_Employees.LocationId
@@ -52,10 +75,10 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                                                 latitude = (double?)geoPoints.Latitude,
                                                 longitude = (double?)geoPoints.Longitude,
                                                 allowedRadius = (double?)geoPoints.AllowedRadius
-                                            };
+                                            }).AsNoTracking().ToList();
 
-                // Union both queries to get all possible locations
-                var allLocations = (locationFromGeoPoints).ToList();
+                // Ensure connection is closed after reading
+                _context.Database.CloseConnection();
 
                 if (allLocations == null || !allLocations.Any())
                 {
@@ -327,6 +350,8 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     return Result;
                 }
 
+                var (expectedStartTime, graceMinutes) = GetEmployeeWorkSchedule(EmployeeID, endDate);
+
                 // تجميع السجلات حسب اليوم
                 var dailyGroups = allRecords
                     .GroupBy(a => a.CheckingDatetime.Date)
@@ -382,7 +407,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                             Location = $"{lastRecord.Latitude:F4}, {lastRecord.Longitude:F4}"
                         } : null,
                         WorkingHours = workingHours?.ToString(@"hh\:mm\:ss"),
-                        Status = GetDayStatus(firstRecord, lastRecord),
+                        Status = GetDayStatus(firstRecord, lastRecord, expectedStartTime, graceMinutes),
                         TotalRecords = dayRecords.Count
                     };
 
@@ -393,6 +418,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 {
                     TotalDays = dailyGroups.Count,
                     PresentDays = dailyAttendance.Count(d => ((dynamic)d).Status == "Present"),
+                    LateDays = dailyAttendance.Count(d => ((dynamic)d).Status == "Late"),
                     PartialDays = dailyAttendance.Count(d => ((dynamic)d).Status == "Partial"),
                     TotalWorkingHours = CalculateTotalWorkingHours(dailyAttendance)
                 };
@@ -419,12 +445,50 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             return Result;
         }
 
-         private string GetDayStatus(Hrs_Mobile_Attendance checkIn, Hrs_Mobile_Attendance checkOut)
+        private (TimeSpan? ExpectedStart, int GraceMinutes) GetEmployeeWorkSchedule(int employeeId, DateTime referenceDate)
+        {
+            var employeeClassId = _context.hrs_Contracts
+                .Where(c => c.EmployeeID == employeeId
+                    && c.CancelDate == null
+                    && c.StartDate <= referenceDate
+                    && (c.EndDate == null || c.EndDate >= referenceDate))
+                .OrderByDescending(c => c.StartDate)
+                .Select(c => c.EmployeeClassID)
+                .FirstOrDefault();
+
+            if (employeeClassId == 0)
+                return (null, 0);
+
+            var schedule = _context.hrs_EmployeesClasses
+                .Where(ec => ec.ID == employeeClassId && ec.CancelDate == null)
+                .Select(ec => new { ec.DefultStartTime, ec.PerDailyDelaying })
+                .FirstOrDefault();
+
+            if (schedule?.DefultStartTime == null)
+                return (null, schedule?.PerDailyDelaying ?? 0);
+
+            return (schedule.DefultStartTime.Value.TimeOfDay, schedule.PerDailyDelaying ?? 0);
+        }
+
+        private static string GetDayStatus(
+            Hrs_Mobile_Attendance checkIn,
+            Hrs_Mobile_Attendance checkOut,
+            TimeSpan? expectedStartTime = null,
+            int graceMinutes = 0)
         {
             if (checkIn == null && checkOut == null)
                 return "Absent";
             else if (checkIn != null && checkOut != null && checkIn != checkOut)
+            {
+                if (expectedStartTime.HasValue)
+                {
+                    var allowedCheckIn = expectedStartTime.Value.Add(TimeSpan.FromMinutes(graceMinutes));
+                    if (checkIn.CheckingDatetime.TimeOfDay > allowedCheckIn)
+                        return "Late";
+                }
+
                 return "Present";
+            }
             else if (checkIn != null || checkOut != null)
                 return "Partial"; // حضور بدون انصراف أو انصراف بدون حضور
             else
@@ -454,6 +518,116 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             }
         }
 
+
+        public object GetRegisteredDevice(int EmployeeID, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var employee = _context.Hrs_Employees.FirstOrDefault(e => e.id == EmployeeID);
+                if (employee == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                Result.ResultObject = new
+                {
+                    EmployeeID = employee.id,
+                    EmployeeCode = employee.Code,
+                    MacAddress = employee.MacAddress,
+                    IsDeviceRegistered = !string.IsNullOrWhiteSpace(employee.MacAddress)
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب بيانات الجهاز بنجاح" : "Device info retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب بيانات الجهاز" : "An error occurred while retrieving device info";
+                Result.ErrorCode = 0;
+            }
+
+            return Result;
+        }
+
+        public object ChangeDevice(int EmployeeID, string MacAddress, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(MacAddress))
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "عنوان MAC مطلوب" : "MAC Address is required";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var employee = _context.Hrs_Employees.FirstOrDefault(e => e.id == EmployeeID);
+                if (employee == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var previousMac = employee.MacAddress;
+                employee.MacAddress = MacAddress.Trim();
+                _context.SaveChanges();
+
+                Result.ResultObject = new
+                {
+                    EmployeeID = employee.id,
+                    EmployeeCode = employee.Code,
+                    PreviousMacAddress = previousMac,
+                    NewMacAddress = employee.MacAddress
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم تغيير الجهاز بنجاح" : "Device changed successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء تغيير الجهاز" : "An error occurred while changing device";
+                Result.ErrorCode = 0;
+            }
+
+            return Result;
+        }
+
+        public object ClearDevice(int EmployeeID, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var employee = _context.Hrs_Employees.FirstOrDefault(e => e.id == EmployeeID);
+                if (employee == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var previousMac = employee.MacAddress;
+                employee.MacAddress = null;
+                _context.SaveChanges();
+
+                Result.ResultObject = new
+                {
+                    EmployeeID = employee.id,
+                    EmployeeCode = employee.Code,
+                    ClearedMacAddress = previousMac
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم إلغاء تسجيل الجهاز بنجاح" : "Device registration cleared successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء إلغاء تسجيل الجهاز" : "An error occurred while clearing device registration";
+                Result.ErrorCode = 0;
+            }
+
+            return Result;
+        }
 
          private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {

@@ -5,7 +5,8 @@ namespace VenusHR.Core.SelfService
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; } = string.Empty;
         public string EmployeeName { get; set; } = string.Empty;
-        public int FiscalPeriodId { get; set; }
+        public int Month { get; set; }
+        public int Year { get; set; }
         public string FinancialPeriod { get; set; } = string.Empty;
         public bool IsPrepared { get; set; }
         public bool HideNotPaid { get; set; }

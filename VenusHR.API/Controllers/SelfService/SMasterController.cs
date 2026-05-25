@@ -255,16 +255,18 @@ namespace VenusHR.API.Controllers.SelfService
             }
         }
 
-        [HttpGet, Route("GetEmployeeMonthlyTransactions/{employeeId}/{fiscalPeriodId}")]
+        [HttpGet, Route("GetEmployeeMonthlyTransactions/{employeeId}/{month}")]
         public ActionResult<ApiResponse<object>> GetEmployeeMonthlyTransactions(
             int employeeId,
-            int fiscalPeriodId,
+            int month,
+            [FromQuery] int? year = null,
             [FromQuery] int Lang = 0,
             [FromQuery] bool hideNotPaid = true)
         {
             try
             {
-                object result = _Master.GetEmployeeMonthlyTransactions(employeeId, fiscalPeriodId, Lang, hideNotPaid);
+                var resolvedYear = year ?? DateTime.Now.Year;
+                object result = _Master.GetEmployeeMonthlyTransactions(employeeId, month, resolvedYear, Lang, hideNotPaid);
 
                 if (result is GeneralOutputClass<object> output)
                 {

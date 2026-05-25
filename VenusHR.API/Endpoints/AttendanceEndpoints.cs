@@ -21,6 +21,11 @@ public static class AttendanceEndpoints
 
         // Get Profile
         app.MapGet("/api/attendance/profile", GetProfile).RequireAuthorization();
+
+        // Device Management
+        app.MapGet("/api/attendance/device", GetRegisteredDevice).RequireAuthorization();
+        app.MapPost("/api/attendance/change-device", ChangeDevice).RequireAuthorization();
+        app.MapPost("/api/attendance/clear-device", ClearDevice).RequireAuthorization();
     }
 
     // =========== Check In ===========
@@ -61,7 +66,8 @@ public static class AttendanceEndpoints
                 request.OSVersion,
                 request.NetworkType,
                 lang,
-                "IN"
+                "IN",
+                request.MacAddress
             );
 
             if (result is GeneralOutputClass<object> output)
@@ -126,7 +132,8 @@ public static class AttendanceEndpoints
                 request.OSVersion,
                 request.NetworkType,
                 lang,
-                "OUT"
+                "OUT",
+                request.MacAddress
             );
 
             if (result is GeneralOutputClass<object> output)
@@ -245,6 +252,125 @@ public static class AttendanceEndpoints
             return Results.Json(ApiResponse<object>.Fail(message, 500, ex.Message), statusCode: 500);
         }
     }
+
+    // =========== Device Management ===========
+
+    private static async Task<IResult> GetRegisteredDevice(
+        [FromQuery] int employeeID,
+        [FromQuery] int lang,
+        [FromServices] IAttendance attendanceService)
+    {
+        if (employeeID <= 0)
+        {
+            var message = lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+            return Results.BadRequest(ApiResponse.Fail(message));
+        }
+
+        try
+        {
+            var result = attendanceService.GetRegisteredDevice(employeeID, lang);
+
+            if (result is GeneralOutputClass<object> output)
+            {
+                if (output.ErrorCode == 0)
+                {
+                    return Results.Json(ApiResponse<object>.Fail(
+                        output.ErrorMessage ?? (lang == 1 ? "فشل جلب بيانات الجهاز" : "Failed to retrieve device info"),
+                        output.ErrorCode), statusCode: 400);
+                }
+
+                return Results.Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+            }
+
+            var errorMsg = lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+            return Results.Json(ApiResponse<object>.Fail(errorMsg), statusCode: 500);
+        }
+        catch (Exception ex)
+        {
+            var message = lang == 1 ? "حدث خطأ في جلب بيانات الجهاز" : "Error retrieving device info";
+            return Results.Json(ApiResponse<object>.Fail(message, 500, ex.Message), statusCode: 500);
+        }
+    }
+
+    private static async Task<IResult> ChangeDevice(
+        [FromBody] ChangeDeviceRequest request,
+        [FromQuery] int lang,
+        [FromServices] IAttendance attendanceService)
+    {
+        if (request == null || request.EmployeeID <= 0)
+        {
+            var message = lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+            return Results.BadRequest(ApiResponse.Fail(message));
+        }
+
+        if (string.IsNullOrWhiteSpace(request.MacAddress))
+        {
+            var message = lang == 1 ? "عنوان MAC مطلوب" : "MAC Address is required";
+            return Results.BadRequest(ApiResponse.Fail(message));
+        }
+
+        try
+        {
+            var result = attendanceService.ChangeDevice(request.EmployeeID, request.MacAddress, lang);
+
+            if (result is GeneralOutputClass<object> output)
+            {
+                if (output.ErrorCode == 0)
+                {
+                    return Results.Json(ApiResponse<object>.Fail(
+                        output.ErrorMessage ?? (lang == 1 ? "فشل تغيير الجهاز" : "Failed to change device"),
+                        output.ErrorCode), statusCode: 400);
+                }
+
+                return Results.Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+            }
+
+            var errorMsg = lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+            return Results.Json(ApiResponse<object>.Fail(errorMsg), statusCode: 500);
+        }
+        catch (Exception ex)
+        {
+            var message = lang == 1 ? "حدث خطأ في تغيير الجهاز" : "Error changing device";
+            return Results.Json(ApiResponse<object>.Fail(message, 500, ex.Message), statusCode: 500);
+        }
+    }
+
+    private static async Task<IResult> ClearDevice(
+        [FromBody] ClearDeviceRequest request,
+        [FromQuery] int lang,
+        [FromServices] IAttendance attendanceService)
+    {
+        if (request == null || request.EmployeeID <= 0)
+        {
+            var message = lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+            return Results.BadRequest(ApiResponse.Fail(message));
+        }
+
+        try
+        {
+            var result = attendanceService.ClearDevice(request.EmployeeID, lang);
+
+            if (result is GeneralOutputClass<object> output)
+            {
+                if (output.ErrorCode == 0)
+                {
+                    return Results.Json(ApiResponse<object>.Fail(
+                        output.ErrorMessage ?? (lang == 1 ? "فشل إلغاء تسجيل الجهاز" : "Failed to clear device"),
+                        output.ErrorCode), statusCode: 400);
+                }
+
+                return Results.Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+            }
+
+            var errorMsg = lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+            return Results.Json(ApiResponse<object>.Fail(errorMsg), statusCode: 500);
+        }
+        catch (Exception ex)
+        {
+            var message = lang == 1 ? "حدث خطأ في إلغاء تسجيل الجهاز" : "Error clearing device registration";
+            return Results.Json(ApiResponse<object>.Fail(message, 500, ex.Message), statusCode: 500);
+        }
+    }
 }
 
 // Request Models
@@ -260,7 +386,23 @@ public class CheckInOutRequest
     public DateTime CheckingDatetime { get; set; }
 
     public string? DeviceID { get; set; }
+    public string? MacAddress { get; set; }
     public string? DeviceModel { get; set; }
     public string? OSVersion { get; set; }
     public string? NetworkType { get; set; }
+}
+
+public class ChangeDeviceRequest
+{
+    [Required(ErrorMessage = "Employee ID is required")]
+    public int EmployeeID { get; set; }
+
+    [Required(ErrorMessage = "MAC Address is required")]
+    public string MacAddress { get; set; } = null!;
+}
+
+public class ClearDeviceRequest
+{
+    [Required(ErrorMessage = "Employee ID is required")]
+    public int EmployeeID { get; set; }
 }

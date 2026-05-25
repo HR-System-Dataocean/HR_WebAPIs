@@ -19,7 +19,7 @@ namespace VenusHR.Application.Common.Interfaces.SelfService
         Object GetAllVacationsTypes(int Lang);
         Object GetEndOfServiceAllResignationReason(int Lang);
         Object GetEndOfServiceAllExperienceRate(int Lang);
-        object GetEmployeeMonthlyTransactions(int employeeId, int fiscalPeriodId, int lang, bool hideNotPaid = true);
+        object GetEmployeeMonthlyTransactions(int employeeId, int month, int year, int lang, bool hideNotPaid = true);
         object GetEmployeeDependants(int employeeId, int lang);
         object GetEmployeeVacationBalance(int employeeId, int lang, int? vacationTypeId = null, DateTime? balanceDate = null, DateTime? vacationEndDate = null, int? vacationId = null);
         object GetEmployeeHealthInsurance(int employeeId, int lang);

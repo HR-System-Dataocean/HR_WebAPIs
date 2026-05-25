@@ -95,6 +95,8 @@ namespace VenusHR.Core.Master
 
         public string? MachineCode { get; set; }
 
+        public string? MacAddress { get; set; }
+
         public int? SectorId { get; set; }
 
         public string? SsnNo { get; set; }

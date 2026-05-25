@@ -207,58 +207,86 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
                 if (Lang == 1)
                 {
-                    var employeeData = (from Hrs_Employees in _context.Hrs_Employees
-                                          join sys_Departments in _context.sys_Departments
-                                          on Hrs_Employees.DepartmentId equals sys_Departments.ID
-                                          join hrs_Contracts in _context.hrs_Contracts
-                                          on Hrs_Employees.id equals hrs_Contracts.EmployeeID
-                                          join hrs_Positions in _context.hrs_Positions
-                                          on hrs_Contracts.PositionID equals hrs_Positions.Id
-                                          where (Hrs_Employees.id == employeeId)
+                    var employeeData = (from emp in _context.Hrs_Employees
+                                          join dept in _context.sys_Departments
+                                          on emp.DepartmentId equals dept.ID into deptJoin
+                                          from dept in deptJoin.DefaultIfEmpty()
+                                          join contract in _context.hrs_Contracts
+                                          on emp.id equals contract.EmployeeID into contractJoin
+                                          from contract in contractJoin.DefaultIfEmpty()
+                                          join position in _context.hrs_Positions
+                                          on contract.PositionID equals position.Id into positionJoin
+                                          from position in positionJoin.DefaultIfEmpty()
+                                          join manager in _context.Hrs_Employees
+                                          on emp.ManagerId equals manager.id into managerJoin
+                                          from manager in managerJoin.DefaultIfEmpty()
+                                          join location in _context.sys_Locations
+                                          on emp.LocationId equals location.ID into locationJoin
+                                          from location in locationJoin.DefaultIfEmpty()
+                                          join branch in _context.Sys_Companies
+                                          on emp.BranchId equals branch.ID into branchJoin
+                                          from branch in branchJoin.DefaultIfEmpty()
+                                          where emp.id == employeeId
                                           select new {
-                                              Hrs_Employees.Code,
-                                              Position = hrs_Positions.ArbName,
-                                              Department = sys_Departments.ArbName,
-                                              PhoneNo = Hrs_Employees.Phone,
-                                              Mobile = Hrs_Employees.Mobile,
-                                              Email = Hrs_Employees.WorkE_Mail,
-                                              PersonalEmail = Hrs_Employees.E_Mail,
-                                              EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName,
-                                              JoinDate = Hrs_Employees.JoinDate,
-                                              ManagerId = Hrs_Employees.ManagerId,
-                                              BranchId = Hrs_Employees.BranchId,
-                                              LocationId = Hrs_Employees.LocationId,
-                                              SsnNo = Hrs_Employees.SsnNo,
-                                              PassPortNo = Hrs_Employees.PassPortNo
+                                              emp.Code,
+                                              PositionName = position != null ? position.ArbName : null,
+                                              DepartmentName = dept != null ? dept.ArbName : null,
+                                              PhoneNo = emp.Phone,
+                                              Mobile = emp.Mobile,
+                                              Email = emp.WorkE_Mail,
+                                              PersonalEmail = emp.E_Mail,
+                                              EmployeeName = emp.ArbName + " " + emp.FatherArbName + " " + emp.GrandArbName + " " + emp.FamilyArbName,
+                                              JoinDate = emp.JoinDate,
+                                              ManagerName = manager != null
+                                                  ? manager.ArbName + " " + manager.FatherArbName + " " + manager.GrandArbName + " " + manager.FamilyArbName
+                                                  : null,
+                                              BranchName = branch != null ? branch.ArbName : null,
+                                              LocationName = location != null ? location.ArbName : null,
+                                              SsnNo = emp.SsnNo,
+                                              PassPortNo = emp.PassPortNo
                                           }).FirstOrDefault();
 
                     Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
                 }
                 else
                 {
-                    var employeeData = (from Hrs_Employees in _context.Hrs_Employees
-                                          join sys_Departments in _context.sys_Departments
-                                          on Hrs_Employees.DepartmentId equals sys_Departments.ID
-                                          join hrs_Contracts in _context.hrs_Contracts
-                                          on Hrs_Employees.id equals hrs_Contracts.EmployeeID
-                                          join hrs_Positions in _context.hrs_Positions
-                                          on hrs_Contracts.PositionID equals hrs_Positions.Id
-                                          where (Hrs_Employees.id == employeeId)
+                    var employeeData = (from emp in _context.Hrs_Employees
+                                          join dept in _context.sys_Departments
+                                          on emp.DepartmentId equals dept.ID into deptJoin
+                                          from dept in deptJoin.DefaultIfEmpty()
+                                          join contract in _context.hrs_Contracts
+                                          on emp.id equals contract.EmployeeID into contractJoin
+                                          from contract in contractJoin.DefaultIfEmpty()
+                                          join position in _context.hrs_Positions
+                                          on contract.PositionID equals position.Id into positionJoin
+                                          from position in positionJoin.DefaultIfEmpty()
+                                          join manager in _context.Hrs_Employees
+                                          on emp.ManagerId equals manager.id into managerJoin
+                                          from manager in managerJoin.DefaultIfEmpty()
+                                          join location in _context.sys_Locations
+                                          on emp.LocationId equals location.ID into locationJoin
+                                          from location in locationJoin.DefaultIfEmpty()
+                                          join branch in _context.Sys_Companies
+                                          on emp.BranchId equals branch.ID into branchJoin
+                                          from branch in branchJoin.DefaultIfEmpty()
+                                          where emp.id == employeeId
                                           select new {
-                                              Hrs_Employees.Code,
-                                              Position = hrs_Positions.EngName,
-                                              Department = sys_Departments.EngName,
-                                              PhoneNo = Hrs_Employees.Phone,
-                                              Mobile = Hrs_Employees.Mobile,
-                                              Email = Hrs_Employees.WorkE_Mail,
-                                              PersonalEmail = Hrs_Employees.E_Mail,
-                                              EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName,
-                                              JoinDate = Hrs_Employees.JoinDate,
-                                              ManagerId = Hrs_Employees.ManagerId,
-                                              BranchId = Hrs_Employees.BranchId,
-                                              LocationId = Hrs_Employees.LocationId,
-                                              SsnNo = Hrs_Employees.SsnNo,
-                                              PassPortNo = Hrs_Employees.PassPortNo
+                                              emp.Code,
+                                              PositionName = position != null ? position.EngName : null,
+                                              DepartmentName = dept != null ? dept.EngName : null,
+                                              PhoneNo = emp.Phone,
+                                              Mobile = emp.Mobile,
+                                              Email = emp.WorkE_Mail,
+                                              PersonalEmail = emp.E_Mail,
+                                              EmployeeName = emp.EngName + " " + emp.FatherEngName + " " + emp.GrandEngName + " " + emp.FamilyEngName,
+                                              JoinDate = emp.JoinDate,
+                                              ManagerName = manager != null
+                                                  ? manager.EngName + " " + manager.FatherEngName + " " + manager.GrandEngName + " " + manager.FamilyEngName
+                                                  : null,
+                                              BranchName = branch != null ? branch.EngName : null,
+                                              LocationName = location != null ? location.EngName : null,
+                                              SsnNo = emp.SsnNo,
+                                              PassPortNo = emp.PassPortNo
                                           }).FirstOrDefault();
 
                     Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
@@ -277,11 +305,18 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             return Result;
         }
 
-        public object GetEmployeeMonthlyTransactions(int employeeId, int fiscalPeriodId, int lang, bool hideNotPaid = true)
+        public object GetEmployeeMonthlyTransactions(int employeeId, int month, int year, int lang, bool hideNotPaid = true)
         {
             Result = new GeneralOutputClass<object>();
             try
             {
+                if (month < 1 || month > 12)
+                {
+                    Result.ErrorCode = 0;
+                    Result.ErrorMessage = lang == 1 ? "الشهر غير صالح (يجب أن يكون من 1 إلى 12)" : "Invalid month (must be between 1 and 12)";
+                    return Result;
+                }
+
                 var employee = _context.Hrs_Employees
                     .Where(e => e.id == employeeId && e.CancelDate == null)
                     .Select(e => new { e.id, e.Code, e.ArbName, e.FatherArbName, e.GrandArbName, e.FamilyArbName, e.EngName, e.FatherEngName, e.GrandEngName, e.FamilyEngName })
@@ -298,8 +333,18 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 if (connection.State != ConnectionState.Open)
                     connection.Open();
 
-                int transactionId;
-                decimal financialWorkingUnits;
+                var fiscalPeriod = ResolveFiscalPeriodByMonth(connection, month, year, lang);
+                if (fiscalPeriod == null)
+                {
+                    Result.ErrorCode = 0;
+                    Result.ErrorMessage = lang == 1 ? "الفترة المالية غير موجودة لهذا الشهر" : "Fiscal period not found for this month";
+                    return Result;
+                }
+
+                var (fiscalPeriodId, periodFrom, periodTo, periodName) = fiscalPeriod.Value;
+
+                int? transactionId = null;
+                decimal financialWorkingUnits = 0;
                 using (var cmd = connection.CreateCommand())
                 {
                     cmd.CommandText = @"
@@ -311,40 +356,11 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                     cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
                     cmd.Parameters.Add(new SqlParameter("@FiscalPeriodId", fiscalPeriodId));
                     using var reader = cmd.ExecuteReader();
-                    if (!reader.Read())
+                    if (reader.Read())
                     {
-                        Result.ErrorCode = 0;
-                        Result.ErrorMessage = lang == 1
-                            ? "لا توجد معاملة شهرية مجهزة لهذا الموظف في هذه الفترة"
-                            : "No prepared monthly transaction found for this employee and period";
-                        return Result;
+                        transactionId = reader.GetInt32(0);
+                        financialWorkingUnits = Convert.ToDecimal(reader.GetValue(1));
                     }
-                    transactionId = reader.GetInt32(0);
-                    financialWorkingUnits = Convert.ToDecimal(reader.GetValue(1));
-                }
-
-                DateTime periodFrom;
-                DateTime periodTo;
-                string periodName;
-                using (var cmd = connection.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        SELECT FromDate, ToDate,
-                               CASE WHEN @Lang = 1 THEN ISNULL(ArbName, EngName) ELSE EngName END
-                        FROM sys_FiscalYearsPeriods
-                        WHERE ID = @FiscalPeriodId AND ISNULL(CancelDate, '') = ''";
-                    cmd.Parameters.Add(new SqlParameter("@FiscalPeriodId", fiscalPeriodId));
-                    cmd.Parameters.Add(new SqlParameter("@Lang", lang));
-                    using var reader = cmd.ExecuteReader();
-                    if (!reader.Read())
-                    {
-                        Result.ErrorCode = 0;
-                        Result.ErrorMessage = lang == 1 ? "الفترة المالية غير موجودة" : "Fiscal period not found";
-                        return Result;
-                    }
-                    periodFrom = reader.GetDateTime(0);
-                    periodTo = reader.GetDateTime(1);
-                    periodName = reader.IsDBNull(2) ? string.Empty : reader.GetString(2);
                 }
 
                 var dto = new EmployeeMonthlyTransactionDto
@@ -354,29 +370,43 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                     EmployeeName = lang == 1
                         ? $"{employee.ArbName} {employee.FatherArbName} {employee.GrandArbName} {employee.FamilyArbName}".Trim()
                         : $"{employee.EngName} {employee.FatherEngName} {employee.GrandEngName} {employee.FamilyEngName}".Trim(),
-                    FiscalPeriodId = fiscalPeriodId,
+                    Month = month,
+                    Year = year,
                     FinancialPeriod = periodName,
-                    IsPrepared = true,
+                    IsPrepared = transactionId.HasValue,
                     HideNotPaid = hideNotPaid,
                     NumberOfWorkDays = financialWorkingUnits
                 };
 
-                dto.Entitlements = GetMonthlyTransactionLines(connection, transactionId, 1, lang, hideNotPaid);
-                dto.Deductions = GetMonthlyTransactionLines(connection, transactionId, -1, lang, hideNotPaid);
+                if (transactionId.HasValue)
+                {
+                    dto.Entitlements = GetMonthlyTransactionLines(connection, transactionId.Value, 1, lang, hideNotPaid);
+                    dto.Deductions = GetMonthlyTransactionLines(connection, transactionId.Value, -1, lang, hideNotPaid);
 
-                dto.TotalEntitlements = dto.Entitlements
-                    .Where(x => x.PaidStatus == "Paid")
-                    .Sum(x => x.Value ?? 0);
-                dto.TotalDeductions = dto.Deductions
-                    .Where(x => x.PaidStatus == "Paid")
-                    .Sum(x => x.Value ?? 0);
-                dto.NetSalary = Math.Round(dto.TotalEntitlements - dto.TotalDeductions, 2);
+                    dto.TotalEntitlements = dto.Entitlements
+                        .Where(x => x.PaidStatus == "Paid")
+                        .Sum(x => x.Value ?? 0);
+                    dto.TotalDeductions = dto.Deductions
+                        .Where(x => x.PaidStatus == "Paid")
+                        .Sum(x => x.Value ?? 0);
+                    dto.NetSalary = Math.Round(dto.TotalEntitlements - dto.TotalDeductions, 2);
+                }
+                if (transactionId.HasValue)
+                {
+                    ApplyAttendanceAndSalaryMetrics(connection, dto, employeeId, periodFrom, periodTo, fiscalPeriodId, lang);
 
-                ApplyAttendanceAndSalaryMetrics(connection, dto, employeeId, periodFrom, periodTo, fiscalPeriodId, lang);
-
-                Result.ErrorCode = 1;
-                Result.ErrorMessage = lang == 1 ? "تم جلب المعاملة الشهرية بنجاح" : "Monthly transaction retrieved successfully";
-                Result.ResultObject = dto;
+                    Result.ErrorCode = 1;
+                    Result.ErrorMessage =  (lang == 1 ? "تم جلب المعاملة الشهرية بنجاح" : "Monthly transaction retrieved successfully");
+                    Result.ResultObject = dto;
+                }
+                else
+                {
+                    Result.ResultObject = null;
+                    Result.ErrorCode = 0;
+                    Result.ErrorMessage = (lang == 1
+                            ? "لا توجد بيانات راتب متاحة ..لم يتم الانتهاء من تجهيز الرواتب للفترة المحددة حتى الأن"
+                            : "No Salary Data Available..Payroll processing for the selected period has not been completed yet");
+                }
             }
             catch (Exception ex)
             {
@@ -436,6 +466,39 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             }
 
             return items;
+        }
+
+        private static (int Id, DateTime From, DateTime To, string Name)? ResolveFiscalPeriodByMonth(
+            System.Data.Common.DbConnection connection,
+            int month,
+            int year,
+            int lang)
+        {
+            var periodStart = new DateTime(year, month, 1);
+            var periodEnd = periodStart.AddMonths(1).AddDays(-1);
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1 ID, FromDate, ToDate,
+                       CASE WHEN @Lang = 1 THEN ISNULL(ArbName, EngName) ELSE EngName END
+                FROM sys_FiscalYearsPeriods
+                WHERE ISNULL(CancelDate, '') = ''
+                  AND FromDate <= @PeriodEnd
+                  AND ToDate >= @PeriodStart
+                ORDER BY FromDate DESC";
+            cmd.Parameters.Add(new SqlParameter("@PeriodStart", periodStart));
+            cmd.Parameters.Add(new SqlParameter("@PeriodEnd", periodEnd));
+            cmd.Parameters.Add(new SqlParameter("@Lang", lang));
+
+            using var reader = cmd.ExecuteReader();
+            if (!reader.Read())
+                return null;
+
+            return (
+                reader.GetInt32(0),
+                reader.GetDateTime(1),
+                reader.GetDateTime(2),
+                reader.IsDBNull(3) ? string.Empty : reader.GetString(3));
         }
 
         private static void ApplyAttendanceAndSalaryMetrics(

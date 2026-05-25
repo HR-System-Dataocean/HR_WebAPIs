@@ -60,7 +60,8 @@ namespace VenusHR.API.Controllers.Attendance
                     request.OSVersion,
                     request.NetworkType,
                     Lang,
-                    CheckType
+                    CheckType,
+                    request.MacAddress
                 );
 
                 if (result is GeneralOutputClass<object> output)
@@ -340,6 +341,117 @@ namespace VenusHR.API.Controllers.Attendance
                 return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
+
+        [HttpGet, Route("api/Attendance/GetRegisteredDevice")]
+        public ActionResult<ApiResponse<object>> GetRegisteredDevice(
+            [FromQuery] int EmployeeID,
+            [FromQuery] int Lang = 0)
+        {
+            if (EmployeeID <= 0)
+            {
+                var message = Lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+                return BadRequest(ApiResponse<object>.Fail(message));
+            }
+
+            try
+            {
+                var result = _attendance.GetRegisteredDevice(EmployeeID, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? "Failed", output.ErrorCode));
+                    }
+
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في جلب بيانات الجهاز" : "Error retrieving device info";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpPost, Route("api/Attendance/ChangeDevice")]
+        public ActionResult<ApiResponse<object>> ChangeDevice(
+            [FromBody] ChangeDeviceRequest request,
+            [FromQuery] int Lang = 0)
+        {
+            if (request == null || request.EmployeeID <= 0)
+            {
+                var message = Lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+                return BadRequest(ApiResponse<object>.Fail(message));
+            }
+
+            if (string.IsNullOrWhiteSpace(request.MacAddress))
+            {
+                var message = Lang == 1 ? "عنوان MAC مطلوب" : "MAC Address is required";
+                return BadRequest(ApiResponse<object>.Fail(message));
+            }
+
+            try
+            {
+                var result = _attendance.ChangeDevice(request.EmployeeID, request.MacAddress, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? "Failed", output.ErrorCode));
+                    }
+
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في تغيير الجهاز" : "Error changing device";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpPost, Route("api/Attendance/ClearDevice")]
+        public ActionResult<ApiResponse<object>> ClearDevice(
+            [FromBody] ClearDeviceRequest request,
+            [FromQuery] int Lang = 0)
+        {
+            if (request == null || request.EmployeeID <= 0)
+            {
+                var message = Lang == 1 ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+                return BadRequest(ApiResponse<object>.Fail(message));
+            }
+
+            try
+            {
+                var result = _attendance.ClearDevice(request.EmployeeID, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? "Failed", output.ErrorCode));
+                    }
+
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في إلغاء تسجيل الجهاز" : "Error clearing device registration";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
     }
 
     // Request Models
@@ -355,8 +467,24 @@ namespace VenusHR.API.Controllers.Attendance
         public DateTime CheckingDatetime { get; set; }
 
         public string? DeviceID { get; set; }
+        public string? MacAddress { get; set; }
         public string? DeviceModel { get; set; }
         public string? OSVersion { get; set; }
         public string? NetworkType { get; set; }
+    }
+
+    public class ChangeDeviceRequest
+    {
+        [Required(ErrorMessage = "Employee ID is required")]
+        public int EmployeeID { get; set; }
+
+        [Required(ErrorMessage = "MAC Address is required")]
+        public string MacAddress { get; set; } = null!;
+    }
+
+    public class ClearDeviceRequest
+    {
+        [Required(ErrorMessage = "Employee ID is required")]
+        public int EmployeeID { get; set; }
     }
 }

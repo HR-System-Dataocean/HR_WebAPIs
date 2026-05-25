@@ -9,8 +9,12 @@ namespace VenusHR.Application.Common.Interfaces.Attendance
 {
     public interface IAttendance
     {
-        object CheckInOut(int EmployeeID,double Latitude,double longitude, DateTime CheckingDatetime, string DeviceID,string deviceModel,string osVersion,string networkType,int Lang,string CheckType);
+        object CheckInOut(int EmployeeID,double Latitude,double longitude, DateTime CheckingDatetime, string DeviceID,string deviceModel,string osVersion,string networkType,int Lang,string CheckType, string? macAddress = null);
         object GetAttendanceHistory(int EmployeeID,DateTime? FromDate=null,DateTime? ToDate =null);
+
+        object GetRegisteredDevice(int EmployeeID, int Lang);
+        object ChangeDevice(int EmployeeID, string MacAddress, int Lang);
+        object ClearDevice(int EmployeeID, int Lang);
 
         object ImportFingerprintUsers(List<hrs_Fingerprint_Users> users, int Lang);
         object ImportCheckInOut(List<hrs_Fingerprint_CheckInOut> records, int Lang);
