@@ -157,142 +157,37 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             return Result;
         }
 
-        public object GetEmployeeByID(int employeeId,int Lang)
+        public object GetEmployeeByID(int employeeId, int Lang)
         {
             Result = new GeneralOutputClass<object>();
             try
             {
-                var today = DateTime.Now.Date;
-                var todayRecords = _context.Hrs_Mobile_Attendance
-                    .Where(a => a.EmployeeID == employeeId && a.CheckingDatetime.Date == today)
-                    .OrderBy(a => a.CheckingDatetime)
-                    .ToList();
-
-                var firstRecord = todayRecords.FirstOrDefault(a => a.CheckType?.ToUpper() == "IN") ?? todayRecords.FirstOrDefault();
-                var lastRecord = todayRecords.LastOrDefault(a => a.CheckType?.ToUpper() == "OUT") ?? todayRecords.LastOrDefault();
-
-                TimeSpan? workingHours = null;
-                if (firstRecord != null && lastRecord != null && firstRecord != lastRecord)
+                var employeeExists = _context.Hrs_Employees.Any(e => e.id == employeeId);
+                if (!employeeExists)
                 {
-                    workingHours = lastRecord.CheckingDatetime - firstRecord.CheckingDatetime;
+                    Result.ErrorCode = 0;
+                    Result.ErrorMessage = Lang == 1 ? "الموظف غير موجود" : "Employee not found";
+                    return Result;
                 }
 
-                var todayAttendance = new
+                var todayAttendance = BuildTodayAttendance(employeeId);
+                var legacyEmployee = BuildLegacyEmployeeSummary(employeeId, Lang);
+                var profileSections = BuildEmployeeProfileSections(employeeId, Lang);
+
+                Result.ResultObject = new
                 {
-                    Date = today.ToString("yyyy-MM-dd"),
-                    CheckIn = firstRecord != null ? new
-                    {
-                        Time = firstRecord.CheckingDatetime.ToString("HH:mm:ss"),
-                        Type = firstRecord.CheckType,
-                        Latitude = firstRecord.Latitude,
-                        Longitude = firstRecord.Longitude,
-                        Distance = firstRecord.DistanceFromLocation,
-                        Device = firstRecord.DeviceModel,
-                        Location = $"{firstRecord.Latitude:F4}, {firstRecord.Longitude:F4}"
-                    } : null,
-                    CheckOut = lastRecord != null && lastRecord != firstRecord ? new
-                    {
-                        Time = lastRecord.CheckingDatetime.ToString("HH:mm:ss"),
-                        Type = lastRecord.CheckType,
-                        Latitude = lastRecord.Latitude,
-                        Longitude = lastRecord.Longitude,
-                        Distance = lastRecord.DistanceFromLocation,
-                        Device = lastRecord.DeviceModel,
-                        Location = $"{lastRecord.Latitude:F4}, {lastRecord.Longitude:F4}"
-                    } : null,
-                    WorkingHours = workingHours?.ToString(@"hh\:mm\:ss"),
-                    Status = GetDayStatus(firstRecord, lastRecord),
-                    TotalRecords = todayRecords.Count
+                    Employee = legacyEmployee,
+                    profileSections.PersonalInformation,
+                    profileSections.ContactInformation,
+                    profileSections.OrganizationInformation,
+                    profileSections.EmploymentInformation,
+                    profileSections.BankingInformation,
+                    profileSections.IdentityAndTravelInformation,
+                    profileSections.Documents,
+                    profileSections.Dependents,
+                    TodayAttendance = todayAttendance
                 };
-
-                if (Lang == 1)
-                {
-                    var employeeData = (from emp in _context.Hrs_Employees
-                                          join dept in _context.sys_Departments
-                                          on emp.DepartmentId equals dept.ID into deptJoin
-                                          from dept in deptJoin.DefaultIfEmpty()
-                                          join contract in _context.hrs_Contracts
-                                          on emp.id equals contract.EmployeeID into contractJoin
-                                          from contract in contractJoin.DefaultIfEmpty()
-                                          join position in _context.hrs_Positions
-                                          on contract.PositionID equals position.Id into positionJoin
-                                          from position in positionJoin.DefaultIfEmpty()
-                                          join manager in _context.Hrs_Employees
-                                          on emp.ManagerId equals manager.id into managerJoin
-                                          from manager in managerJoin.DefaultIfEmpty()
-                                          join location in _context.sys_Locations
-                                          on emp.LocationId equals location.ID into locationJoin
-                                          from location in locationJoin.DefaultIfEmpty()
-                                          join branch in _context.Sys_Companies
-                                          on emp.BranchId equals branch.ID into branchJoin
-                                          from branch in branchJoin.DefaultIfEmpty()
-                                          where emp.id == employeeId
-                                          select new {
-                                              emp.Code,
-                                              PositionName = position != null ? position.ArbName : null,
-                                              DepartmentName = dept != null ? dept.ArbName : null,
-                                              PhoneNo = emp.Phone,
-                                              Mobile = emp.Mobile,
-                                              Email = emp.WorkE_Mail,
-                                              PersonalEmail = emp.E_Mail,
-                                              EmployeeName = emp.ArbName + " " + emp.FatherArbName + " " + emp.GrandArbName + " " + emp.FamilyArbName,
-                                              JoinDate = emp.JoinDate,
-                                              ManagerName = manager != null
-                                                  ? manager.ArbName + " " + manager.FatherArbName + " " + manager.GrandArbName + " " + manager.FamilyArbName
-                                                  : null,
-                                              BranchName = branch != null ? branch.ArbName : null,
-                                              LocationName = location != null ? location.ArbName : null,
-                                              SsnNo = emp.SsnNo,
-                                              PassPortNo = emp.PassPortNo
-                                          }).FirstOrDefault();
-
-                    Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
-                }
-                else
-                {
-                    var employeeData = (from emp in _context.Hrs_Employees
-                                          join dept in _context.sys_Departments
-                                          on emp.DepartmentId equals dept.ID into deptJoin
-                                          from dept in deptJoin.DefaultIfEmpty()
-                                          join contract in _context.hrs_Contracts
-                                          on emp.id equals contract.EmployeeID into contractJoin
-                                          from contract in contractJoin.DefaultIfEmpty()
-                                          join position in _context.hrs_Positions
-                                          on contract.PositionID equals position.Id into positionJoin
-                                          from position in positionJoin.DefaultIfEmpty()
-                                          join manager in _context.Hrs_Employees
-                                          on emp.ManagerId equals manager.id into managerJoin
-                                          from manager in managerJoin.DefaultIfEmpty()
-                                          join location in _context.sys_Locations
-                                          on emp.LocationId equals location.ID into locationJoin
-                                          from location in locationJoin.DefaultIfEmpty()
-                                          join branch in _context.Sys_Companies
-                                          on emp.BranchId equals branch.ID into branchJoin
-                                          from branch in branchJoin.DefaultIfEmpty()
-                                          where emp.id == employeeId
-                                          select new {
-                                              emp.Code,
-                                              PositionName = position != null ? position.EngName : null,
-                                              DepartmentName = dept != null ? dept.EngName : null,
-                                              PhoneNo = emp.Phone,
-                                              Mobile = emp.Mobile,
-                                              Email = emp.WorkE_Mail,
-                                              PersonalEmail = emp.E_Mail,
-                                              EmployeeName = emp.EngName + " " + emp.FatherEngName + " " + emp.GrandEngName + " " + emp.FamilyEngName,
-                                              JoinDate = emp.JoinDate,
-                                              ManagerName = manager != null
-                                                  ? manager.EngName + " " + manager.FatherEngName + " " + manager.GrandEngName + " " + manager.FamilyEngName
-                                                  : null,
-                                              BranchName = branch != null ? branch.EngName : null,
-                                              LocationName = location != null ? location.EngName : null,
-                                              SsnNo = emp.SsnNo,
-                                              PassPortNo = emp.PassPortNo
-                                          }).FirstOrDefault();
-
-                    Result.ResultObject = new { Employee = employeeData, TodayAttendance = todayAttendance };
-                }
                 Result.ErrorCode = 1;
- 
             }
             catch (Exception ex)
             {
@@ -300,7 +195,6 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 Result.ErrorCode = 0;
                 Result.ErrorMessage = ex.Message;
             }
-
 
             return Result;
         }
@@ -1141,30 +1035,767 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             };
         }
 
+        private static string ReadNullableString(IDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+                return string.Empty;
+            return Convert.ToString(reader.GetValue(ordinal)) ?? string.Empty;
+        }
+
+        private static string? ReadOptionalString(IDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+                return null;
+            return Convert.ToString(reader.GetValue(ordinal));
+        }
+
+        private static int ReadInt32(IDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+                return 0;
+            return Convert.ToInt32(reader.GetValue(ordinal));
+        }
+
+        private static int? ReadNullableInt32(IDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+                return null;
+            return Convert.ToInt32(reader.GetValue(ordinal));
+        }
+
+        private static DateTime? ReadNullableDateTime(IDataReader reader, string column)
+        {
+            var ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal))
+                return null;
+
+            var value = reader.GetValue(ordinal);
+            if (value is DateTime dateTime)
+                return dateTime;
+            if (value is string text && DateTime.TryParse(text, out var parsed))
+                return parsed;
+            return null;
+        }
+
         private static EmployeeDependantDto MapDependantFromReader(IDataReader reader, int defaultObjectId)
         {
             return new EmployeeDependantDto
             {
-                Id = reader.GetInt32(reader.GetOrdinal("ID")),
-                EmployeeId = reader.GetInt32(reader.GetOrdinal("EmployeeID")),
-                DependantTypeId = reader.IsDBNull(reader.GetOrdinal("DependantTypeID")) ? null : reader.GetInt32(reader.GetOrdinal("DependantTypeID")),
-                EnglishName = reader.IsDBNull(reader.GetOrdinal("EngName")) ? string.Empty : reader.GetString(reader.GetOrdinal("EngName")),
-                ArabicName = reader.IsDBNull(reader.GetOrdinal("ArbName")) ? string.Empty : reader.GetString(reader.GetOrdinal("ArbName")),
-                ArabicName4S = reader.IsDBNull(reader.GetOrdinal("ArbName4S")) ? null : reader.GetString(reader.GetOrdinal("ArbName4S")),
-                BirthDate = reader.IsDBNull(reader.GetOrdinal("BirthDate")) ? null : reader.GetDateTime(reader.GetOrdinal("BirthDate")),
-                BirthCityId = reader.IsDBNull(reader.GetOrdinal("BirthCityID")) ? null : reader.GetInt32(reader.GetOrdinal("BirthCityID")),
-                Sex = reader.IsDBNull(reader.GetOrdinal("Sex")) ? null : reader.GetString(reader.GetOrdinal("Sex")),
-                NationalityId = reader.IsDBNull(reader.GetOrdinal("NationalityID")) ? null : reader.GetInt32(reader.GetOrdinal("NationalityID")),
+                Id = ReadInt32(reader, "ID"),
+                EmployeeId = ReadInt32(reader, "EmployeeID"),
+                DependantTypeId = ReadNullableInt32(reader, "DependantTypeID"),
+                EnglishName = ReadNullableString(reader, "EngName"),
+                ArabicName = ReadNullableString(reader, "ArbName"),
+                ArabicName4S = ReadOptionalString(reader, "ArbName4S"),
+                BirthDate = ReadNullableDateTime(reader, "BirthDate"),
+                BirthCityId = ReadNullableInt32(reader, "BirthCityID"),
+                Sex = ReadOptionalString(reader, "Sex"),
+                NationalityId = ReadNullableInt32(reader, "NationalityID"),
                 InsuranceCovered = ReadNullableBool(reader, "InsuranceCovered"),
                 InsurancePercentage = reader.IsDBNull(reader.GetOrdinal("InsurancePercentage")) ? null : Convert.ToDecimal(reader.GetValue(reader.GetOrdinal("InsurancePercentage"))),
                 TicketCovered = ReadNullableBool(reader, "TicketCovered"),
                 TicketPercentage = reader.IsDBNull(reader.GetOrdinal("TicketPercentage")) ? null : Convert.ToDecimal(reader.GetValue(reader.GetOrdinal("TicketPercentage"))),
-                NationalIdOrIqamaNo = reader.IsDBNull(reader.GetOrdinal("NationalIDORIqamano")) ? null : reader.GetString(reader.GetOrdinal("NationalIDORIqamano")),
-                Remarks = reader.IsDBNull(reader.GetOrdinal("Remarks")) ? null : reader.GetString(reader.GetOrdinal("Remarks")),
-                RegDate = reader.IsDBNull(reader.GetOrdinal("RegDate")) ? null : reader.GetDateTime(reader.GetOrdinal("RegDate")),
-                FileName = reader.IsDBNull(reader.GetOrdinal("FileName")) ? null : reader.GetString(reader.GetOrdinal("FileName")),
-                ObjectId = reader.IsDBNull(reader.GetOrdinal("ObjectId")) ? defaultObjectId : reader.GetInt32(reader.GetOrdinal("ObjectId"))
+                NationalIdOrIqamaNo = ReadOptionalString(reader, "NationalIDORIqamano"),
+                Remarks = ReadOptionalString(reader, "Remarks"),
+                RegDate = ReadNullableDateTime(reader, "RegDate"),
+                FileName = ReadOptionalString(reader, "FileName"),
+                ObjectId = ReadNullableInt32(reader, "ObjectId") ?? defaultObjectId
             };
+        }
+
+        private object BuildTodayAttendance(int employeeId)
+        {
+            var today = DateTime.Now.Date;
+            var todayRecords = _context.Hrs_Mobile_Attendance
+                .Where(a => a.EmployeeID == employeeId && a.CheckingDatetime.Date == today)
+                .OrderBy(a => a.CheckingDatetime)
+                .ToList();
+
+            var firstRecord = todayRecords.FirstOrDefault(a => a.CheckType?.ToUpper() == "IN") ?? todayRecords.FirstOrDefault();
+            var lastRecord = todayRecords.LastOrDefault(a => a.CheckType?.ToUpper() == "OUT") ?? todayRecords.LastOrDefault();
+
+            TimeSpan? workingHours = null;
+            if (firstRecord != null && lastRecord != null && firstRecord != lastRecord)
+            {
+                workingHours = lastRecord.CheckingDatetime - firstRecord.CheckingDatetime;
+            }
+
+            return new
+            {
+                Date = today.ToString("yyyy-MM-dd"),
+                CheckIn = firstRecord != null ? new
+                {
+                    Time = firstRecord.CheckingDatetime.ToString("HH:mm:ss"),
+                    Type = firstRecord.CheckType,
+                    Latitude = firstRecord.Latitude,
+                    Longitude = firstRecord.Longitude,
+                    Distance = firstRecord.DistanceFromLocation,
+                    Device = firstRecord.DeviceModel,
+                    Location = $"{firstRecord.Latitude:F4}, {firstRecord.Longitude:F4}"
+                } : null,
+                CheckOut = lastRecord != null && lastRecord != firstRecord ? new
+                {
+                    Time = lastRecord.CheckingDatetime.ToString("HH:mm:ss"),
+                    Type = lastRecord.CheckType,
+                    Latitude = lastRecord.Latitude,
+                    Longitude = lastRecord.Longitude,
+                    Distance = lastRecord.DistanceFromLocation,
+                    Device = lastRecord.DeviceModel,
+                    Location = $"{lastRecord.Latitude:F4}, {lastRecord.Longitude:F4}"
+                } : null,
+                WorkingHours = workingHours?.ToString(@"hh\:mm\:ss"),
+                Status = GetDayStatus(firstRecord, lastRecord),
+                TotalRecords = todayRecords.Count
+            };
+        }
+
+        private object? BuildLegacyEmployeeSummary(int employeeId, int lang)
+        {
+            var isArabic = lang == 1;
+            var today = DateTime.Now.Date;
+
+            var emp = _context.Hrs_Employees
+                .Where(e => e.id == employeeId)
+                .Select(e => new
+                {
+                    e.Code,
+                    e.Phone,
+                    e.Mobile,
+                    e.WorkE_Mail,
+                    e.E_Mail,
+                    e.ArbName,
+                    e.FatherArbName,
+                    e.GrandArbName,
+                    e.FamilyArbName,
+                    e.EngName,
+                    e.FatherEngName,
+                    e.GrandEngName,
+                    e.FamilyEngName,
+                    e.JoinDate,
+                    e.SsnNo,
+                    e.PassPortNo,
+                    e.DepartmentId,
+                    e.BranchId,
+                    e.LocationId,
+                    e.ManagerId
+                })
+                .FirstOrDefault();
+
+            if (emp == null)
+                return null;
+
+            var positionId = _context.hrs_Contracts
+                .Where(c => c.EmployeeID == employeeId
+                    && c.CancelDate == null
+                    && c.StartDate <= today
+                    && (c.EndDate == null || c.EndDate >= today))
+                .OrderByDescending(c => c.StartDate)
+                .Select(c => (int?)c.PositionID)
+                .FirstOrDefault();
+
+            string? positionName = null;
+            if (positionId.HasValue)
+            {
+                positionName = _context.hrs_Positions
+                    .Where(p => p.Id == positionId.Value)
+                    .Select(p => isArabic ? p.ArbName : p.EngName)
+                    .FirstOrDefault();
+            }
+
+            string? departmentName = emp.DepartmentId.HasValue
+                ? GetLookupName("sys_Departments", emp.DepartmentId.Value, isArabic)
+                : null;
+            string? branchName = emp.BranchId.HasValue
+                ? GetLookupName("sys_Companies", emp.BranchId.Value, isArabic)
+                : null;
+            string? locationName = emp.LocationId.HasValue
+                ? GetLookupName("sys_Locations", emp.LocationId.Value, isArabic)
+                : null;
+
+            string? managerName = null;
+            if (emp.ManagerId.HasValue)
+            {
+                var manager = _context.Hrs_Employees
+                    .Where(m => m.id == emp.ManagerId.Value)
+                    .Select(m => new
+                    {
+                        m.EngName,
+                        m.FatherEngName,
+                        m.GrandEngName,
+                        m.FamilyEngName,
+                        m.ArbName,
+                        m.FatherArbName,
+                        m.GrandArbName,
+                        m.FamilyArbName
+                    })
+                    .FirstOrDefault();
+
+                if (manager != null)
+                {
+                    managerName = isArabic
+                        ? string.Join(" ", new[] { manager.ArbName, manager.FatherArbName, manager.GrandArbName, manager.FamilyArbName }.Where(s => !string.IsNullOrWhiteSpace(s)))
+                        : string.Join(" ", new[] { manager.EngName, manager.FatherEngName, manager.GrandEngName, manager.FamilyEngName }.Where(s => !string.IsNullOrWhiteSpace(s)));
+                }
+            }
+
+            if (isArabic)
+            {
+                return new
+                {
+                    emp.Code,
+                    PositionName = positionName,
+                    DepartmentName = departmentName,
+                    PhoneNo = emp.Phone,
+                    Mobile = emp.Mobile,
+                    Email = emp.WorkE_Mail,
+                    PersonalEmail = emp.E_Mail,
+                    EmployeeName = string.Join(" ", new[] { emp.ArbName, emp.FatherArbName, emp.GrandArbName, emp.FamilyArbName }.Where(s => !string.IsNullOrWhiteSpace(s))),
+                    emp.JoinDate,
+                    ManagerName = managerName,
+                    BranchName = branchName,
+                    LocationName = locationName,
+                    SsnNo = emp.SsnNo,
+                    PassPortNo = emp.PassPortNo
+                };
+            }
+
+            return new
+            {
+                emp.Code,
+                PositionName = positionName,
+                DepartmentName = departmentName,
+                PhoneNo = emp.Phone,
+                Mobile = emp.Mobile,
+                Email = emp.WorkE_Mail,
+                PersonalEmail = emp.E_Mail,
+                EmployeeName = string.Join(" ", new[] { emp.EngName, emp.FatherEngName, emp.GrandEngName, emp.FamilyEngName }.Where(s => !string.IsNullOrWhiteSpace(s))),
+                emp.JoinDate,
+                ManagerName = managerName,
+                BranchName = branchName,
+                LocationName = locationName,
+                SsnNo = emp.SsnNo,
+                PassPortNo = emp.PassPortNo
+            };
+        }
+
+        private EmployeeProfileSectionsDto BuildEmployeeProfileSections(int employeeId, int lang)
+        {
+            var isArabic = lang == 1;
+            var today = DateTime.Now.Date;
+
+            var emp = _context.Hrs_Employees
+                .Where(e => e.id == employeeId)
+                .Select(e => new
+                {
+                    e.Code,
+                    e.EngName,
+                    e.FatherEngName,
+                    e.GrandEngName,
+                    e.FamilyEngName,
+                    e.ArbName,
+                    e.FatherArbName,
+                    e.GrandArbName,
+                    e.FamilyArbName,
+                    e.BirthDate,
+                    e.BirthCityId,
+                    e.NationalityId,
+                    e.ReligionId,
+                    e.MaritalStatusId,
+                    e.BloodGroupId,
+                    e.Sex,
+                    e.Mobile,
+                    e.WorkE_Mail,
+                    e.E_Mail,
+                    e.Phone,
+                    e.DepartmentId,
+                    e.BranchId,
+                    e.LocationId,
+                    e.ManagerId,
+                    e.SponsorId,
+                    e.JoinDate,
+                    e.BankId,
+                    e.BankAccountNumber,
+                    e.SsnNo,
+                    e.PassPortNo
+                })
+                .First();
+
+            var activeContract = _context.hrs_Contracts
+                .Where(c => c.EmployeeID == employeeId
+                    && c.CancelDate == null
+                    && c.StartDate <= today
+                    && (c.EndDate == null || c.EndDate >= today))
+                .OrderByDescending(c => c.StartDate)
+                .Select(c => new
+                {
+                    c.ContractTypeID,
+                    c.PositionID,
+                    c.ProfessionID,
+                    c.EmployeeClassID,
+                    c.GradeStepID
+                })
+                .FirstOrDefault();
+
+            string BuildFullName(string? first, string? father, string? grand, string? family) =>
+                string.Join(" ", new[] { first, father, grand, family }.Where(s => !string.IsNullOrWhiteSpace(s))).Trim();
+
+            int? age = null;
+            if (emp.BirthDate.HasValue)
+            {
+                age = today.Year - emp.BirthDate.Value.Date.Year;
+                if (emp.BirthDate.Value.Date > today.AddYears(-age.Value))
+                    age--;
+            }
+
+            string? sponsorName = null;
+            string? contractTypeName = null;
+            string? professionName = null;
+            string? positionName = null;
+            string? employeeClassName = null;
+            string? gradeStepsName = null;
+
+            if (activeContract != null)
+            {
+                positionName = _context.hrs_Positions
+                    .Where(p => p.Id == activeContract.PositionID)
+                    .Select(p => isArabic ? p.ArbName : p.EngName)
+                    .FirstOrDefault();
+
+                professionName = _context.Hrs_Professions
+                    .Where(p => p.Id == activeContract.ProfessionID)
+                    .Select(p => isArabic ? p.ArbName : p.EngName)
+                    .FirstOrDefault();
+
+                employeeClassName = GetLookupName("hrs_EmployeesClasses", activeContract.EmployeeClassID, isArabic);
+                gradeStepsName = GetGradeStepDisplayName(activeContract.GradeStepID, isArabic);
+                contractTypeName = GetLookupName("hrs_ContractsTypes", activeContract.ContractTypeID, isArabic);
+            }
+
+            if (emp.SponsorId.HasValue)
+                sponsorName = GetLookupName("hrs_Sponsors", emp.SponsorId.Value, isArabic);
+
+            var manager = emp.ManagerId.HasValue
+                ? _context.Hrs_Employees
+                    .Where(m => m.id == emp.ManagerId.Value)
+                    .Select(m => new
+                    {
+                        m.EngName,
+                        m.FatherEngName,
+                        m.GrandEngName,
+                        m.FamilyEngName,
+                        m.ArbName,
+                        m.FatherArbName,
+                        m.GrandArbName,
+                        m.FamilyArbName
+                    })
+                    .FirstOrDefault()
+                : null;
+
+            var identityDates = GetEmployeeIdentityDates(employeeId);
+            var birthCountry = GetBirthCountryName(emp.BirthCityId, isArabic);
+            var projectName = GetCurrentProjectName(employeeId, isArabic);
+
+            List<EmployeeDocumentItemDto> documents;
+            List<EmployeeDependentItemDto> dependents;
+            try
+            {
+                documents = GetEmployeeProfileDocuments(employeeId, isArabic);
+            }
+            catch
+            {
+                documents = new List<EmployeeDocumentItemDto>();
+            }
+
+            try
+            {
+                dependents = GetEmployeeProfileDependents(employeeId, isArabic);
+            }
+            catch
+            {
+                dependents = new List<EmployeeDependentItemDto>();
+            }
+
+            return new EmployeeProfileSectionsDto
+            {
+                PersonalInformation = new EmployeePersonalInfoDto
+                {
+                    EmployeeCode = emp.Code ?? string.Empty,
+                    EnglishName = BuildFullName(emp.EngName, emp.FatherEngName, emp.GrandEngName, emp.FamilyEngName),
+                    ArabicName = BuildFullName(emp.ArbName, emp.FatherArbName, emp.GrandArbName, emp.FamilyArbName),
+                    BirthDate = emp.BirthDate,
+                    Age = age,
+                    BirthCountry = birthCountry,
+                    Nationality = emp.NationalityId.HasValue
+                        ? GetLookupName("sys_Nationalities", emp.NationalityId.Value, isArabic)
+                        : string.Empty,
+                    Gender = FormatGender(emp.Sex, isArabic),
+                    Religion = emp.ReligionId.HasValue
+                        ? GetLookupName("hrs_Religions", emp.ReligionId.Value, isArabic)
+                        : string.Empty,
+                    MaritalStatus = emp.MaritalStatusId.HasValue
+                        ? GetLookupName("hrs_MaritalStatus", emp.MaritalStatusId.Value, isArabic)
+                        : string.Empty,
+                    BloodGroup = emp.BloodGroupId.HasValue
+                        ? GetLookupName("hrs_BloodGroups", emp.BloodGroupId.Value, isArabic)
+                        : string.Empty
+                },
+                ContactInformation = new EmployeeContactInfoDto
+                {
+                    MobileNo = emp.Mobile ?? string.Empty,
+                    WorkEmail = emp.WorkE_Mail ?? string.Empty,
+                    PersonalEmail = emp.E_Mail ?? string.Empty,
+                    PhoneNo = emp.Phone ?? string.Empty
+                },
+                OrganizationInformation = new EmployeeOrganizationInfoDto
+                {
+                    Branch = emp.BranchId.HasValue
+                        ? GetLookupName("sys_Companies", emp.BranchId.Value, isArabic)
+                        : string.Empty,
+                    Department = emp.DepartmentId.HasValue
+                        ? GetLookupName("sys_Departments", emp.DepartmentId.Value, isArabic)
+                        : string.Empty,
+                    Project = projectName,
+                    Manager = manager == null
+                        ? string.Empty
+                        : (isArabic
+                            ? BuildFullName(manager.ArbName, manager.FatherArbName, manager.GrandArbName, manager.FamilyArbName)
+                            : BuildFullName(manager.EngName, manager.FatherEngName, manager.GrandEngName, manager.FamilyEngName)),
+                    Location = emp.LocationId.HasValue
+                        ? GetLookupName("sys_Locations", emp.LocationId.Value, isArabic)
+                        : string.Empty
+                },
+                EmploymentInformation = new EmployeeEmploymentInfoDto
+                {
+                    JoinDate = emp.JoinDate,
+                    Sponsor = sponsorName ?? string.Empty,
+                    ContractType = contractTypeName ?? string.Empty,
+                    Profession = professionName ?? string.Empty,
+                    Position = positionName ?? string.Empty,
+                    EmployeeClass = employeeClassName ?? string.Empty,
+                    GradeSteps = gradeStepsName ?? string.Empty
+                },
+                BankingInformation = new EmployeeBankingInfoDto
+                {
+                    Bank = emp.BankId.HasValue
+                        ? GetLookupName("sys_Banks", emp.BankId.Value, isArabic)
+                        : string.Empty,
+                    BankAccount = emp.BankAccountNumber ?? string.Empty
+                },
+                IdentityAndTravelInformation = new EmployeeIdentityTravelInfoDto
+                {
+                    IdentityNo = emp.SsnNo ?? string.Empty,
+                    PassportNo = emp.PassPortNo ?? string.Empty,
+                    PassportIssueDate = identityDates.PassportIssueDate,
+                    PassportExpiryDate = identityDates.PassportExpiryDate,
+                    IdentityIssueDate = identityDates.IdentityIssueDate,
+                    IdentityExpiryDate = identityDates.IdentityExpiryDate
+                },
+                Documents = documents,
+                Dependents = dependents
+            };
+        }
+
+        private (string PassportIssueDate, string PassportExpiryDate, string IdentityIssueDate, string IdentityExpiryDate)
+            GetEmployeeIdentityDates(int employeeId)
+        {
+            var empty = (string.Empty, string.Empty, string.Empty, string.Empty);
+            try
+            {
+                var connection = _context.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                using var cmd = connection.CreateCommand();
+                cmd.CommandText = @"
+                    SELECT PassportIssueDate, PassportExpireDate, SSNOIssueDate, SSNOExpireDate
+                    FROM hrs_Employees
+                    WHERE ID = @EmployeeId";
+                cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
+
+                using var reader = cmd.ExecuteReader();
+                if (!reader.Read())
+                    return empty;
+
+                return (
+                    ReadNullableString(reader, "PassportIssueDate"),
+                    ReadNullableString(reader, "PassportExpireDate"),
+                    ReadNullableString(reader, "SSNOIssueDate"),
+                    ReadNullableString(reader, "SSNOExpireDate"));
+            }
+            catch
+            {
+                return empty;
+            }
+        }
+
+        private static string FormatGender(string? sex, bool isArabic)
+        {
+            if (string.IsNullOrWhiteSpace(sex))
+                return string.Empty;
+
+            var normalized = sex.Trim().ToUpperInvariant();
+            if (normalized is "M" or "1")
+                return isArabic ? "ذكر" : "Male";
+            if (normalized is "F" or "2")
+                return isArabic ? "أنثى" : "Female";
+            return sex;
+        }
+
+        private string GetLookupName(string tableName, int id, bool isArabic)
+        {
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = $@"
+                SELECT TOP 1 CASE WHEN @Lang = 1 THEN ISNULL(ArbName, EngName) ELSE ISNULL(EngName, ArbName) END
+                FROM {tableName}
+                WHERE ID = @Id AND ISNULL(CancelDate, '') = ''";
+            cmd.Parameters.Add(new SqlParameter("@Id", id));
+            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
+        }
+
+        private string GetBirthCountryName(int? birthCityId, bool isArabic)
+        {
+            if (!birthCityId.HasValue)
+                return string.Empty;
+
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1 CASE WHEN @Lang = 1 THEN ISNULL(c.ArbName, c.EngName) ELSE ISNULL(c.EngName, c.ArbName) END
+                FROM sys_Cities city
+                LEFT JOIN sys_Countries c ON c.ID = city.CountryID
+                WHERE city.ID = @CityId";
+            cmd.Parameters.Add(new SqlParameter("@CityId", birthCityId.Value));
+            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
+        }
+
+        private string GetCurrentProjectName(int employeeId, bool isArabic)
+        {
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1 CASE WHEN @Lang = 1 THEN ISNULL(p.ArbName, p.EngName) ELSE ISNULL(p.EngName, p.ArbName) END
+                FROM hrs_ProjectPlacementEmployees ppe
+                INNER JOIN hrs_ProjectPlacements pp ON pp.PlacementCode = ppe.PlacementCode
+                INNER JOIN hrs_Projects p ON p.ID = pp.ProjectID
+                WHERE ppe.EmployeeID = @EmployeeId
+                  AND ppe.FromDate <= GETDATE()
+                  AND (ppe.ToDate IS NULL OR ppe.ToDate >= GETDATE())
+                  AND ISNULL(pp.CancelDate, '') = ''
+                  AND ISNULL(p.CancelDate, '') = ''";
+            cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
+            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
+        }
+
+        private string GetGradeStepDisplayName(int gradeStepId, bool isArabic)
+        {
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1
+                    CASE WHEN @Lang = 1
+                        THEN ISNULL(g.ArbName, g.EngName) + N' - ' + CAST(ISNULL(gs.Step, 0) AS NVARCHAR(20))
+                        ELSE ISNULL(g.EngName, g.ArbName) + ' - Step ' + CAST(ISNULL(gs.Step, 0) AS NVARCHAR(20))
+                    END
+                FROM hrs_GradesSteps gs
+                INNER JOIN hrs_Grades g ON g.ID = gs.GradeID
+                WHERE gs.ID = @GradeStepId AND ISNULL(gs.CancelDate, '') = ''";
+            cmd.Parameters.Add(new SqlParameter("@GradeStepId", gradeStepId));
+            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
+        }
+
+        private static string GetDocumentStatus(DateTime? expiryDate, bool isArabic)
+        {
+            if (!expiryDate.HasValue)
+                return isArabic ? "غير محدد" : "Not Set";
+
+            var today = DateTime.Today;
+            if (expiryDate.Value.Date < today)
+                return isArabic ? "منتهي" : "Expired";
+            if (expiryDate.Value.Date <= today.AddDays(30))
+                return isArabic ? "قارب على الانتهاء" : "Expiring Soon";
+            return isArabic ? "ساري" : "Valid";
+        }
+
+        private List<EmployeeDocumentItemDto> GetEmployeeProfileDocuments(int employeeId, bool isArabic)
+        {
+            var documents = new List<EmployeeDocumentItemDto>();
+            var employeeObjectId = GetSysObjectId("hrs_Employees");
+            var documentDetailsObjectId = GetSysObjectId("sys_DocumentsDetails");
+            if (employeeObjectId <= 0)
+                return documents;
+
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT
+                    dd.ID,
+                    CASE WHEN @Lang = 1 THEN ISNULL(doc.ArbName, doc.EngName) ELSE ISNULL(doc.EngName, doc.ArbName) END AS DocumentTypeName,
+                    dd.DocumentNumber,
+                    dd.IssueDate,
+                    dd.ExpiryDate,
+                    (
+                        SELECT TOP 1
+                            CASE
+                                WHEN ISNULL(att.FolderName, '') <> '' AND ISNULL(att.FileName, '') <> ''
+                                    THEN att.FolderName + '/' + att.FileName
+                                ELSE ISNULL(att.FileName, '')
+                            END
+                        FROM sys_ObjectsAttachments att
+                        WHERE att.RecordID = dd.ID
+                          AND att.ObjectID = @DocDetailsObjectId
+                          AND ISNULL(att.CancelDate, '') = ''
+                        ORDER BY att.ID DESC
+                    ) AS AttachmentPath
+                FROM sys_DocumentsDetails dd
+                INNER JOIN sys_Documents doc ON doc.ID = dd.DocumentID
+                WHERE dd.RecordID = @EmployeeId
+                  AND dd.ObjectID = @EmployeeObjectId
+                  AND ISNULL(dd.CancelDate, '') = ''
+                ORDER BY dd.ID";
+            cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
+            cmd.Parameters.Add(new SqlParameter("@EmployeeObjectId", employeeObjectId));
+            cmd.Parameters.Add(new SqlParameter("@DocDetailsObjectId", documentDetailsObjectId > 0 ? documentDetailsObjectId : employeeObjectId));
+            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var issueDate = ReadNullableDateTime(reader, "IssueDate");
+                var expiryDate = ReadNullableDateTime(reader, "ExpiryDate");
+                var typeName = ReadNullableString(reader, "DocumentTypeName");
+
+                documents.Add(new EmployeeDocumentItemDto
+                {
+                    Id = ReadInt32(reader, "ID"),
+                    DocumentName = typeName,
+                    DocumentType = typeName,
+                    DocumentNumber = ReadNullableString(reader, "DocumentNumber"),
+                    IssueDate = issueDate,
+                    ExpiryDate = expiryDate,
+                    Status = GetDocumentStatus(expiryDate, isArabic),
+                    Attachment = ReadNullableString(reader, "AttachmentPath")
+                });
+            }
+
+            return documents;
+        }
+
+        private List<EmployeeDependentItemDto> GetEmployeeProfileDependents(int employeeId, bool isArabic)
+        {
+            var dependents = new List<EmployeeDependentItemDto>();
+            var dependantsObjectId = GetSysObjectId("hrs_EmployeesDependants");
+            if (dependantsObjectId <= 0)
+                return dependents;
+
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = "hrs_GetEmployeesDependantsData";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
+            cmd.Parameters.Add(new SqlParameter("@ObjectId", dependantsObjectId));
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                var dependant = MapDependantFromReader(reader, dependantsObjectId);
+                var relationship = dependant.DependantTypeId.HasValue
+                    ? GetLookupName("hrs_DependantsTypes", dependant.DependantTypeId.Value, isArabic)
+                    : string.Empty;
+
+                var nationality = dependant.NationalityId.HasValue
+                    ? GetLookupName("sys_Nationalities", dependant.NationalityId.Value, isArabic)
+                    : string.Empty;
+
+                dependents.Add(new EmployeeDependentItemDto
+                {
+                    Id = dependant.Id,
+                    Name = isArabic
+                        ? (string.IsNullOrWhiteSpace(dependant.ArabicName) ? dependant.EnglishName : dependant.ArabicName)
+                        : (string.IsNullOrWhiteSpace(dependant.EnglishName) ? dependant.ArabicName : dependant.EnglishName),
+                    Relationship = relationship,
+                    Gender = FormatGender(dependant.Sex, isArabic),
+                    BirthDate = dependant.BirthDate,
+                    Nationality = nationality,
+                    IdentityNo = dependant.NationalIdOrIqamaNo ?? string.Empty,
+                    PassportNo = GetDependantPassportNo(dependant.Id, dependantsObjectId, isArabic)
+                });
+            }
+
+            return dependents;
+        }
+
+        private string GetDependantPassportNo(int dependantId, int dependantsObjectId, bool isArabic)
+        {
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1 dd.DocumentNumber
+                FROM sys_DocumentsDetails dd
+                INNER JOIN sys_Documents doc ON doc.ID = dd.DocumentID
+                WHERE dd.RecordID = @DependantId
+                  AND dd.ObjectID = @DependantsObjectId
+                  AND ISNULL(dd.CancelDate, '') = ''
+                  AND (
+                        doc.EngName LIKE '%Passport%'
+                     OR doc.ArbName LIKE N'%جواز%'
+                     OR doc.Code LIKE '%Passport%'
+                  )
+                ORDER BY dd.ID DESC";
+            cmd.Parameters.Add(new SqlParameter("@DependantId", dependantId));
+            cmd.Parameters.Add(new SqlParameter("@DependantsObjectId", dependantsObjectId));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
+        }
+
+        private int GetSysObjectId(string objectCode)
+        {
+            var connection = _context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
+
+            using var cmd = connection.CreateCommand();
+            cmd.CommandText = @"
+                SELECT TOP 1 ID
+                FROM sys_Objects
+                WHERE Code = REPLACE(@ObjectCode, ' ', '')
+                  AND ISNULL(CancelDate, '') = ''";
+            cmd.Parameters.Add(new SqlParameter("@ObjectCode", objectCode));
+            var result = cmd.ExecuteScalar();
+            return result == null || result == DBNull.Value ? 0 : Convert.ToInt32(result);
         }
 
         private string GetDayStatus(VenusHR.Core.Master.Hrs_Mobile_Attendance checkIn, VenusHR.Core.Master.Hrs_Mobile_Attendance checkOut)

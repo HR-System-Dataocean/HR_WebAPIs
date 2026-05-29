@@ -103,6 +103,14 @@ namespace VenusHR.Core.Master
 
         public string? PassPortNo { get; set; }
 
+        public string? PassportIssueDate { get; set; }
+
+        public string? PassportExpireDate { get; set; }
+
+        public string? SSNOIssueDate { get; set; }
+
+        public string? SSNOExpireDate { get; set; }
+
         public string? EntryNo { get; set; }
 
         public int? Cost1 { get; set; }
