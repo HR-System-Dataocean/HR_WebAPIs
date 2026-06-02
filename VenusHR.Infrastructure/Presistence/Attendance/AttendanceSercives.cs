@@ -345,7 +345,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 if (!allRecords.Any())
                 {
                     Result.ErrorMessage = "No attendance records found";
-                    Result.ErrorCode = 0;
+                    Result.ErrorCode = 1;
                     Result.ResultObject = new { Records = new List<object>() };
                     return Result;
                 }

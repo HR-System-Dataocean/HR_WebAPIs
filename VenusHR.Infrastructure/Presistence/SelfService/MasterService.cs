@@ -296,7 +296,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 else
                 {
                     Result.ResultObject = null;
-                    Result.ErrorCode = 0;
+                    Result.ErrorCode = 1;
                     Result.ErrorMessage = (lang == 1
                             ? "لا توجد بيانات راتب متاحة ..لم يتم الانتهاء من تجهيز الرواتب للفترة المحددة حتى الأن"
                             : "No Salary Data Available..Payroll processing for the selected period has not been completed yet");
