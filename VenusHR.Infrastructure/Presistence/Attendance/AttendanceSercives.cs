@@ -59,8 +59,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 }
                 else
                 {
-                    employee.MacAddress = incomingMac;
-                    _context.SaveChanges();
+                    SetEmployeeMacAddress(EmployeeID, incomingMac);
                 }
 
                  // Get location from hrs_LocationGeoPoints (employee-specific geo points)
@@ -572,15 +571,15 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 }
 
                 var previousMac = employee.MacAddress;
-                employee.MacAddress = MacAddress.Trim();
-                _context.SaveChanges();
+                var newMac = MacAddress.Trim();
+                SetEmployeeMacAddress(EmployeeID, newMac);
 
                 Result.ResultObject = new
                 {
                     EmployeeID = employee.id,
                     EmployeeCode = employee.Code,
                     PreviousMacAddress = previousMac,
-                    NewMacAddress = employee.MacAddress
+                    NewMacAddress = newMac
                 };
                 Result.ErrorMessage = (Lang == 1) ? "تم تغيير الجهاز بنجاح" : "Device changed successfully";
                 Result.ErrorCode = 1;
@@ -608,8 +607,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 }
 
                 var previousMac = employee.MacAddress;
-                employee.MacAddress = null;
-                _context.SaveChanges();
+                SetEmployeeMacAddress(EmployeeID, null);
 
                 Result.ResultObject = new
                 {
@@ -627,6 +625,12 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             }
 
             return Result;
+        }
+
+         private void SetEmployeeMacAddress(int employeeId, string? macAddress)
+        {
+            _context.Database.ExecuteSqlInterpolated(
+                $"UPDATE Hrs_Employees SET MacAddress = {macAddress} WHERE id = {employeeId}");
         }
 
          private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)

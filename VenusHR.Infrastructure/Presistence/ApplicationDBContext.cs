@@ -114,6 +114,11 @@ namespace VenusHR.Infrastructure.Presistence
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Hrs_Employees>(entity =>
+            {
+                entity.ToTable("Hrs_Employees", tb => tb.HasTrigger("Tri_Hrs_Employees"));
+            });
+
             modelBuilder.Entity<hrs_Fingerprint_CheckInOut>().HasNoKey();
         }
 
