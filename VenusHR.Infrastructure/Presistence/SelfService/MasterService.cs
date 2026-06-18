@@ -1210,7 +1210,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 ? GetLookupName("sys_Departments", emp.DepartmentId.Value, isArabic)
                 : null;
             string? branchName = emp.BranchId.HasValue
-                ? GetLookupName("sys_Companies", emp.BranchId.Value, isArabic)
+                ? GetLookupName("sys_Branches", emp.BranchId.Value, isArabic)
                 : null;
             string? locationName = emp.LocationId.HasValue
                 ? GetLookupName("sys_Locations", emp.LocationId.Value, isArabic)
@@ -1397,7 +1397,8 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
             var identityDates = GetEmployeeIdentityDates(employeeId);
             var birthCountry = GetBirthCountryName(emp.BirthCityId, isArabic);
-            var projectName = GetCurrentProjectName(employeeId, isArabic);
+            var projectName = emp.LocationId.HasValue
+                        ? GetLookupName("sys_Locations", emp.LocationId.Value, isArabic) : string.Empty;
 
             List<EmployeeDocumentItemDto> documents;
             List<EmployeeDependentItemDto> dependents;
@@ -1453,8 +1454,8 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 OrganizationInformation = new EmployeeOrganizationInfoDto
                 {
                     Branch = emp.BranchId.HasValue
-                        ? GetLookupName("sys_Companies", emp.BranchId.Value, isArabic)
-                        : string.Empty,
+                ? GetLookupName("sys_Branches", emp.BranchId.Value, isArabic)
+                : string.Empty,
                     Department = emp.DepartmentId.HasValue
                         ? GetLookupName("sys_Departments", emp.DepartmentId.Value, isArabic)
                         : string.Empty,
@@ -1583,28 +1584,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
         }
 
-        private string GetCurrentProjectName(int employeeId, bool isArabic)
-        {
-            var connection = _context.Database.GetDbConnection();
-            if (connection.State != ConnectionState.Open)
-                connection.Open();
-
-            using var cmd = connection.CreateCommand();
-            cmd.CommandText = @"
-                SELECT TOP 1 CASE WHEN @Lang = 1 THEN ISNULL(p.ArbName, p.EngName) ELSE ISNULL(p.EngName, p.ArbName) END
-                FROM hrs_ProjectPlacementEmployees ppe
-                INNER JOIN hrs_ProjectPlacements pp ON pp.PlacementCode = ppe.PlacementCode
-                INNER JOIN hrs_Projects p ON p.ID = pp.ProjectID
-                WHERE ppe.EmployeeID = @EmployeeId
-                  AND ppe.FromDate <= GETDATE()
-                  AND (ppe.ToDate IS NULL OR ppe.ToDate >= GETDATE())
-                  AND ISNULL(pp.CancelDate, '') = ''
-                  AND ISNULL(p.CancelDate, '') = ''";
-            cmd.Parameters.Add(new SqlParameter("@EmployeeId", employeeId));
-            cmd.Parameters.Add(new SqlParameter("@Lang", isArabic ? 1 : 0));
-            var result = cmd.ExecuteScalar();
-            return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
-        }
+       
 
         private string GetGradeStepDisplayName(int gradeStepId, bool isArabic)
         {
@@ -1893,6 +1873,253 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             }
             return Result;
         }
+
+        public object GetUserMenusByPermission(int userId)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                if (userId <= 0)
+                {
+                    Result.ErrorCode = 0;
+                    Result.ErrorMessage = "userId must be greater than zero";
+                    return Result;
+                }
+
+                var connection = _context.Database.GetDbConnection();
+                if (connection.State != ConnectionState.Open)
+                    connection.Open();
+
+                int? groupId;
+                using (var groupCommand = connection.CreateCommand())
+                {
+                    groupCommand.CommandText = @"
+                        SELECT TOP 1 GroupID
+                        FROM sys_GroupsUsers
+                        WHERE UserID = @UserId
+                          AND CancelDate IS NULL
+                        ORDER BY ID";
+                    groupCommand.Parameters.Add(new SqlParameter("@UserId", userId));
+                    var groupResult = groupCommand.ExecuteScalar();
+                    groupId = groupResult == null || groupResult == DBNull.Value
+                        ? null
+                        : Convert.ToInt32(groupResult);
+                }
+
+                if (!groupId.HasValue || groupId.Value <= 0)
+                {
+                    groupId = 0;
+                }
+
+                var modules = new List<ModuleMenuPermissionResult>();
+                using (var modulesCommand = connection.CreateCommand())
+                {
+                    modulesCommand.CommandText = @"
+                        SELECT ID, Code, EngName, ArbName
+                        FROM sys_Modules
+                        WHERE CancelDate IS NULL
+                        ORDER BY ISNULL(Rank, 0), ID";
+                    modulesCommand.CommandType = CommandType.Text;
+
+                    using var moduleReader = modulesCommand.ExecuteReader();
+                    while (moduleReader.Read())
+                    {
+                        var moduleRow = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+                        for (var i = 0; i < moduleReader.FieldCount; i++)
+                        {
+                            moduleRow[moduleReader.GetName(i)] = moduleReader.IsDBNull(i) ? null : moduleReader.GetValue(i);
+                        }
+
+                        var moduleId = GetIntFromDictionary(moduleRow, "ID");
+                        if (!moduleId.HasValue)
+                            continue;
+
+                        modules.Add(new ModuleMenuPermissionResult
+                        {
+                            ModuleId = moduleId.Value,
+                            Code = GetStringFromDictionary(moduleRow, "Code"),
+                            EngName = GetStringFromDictionary(moduleRow, "EngName"),
+                            ArbName = GetStringFromDictionary(moduleRow, "ArbName"),
+                            Menus = new List<MenuPermissionNode>()
+                        });
+                    }
+                }
+
+                foreach (var module in modules)
+                {
+                    var flatMenuRows = new List<Dictionary<string, object?>>();
+                    using (var menuCommand = connection.CreateCommand())
+                    {
+                        menuCommand.CommandText = "hrs_GetMenuPermissionsAll";
+                        menuCommand.CommandType = CommandType.StoredProcedure;
+                        menuCommand.Parameters.Add(new SqlParameter("@UserID", userId));
+                        menuCommand.Parameters.Add(new SqlParameter("@GroupID", groupId.Value));
+                        menuCommand.Parameters.Add(new SqlParameter("@ModuleID", module.ModuleId));
+
+                        using var reader = menuCommand.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            var row = new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
+                            for (var i = 0; i < reader.FieldCount; i++)
+                            {
+                                row[reader.GetName(i)] = reader.IsDBNull(i) ? null : reader.GetValue(i);
+                            }
+                            flatMenuRows.Add(row);
+                        }
+                    }
+
+                    module.Menus = BuildMenuTree(flatMenuRows);
+                }
+
+                modules = modules
+                    .Where(m => m.Menus.Count > 0)
+                    .ToList();
+
+                var allMenus = modules.SelectMany(m => m.Menus).ToList();
+
+                Result.ResultObject = new
+                {
+                    UserId = userId,
+                    GroupId = groupId.Value,
+                    ModulesCount = modules.Count,
+                    Modules = modules,
+                    Menus = allMenus
+                };
+                Result.ErrorCode = 1;
+                Result.ErrorMessage = "Menu permissions retrieved successfully";
+            }
+            catch (Exception ex)
+            {
+                Result.ResultObject = null;
+                Result.ErrorCode = 0;
+                Result.ErrorMessage = ex.Message;
+            }
+
+            return Result;
+        }
+
+        private static List<MenuPermissionNode> BuildMenuTree(List<Dictionary<string, object?>> flatMenuRows)
+        {
+            var nodesById = new Dictionary<int, MenuPermissionNode>();
+            var childrenByParentId = new Dictionary<int, List<MenuPermissionNode>>();
+
+            foreach (var row in flatMenuRows)
+            {
+                var id = GetIntFromDictionary(row, "ID");
+                if (!id.HasValue)
+                    continue;
+
+                var node = new MenuPermissionNode
+                {
+                    Id = id.Value,
+                    ParentId = GetIntFromDictionary(row, "ParentID"),
+                    IsHide = GetBoolFromDictionary(row, "IsHide"),
+                    ArbName = GetStringFromDictionary(row, "ArbName"),
+                    EngName = GetStringFromDictionary(row, "EngName"),
+                    Tag = GetStringFromDictionary(row, "Tag"),
+                    LinkTarget = GetStringFromDictionary(row, "LinkTarget"),
+                    LinkUrl = GetStringFromDictionary(row, "LinkUrl"),
+                    Height = GetIntFromDictionary(row, "Height"),
+                    Width = GetIntFromDictionary(row, "Width"),
+                    TargetFormId = GetIntFromDictionary(row, "TargetFormID"),
+                    MainId = GetIntFromDictionary(row, "MainID")
+                };
+
+                nodesById[node.Id] = node;
+                if (node.ParentId.HasValue)
+                {
+                    if (!childrenByParentId.TryGetValue(node.ParentId.Value, out var children))
+                    {
+                        children = new List<MenuPermissionNode>();
+                        childrenByParentId[node.ParentId.Value] = children;
+                    }
+                    children.Add(node);
+                }
+            }
+
+            foreach (var entry in childrenByParentId)
+            {
+                if (nodesById.TryGetValue(entry.Key, out var parent))
+                {
+                    parent.Children = entry.Value
+                        .OrderBy(c => c.Id)
+                        .ToList();
+                }
+            }
+
+            return nodesById.Values
+                .Where(n => !n.ParentId.HasValue && !n.IsHide)
+                .OrderBy(n => n.Id)
+                .ToList();
+        }
+
+        private static int? GetIntFromDictionary(IDictionary<string, object?> row, string key)
+        {
+            if (!row.TryGetValue(key, out var value) || value == null)
+                return null;
+
+            return value switch
+            {
+                int i => i,
+                long l => Convert.ToInt32(l),
+                short s => s,
+                byte b => b,
+                decimal d => Convert.ToInt32(d),
+                _ => int.TryParse(Convert.ToString(value), out var parsed) ? parsed : null
+            };
+        }
+
+        private static bool GetBoolFromDictionary(IDictionary<string, object?> row, string key)
+        {
+            if (!row.TryGetValue(key, out var value) || value == null)
+                return false;
+
+            return value switch
+            {
+                bool b => b,
+                int i => i != 0,
+                long l => l != 0,
+                short s => s != 0,
+                byte by => by != 0,
+                string s when s == "1" || s.Equals("true", StringComparison.OrdinalIgnoreCase) || s.Equals("Y", StringComparison.OrdinalIgnoreCase) => true,
+                _ => Convert.ToBoolean(value)
+            };
+        }
+
+        private static string? GetStringFromDictionary(IDictionary<string, object?> row, string key)
+        {
+            if (!row.TryGetValue(key, out var value) || value == null)
+                return null;
+
+            return Convert.ToString(value);
+        }
+
+        private sealed class ModuleMenuPermissionResult
+        {
+            public int ModuleId { get; set; }
+            public string? Code { get; set; }
+            public string? EngName { get; set; }
+            public string? ArbName { get; set; }
+            public List<MenuPermissionNode> Menus { get; set; } = new();
+        }
+
+        private sealed class MenuPermissionNode
+        {
+            public int Id { get; set; }
+            public int? ParentId { get; set; }
+            public bool IsHide { get; set; }
+            public string? ArbName { get; set; }
+            public string? EngName { get; set; }
+            public string? Tag { get; set; }
+            public string? LinkTarget { get; set; }
+            public string? LinkUrl { get; set; }
+            public int? Height { get; set; }
+            public int? Width { get; set; }
+            public int? TargetFormId { get; set; }
+            public int? MainId { get; set; }
+            public List<MenuPermissionNode> Children { get; set; } = new();
+        }
+
         public object SaveRequestAction(SS_RequestAction RequestAction)
         {
             Result = new GeneralOutputClass<object>();

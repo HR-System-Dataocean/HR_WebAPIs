@@ -384,6 +384,35 @@ namespace VenusHR.API.Controllers.SelfService
             }
         }
 
+        [HttpGet, Route("GetUserMenuPermissions/{userId}")]
+        public ActionResult<ApiResponse<object>> GetUserMenuPermissions(int userId, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                object result = _Master.GetUserMenusByPermission(userId);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب قائمة الصلاحيات" : "Failed to retrieve menu permissions";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب قائمة الصلاحيات بنجاح" : "Menu permissions retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
         [HttpPost, Route("SaveRequestAction")]
         public ActionResult<ApiResponse<object>> SaveRequestAction(SS_RequestAction RequestAction, [FromQuery] int Lang = 0)
         {

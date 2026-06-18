@@ -23,6 +23,7 @@ namespace VenusHR.Application.Common.Interfaces.SelfService
         object GetEmployeeDependants(int employeeId, int lang);
         object GetEmployeeVacationBalance(int employeeId, int lang, int? vacationTypeId = null, DateTime? balanceDate = null, DateTime? vacationEndDate = null, int? vacationId = null);
         object GetEmployeeHealthInsurance(int employeeId, int lang);
+        object GetUserMenusByPermission(int userId);
 
     }
 }
