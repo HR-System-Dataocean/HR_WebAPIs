@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using VenusHR.Application.Common.Interfaces.Attendance;
+using VenusHR.Core.Attendance;
 using VenusHR.Core.Master;
 using WorkFlow_EF;
  
@@ -625,6 +626,109 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             }
 
             return Result;
+        }
+
+        public object GetEmployeesExpectedStartBeforeTime(int? hour, int? minute, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var now = DateTime.Now;
+                var effectiveHour = hour ?? now.Hour;
+                var effectiveMinute = minute ?? now.Minute;
+
+                if (effectiveHour < 0 || effectiveHour > 23 || effectiveMinute < 0 || effectiveMinute > 59)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الوقت غير صالح" : "Invalid time";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var employees = GetExpectedStartEmployeesBeforeTime(effectiveHour, effectiveMinute);
+                var targetTime = new TimeSpan(effectiveHour, effectiveMinute, 0).Add(TimeSpan.FromMinutes(5));
+
+                Result.ResultObject = new
+                {
+                    TimeParameter = $"{effectiveHour:D2}:{effectiveMinute:D2}",
+                    EvaluatedUntil = targetTime.ToString(@"hh\:mm"),
+                    TotalEmployees = employees.Count,
+                    Employees = employees
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب الموظفين بنجاح" : "Employees retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب الموظفين" : "Error retrieving employees";
+                Result.ErrorCode = 0;
+                Result.ResultObject = new { Error = ex.Message };
+            }
+
+            return Result;
+        }
+
+        public List<ExpectedStartEmployeeDto> GetExpectedStartEmployeesBeforeTime(int? hour, int? minute)
+        {
+            var now = DateTime.Now;
+            var effectiveHour = hour ?? now.Hour;
+            var effectiveMinute = minute ?? now.Minute;
+            var referenceDate = now.Date;
+            var targetTime = new TimeSpan(effectiveHour, effectiveMinute, 0).Add(TimeSpan.FromMinutes(5));
+
+            var activeContracts = (from contract in _context.hrs_Contracts
+                                   join employee in _context.Hrs_Employees on contract.EmployeeID equals employee.id
+                                   join employeeClass in _context.hrs_EmployeesClasses on contract.EmployeeClassID equals employeeClass.ID
+                                   where contract.CancelDate == null
+                                       && contract.StartDate <= referenceDate
+                                       && (contract.EndDate == null || contract.EndDate >= referenceDate)
+                                       && employee.CancelDate == null
+                                       && employeeClass.CancelDate == null
+                                   select new
+                                   {
+                                       EmployeeId = employee.id,
+                                       EmployeeCode = employee.Code,
+                                       EmployeeNameAr = employee.ArbName,
+                                       EmployeeNameEn = employee.EngName,
+                                       ContractStartDate = contract.StartDate,
+                                       employeeClass.DefultStartTime,
+                                       GraceMinutes = employeeClass.PerDailyDelaying ?? 0
+                                   })
+                                   .AsNoTracking()
+                                   .ToList();
+
+            return activeContracts
+                .GroupBy(x => x.EmployeeId)
+                .Select(g => g.OrderByDescending(x => x.ContractStartDate).First())
+                .Where(x => x.DefultStartTime.HasValue)
+                .Select(x =>
+                {
+                    var expectedStart = x.DefultStartTime!.Value.TimeOfDay;
+                    var allowedStart = expectedStart.Add(TimeSpan.FromMinutes(x.GraceMinutes));
+                    return new
+                    {
+                        x.EmployeeId,
+                        x.EmployeeCode,
+                        EmployeeNameAr = x.EmployeeNameAr ?? string.Empty,
+                        EmployeeNameEn = x.EmployeeNameEn ?? string.Empty,
+                        ExpectedStartTime = expectedStart.ToString(@"hh\:mm"),
+                        GraceMinutes = x.GraceMinutes,
+                        AllowedStartTime = allowedStart.ToString(@"hh\:mm"),
+                        IsMatched = allowedStart <= targetTime
+                    };
+                })
+                .Where(x => x.IsMatched)
+                .OrderBy(x => x.AllowedStartTime)
+                .Select(x => new ExpectedStartEmployeeDto
+                {
+                    EmployeeId = x.EmployeeId,
+                    EmployeeCode = x.EmployeeCode ?? string.Empty,
+                    EmployeeNameAr = x.EmployeeNameAr,
+                    EmployeeNameEn = x.EmployeeNameEn,
+                    ExpectedStartTime = x.ExpectedStartTime,
+                    GraceMinutes = x.GraceMinutes,
+                    AllowedStartTime = x.AllowedStartTime
+                })
+                .ToList();
         }
 
          private void SetEmployeeMacAddress(int employeeId, string? macAddress)

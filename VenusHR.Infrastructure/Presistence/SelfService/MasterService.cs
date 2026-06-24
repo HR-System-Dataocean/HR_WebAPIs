@@ -1831,7 +1831,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 if (Lang == 1)
                 {
                     Result.ResultObject = _context.SS_ResignationReason
-               .Select(C => new { C.ID, C.ArbName })
+               .Select(C => new { C.Code, C.ArbName })
                     .ToList();
 
 
@@ -1840,7 +1840,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 else
                 {
                     Result.ResultObject = _context.SS_ResignationReason
-               .Select(C => new { C.ID, C.EngName })
+               .Select(C => new { C.Code, C.EngName })
                     .ToList();
 
 

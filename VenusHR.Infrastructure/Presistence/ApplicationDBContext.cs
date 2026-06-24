@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces;
 using VenusHR.Core.Login;
 using VenusHR.Core.Master;
+using VenusHR.Core.Notifications;
 using VenusHR.Core.SelfService;
 
 namespace VenusHR.Infrastructure.Presistence
@@ -96,6 +97,7 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<sys_ObjectsAttachments> sys_ObjectsAttachments { get; set; }
         public virtual DbSet<RevokedToken> RevokedTokens { get; set; }
         public virtual DbSet<hrs_LocationGeoPoints> hrs_LocationGeoPoints { get; set; }
+        public virtual DbSet<AttendanceNotification> AttendanceNotifications { get; set; }
  
 
 
@@ -119,7 +121,36 @@ namespace VenusHR.Infrastructure.Presistence
                 entity.ToTable("Hrs_Employees", tb => tb.HasTrigger("Tri_Hrs_Employees"));
             });
 
+            modelBuilder.Entity<sys_Documents>(entity =>
+            {
+                entity.ToTable("sys_Documents", tb =>
+                {
+                    tb.HasTrigger("Tri_sys_DocumentsTypes");
+                });
+            });
+
+            modelBuilder.Entity<sys_DocumentsDetails>(entity =>
+            {
+                entity.ToTable("sys_DocumentsDetails", tb => tb.HasTrigger("TR_sys_DocumentsDetails"));
+            });
+
+            modelBuilder.Entity<sys_ObjectsAttachments>(entity =>
+            {
+                entity.ToTable("sys_ObjectsAttachments", tb => tb.HasTrigger("TR_sys_ObjectsAttachments"));
+            });
+
             modelBuilder.Entity<hrs_Fingerprint_CheckInOut>().HasNoKey();
+
+            modelBuilder.Entity<AttendanceNotification>(entity =>
+            {
+                entity.ToTable("Hrs_AttendanceNotifications");
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.NotificationType).HasMaxLength(100).IsRequired();
+                entity.Property(x => x.Title).HasMaxLength(300).IsRequired();
+                entity.Property(x => x.Body).HasMaxLength(2000).IsRequired();
+                entity.Property(x => x.DeliveryStatus).HasMaxLength(50).IsRequired();
+                entity.HasIndex(x => new { x.EmployeeId, x.NotificationDate, x.NotificationType }).IsUnique();
+            });
         }
 
         public Task<int> SaveChangesAsync()

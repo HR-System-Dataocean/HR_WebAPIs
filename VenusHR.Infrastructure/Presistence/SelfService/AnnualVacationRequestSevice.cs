@@ -3353,8 +3353,48 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             var recipients = new List<SysUser>();
 
 
-            var Configuration = _context.SS_Configuration.Where(C => C.FormCode == FormCode && C.Rank == 1).FirstOrDefault();
-            int UserTypeID = int.Parse(Configuration.UserTypeID);
+            var normalizedFormCode = (FormCode ?? string.Empty).Trim().ToUpper();
+            SS_Configuration? Configuration = null;
+
+            try
+            {
+                Configuration = _context.SS_Configuration
+                    .AsNoTracking()
+                    .FirstOrDefault(C =>
+                        C.FormCode != null &&
+                        C.FormCode.Trim().ToUpper() == normalizedFormCode &&
+                        C.Rank == 1);
+            }
+            catch (Exception ex)
+            {
+                var dbConnection = _context.Database.GetDbConnection();
+                Result.ErrorCode = 0;
+                Result.ErrorMessage =
+                    $"SS_Configuration query failed. Context DB: {dbConnection.Database} @ {dbConnection.DataSource}. " +
+                    $"Error: {ex.Message}";
+                return Result;
+            }
+
+            if (Configuration == null)
+            {
+                var dbConnection = _context.Database.GetDbConnection();
+                var matchedRows = _context.SS_Configuration
+                    .Count(C => C.FormCode != null && C.FormCode.Trim().ToUpper() == normalizedFormCode);
+
+                Result.ErrorCode = 0;
+                Result.ErrorMessage =
+                    $"No SS_Configuration row found for FormCode '{normalizedFormCode}' and Rank = 1. " +
+                    $"Matched rows by FormCode only: {matchedRows}. " +
+                    $"Context DB: {dbConnection.Database} @ {dbConnection.DataSource}.";
+                return Result;
+            }
+
+            if (!int.TryParse(Configuration.UserTypeID, out int UserTypeID))
+            {
+                Result.ErrorCode = 0;
+                Result.ErrorMessage = $"Invalid UserTypeID in SS_Configuration for FormCode '{normalizedFormCode}'.";
+                return Result;
+            }
             if (UserTypeID == 1)
             {
                 int DitrectManager = (int)_context.Hrs_Employees.Where(E => E.id == EmpID).Select(E => E.ManagerId).FirstOrDefault();

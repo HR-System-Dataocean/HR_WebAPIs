@@ -452,6 +452,48 @@ namespace VenusHR.API.Controllers.Attendance
                 return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }
+
+        [HttpGet, Route("api/Attendance/ExpectedStartByTime")]
+        public ActionResult<ApiResponse<object>> GetEmployeesExpectedStartByTime(
+            [FromQuery] int? Hour = null,
+            [FromQuery] int? Minute = null,
+            [FromQuery] int Lang = 0)
+        {
+            var now = DateTime.Now;
+            var effectiveHour = Hour ?? now.Hour;
+            var effectiveMinute = Minute ?? now.Minute;
+
+            if (effectiveHour < 0 || effectiveHour > 23 || effectiveMinute < 0 || effectiveMinute > 59)
+            {
+                var message = Lang == 1 ? "الوقت غير صالح" : "Invalid time";
+                return BadRequest(ApiResponse<object>.Fail(message));
+            }
+
+            try
+            {
+                var result = _attendance.GetEmployeesExpectedStartBeforeTime(effectiveHour, effectiveMinute, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب الموظفين" : "Failed to retrieve employees";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب الموظفين بنجاح" : "Employees retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في جلب الموظفين" : "Error retrieving employees";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
     }
 
     // Request Models
