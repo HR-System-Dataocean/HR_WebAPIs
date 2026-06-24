@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -19,12 +20,16 @@ using VenusHR.Infrastructure.Presistence.Login;
 using VenusHR.Infrastructure.Presistence.SelfService;
 using VenusHR.Infrastructure.Services.Documents;
 using YourNamespace;
+using VenusHR.API.Hubs;
+using VenusHR.API.Notifications;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
+builder.Services.AddHttpClient(nameof(FcmPushNotificationSender));
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
@@ -110,6 +115,22 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
         ClockSkew = TimeSpan.Zero
     };
+
+    options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrWhiteSpace(accessToken) && path.StartsWithSegments("/hubs/notifications"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
 });
 
 builder.Services.AddScoped<IJwtService, JwtService>();
@@ -119,6 +140,11 @@ builder.Services.AddScoped<IAnnualVacationRequestService, AnnualVacationRequestS
 builder.Services.AddScoped<ILoginServices, LoginServices>();
 builder.Services.AddScoped<IAttendance, AttendanceSercives>();
 builder.Services.AddScoped<IDocumentsService, DocumentsService>();
+builder.Services.AddSingleton<IUserIdProvider, EmployeeIdUserIdProvider>();
+builder.Services.AddSingleton<IOnlineUserTracker, OnlineUserTracker>();
+builder.Services.AddScoped<IFcmPushNotificationSender, FcmPushNotificationSender>();
+builder.Services.AddHostedService<AttendanceNotificationsSchemaInitializer>();
+builder.Services.AddHostedService<AttendanceNotificationWorker>();
 
 
 var app = builder.Build();
@@ -135,6 +161,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<AttendanceNotificationHub>("/hubs/notifications");
 
 //MinimalAPI's
 app.MapLoginEndpoints();

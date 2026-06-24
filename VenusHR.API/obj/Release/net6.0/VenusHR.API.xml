@@ -4,5 +4,56 @@
         <name>VenusHR.API</name>
     </assembly>
     <members>
+        <member name="T:VenusHR.API.Models.ApiResponse`1">
+            <summary>
+            Unified API response model
+            </summary>
+            <typeparam name="T">Type of data being returned</typeparam>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.Success">
+            <summary>
+            Indicates if the operation was successful
+            </summary>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.Message">
+            <summary>
+            Response message (supports Arabic/English based on Lang parameter)
+            </summary>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.Data">
+            <summary>
+            The data returned by the API
+            </summary>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.ErrorCode">
+            <summary>
+            Error code (0 = success, non-zero = error)
+            </summary>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.ErrorDetails">
+            <summary>
+            Additional error details (only populated on error)
+            </summary>
+        </member>
+        <member name="P:VenusHR.API.Models.ApiResponse`1.Timestamp">
+            <summary>
+            Timestamp of the response
+            </summary>
+        </member>
+        <member name="M:VenusHR.API.Models.ApiResponse`1.Ok(`0,System.String)">
+            <summary>
+            Create a successful response
+            </summary>
+        </member>
+        <member name="M:VenusHR.API.Models.ApiResponse`1.Fail(System.String,System.Int32,System.String)">
+            <summary>
+            Create an error response
+            </summary>
+        </member>
+        <member name="T:VenusHR.API.Models.ApiResponse">
+            <summary>
+            Non-generic version for responses without data
+            </summary>
+        </member>
     </members>
 </doc>

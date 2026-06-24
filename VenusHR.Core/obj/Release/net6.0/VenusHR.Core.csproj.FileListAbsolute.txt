@@ -32,3 +32,15 @@ D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.dll
 D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\refint\VenusHR.Core.dll
 D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.pdb
 D:\OcApp\AAAGitHup\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\ref\VenusHR.Core.dll
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\bin\Release\net6.0\VenusHR.Core.deps.json
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\bin\Release\net6.0\VenusHR.Core.dll
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\bin\Release\net6.0\VenusHR.Core.pdb
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.AssemblyInfoInputs.cache
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.AssemblyInfo.cs
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.csproj.CoreCompileInputs.cache
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.sourcelink.json
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.dll
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\refint\VenusHR.Core.dll
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\VenusHR.Core.pdb
+D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Core\obj\Release\net6.0\ref\VenusHR.Core.dll

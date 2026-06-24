@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VenusHR.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d3ac309874f908ae7672f110d5672a76b0f68938")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8007dd475a96b71e12220e2ecb01abe562458ea6")]
 [assembly: System.Reflection.AssemblyProductAttribute("VenusHR.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VenusHR.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

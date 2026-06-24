@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "40SJ5hfb2IE=",
+  "dgSpecHash": "DBgXK9hRKoA=",
   "success": true,
-  "projectFilePath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.API\\VenusHR.API.csproj",
+  "projectFilePath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.API\\VenusHR.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

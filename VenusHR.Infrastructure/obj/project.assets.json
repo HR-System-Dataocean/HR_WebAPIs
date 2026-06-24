@@ -3062,11 +3062,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj",
+      "projectUniqueName": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj",
       "projectName": "VenusHR.Infrastructure",
-      "projectPath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj",
+      "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Infrastructure\\VenusHR.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Infrastructure\\obj\\",
+      "outputPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3087,11 +3087,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {
-              "projectPath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj"
+            "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {
+              "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj"
             },
-            "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
-              "projectPath": "D:\\OcApp\\AAAGitHup\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj"
+            "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
+              "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj"
             }
           }
         }
