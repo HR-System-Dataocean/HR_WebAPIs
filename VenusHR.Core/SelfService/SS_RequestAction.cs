@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace VenusHR.Core.SelfService;
 
 public partial class SS_RequestAction
 {
-    public int ID { get; set; }
+    [Key]
     public int ActionSerial { get; set; }
 
     public int RequestSerial { get; set; }

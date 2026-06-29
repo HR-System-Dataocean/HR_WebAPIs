@@ -122,7 +122,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           on SS_RequestActions.ActionId equals SS_UserActions.Id into _U
                                           from x in _U.DefaultIfEmpty()
                                           where (SS_RequestActions.RequestSerial == RequestSerial && SS_RequestActions.FormCode == FormCode && (SS_RequestActions.IsHidden == null || SS_RequestActions.IsHidden == false))
-                                          orderby SS_RequestActions.ID descending
+                                          orderby SS_RequestActions.ActionSerial descending
                                           select new { Requestid = SS_RequestActions.ActionSerial,FormCode=SS_RequestActions.FormCode ,ConfigID = SS_RequestActions.ConfigId, ActionDate = SS_RequestActions.ActionDate, ActionRemarks = SS_RequestActions.ActionRemarks, ConfirmedNoOfdays = SS_RequestActions.ConfirmedNoOfdays, ActionBy = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName, ActionName = x.ActionAraName };
 
                 }
@@ -136,7 +136,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           on SS_RequestActions.ActionId equals SS_UserActions.Id into _U
                                           from x in _U.DefaultIfEmpty()
                                           where (SS_RequestActions.RequestSerial == RequestSerial && SS_RequestActions.FormCode == FormCode && (SS_RequestActions.IsHidden == null || SS_RequestActions.IsHidden == false))
-                                          orderby SS_RequestActions.ID descending
+                                          orderby SS_RequestActions.ActionSerial descending
                                           select new { Requestid = SS_RequestActions.ActionSerial, FormCode = SS_RequestActions.FormCode, ConfigID = SS_RequestActions.ConfigId, ActionDate = SS_RequestActions.ActionDate, ActionRemarks = SS_RequestActions.ActionRemarks, ConfirmedNoOfdays = SS_RequestActions.ConfirmedNoOfdays, ActionBy = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName, ActionName = x.ActionEngName};
                 }
 
@@ -3411,7 +3411,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                     };
                     _context.SS_RequestActions.Add(newAction);
                     _context.SaveChanges();
-                    newAction.ActionSerial = newAction.ID;
+                    newAction.ActionSerial = newAction.ActionSerial;
                     _context.SaveChanges();
 
                     var managerToken = _context.Sys_Users
@@ -3457,7 +3457,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
                     _context.SS_RequestActions.Add(newAction);
  
-                     newAction.ActionSerial = newAction.ID;
+                     newAction.ActionSerial = newAction.ActionSerial;
                     _context.SaveChanges();  
                 }
                 if (ssEmpID>0)
@@ -3498,7 +3498,7 @@ Code = u.Code
                 _context.SS_RequestActions.Add(newAction);
                 _context.SaveChanges();  
 
-                 newAction.ActionSerial = newAction.ID;
+                 newAction.ActionSerial = newAction.ActionSerial;
                 _context.SaveChanges();  
                 var employeeToken = _context.Sys_Users
 .Where(u => u.RelEmployee == int.Parse(Configuration.EmployeeID) && u.DeviceToken != null)

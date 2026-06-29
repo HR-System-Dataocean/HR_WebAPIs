@@ -80,7 +80,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           where (SS_RequestActions.Ss_EmployeeId == SSEmployeeID && SS_RequestActions.Seen != true)
                                           select new
                                           {
-                                              RequestID=SS_RequestActions.ID,
+                                              RequestID=SS_RequestActions.ActionSerial,
                                               employeeId = Hrs_Employees.id,
                                               RequestType = SS_RequestTypes.RequestArbName,
                                               FormCode = SS_RequestTypes.RequestCode,
@@ -103,7 +103,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           from x in _U.DefaultIfEmpty()
                                           where (SS_RequestActions.Ss_EmployeeId == SSEmployeeID && SS_RequestActions.Seen != true)
                                           select new {
-                                              RequestID = SS_RequestActions.ID,
+                                              RequestID = SS_RequestActions.ActionSerial,
                                               employeeId = Hrs_Employees.id,
                                               RequestType = SS_RequestTypes.RequestArbName,
                                               FormCode = SS_RequestTypes.RequestCode,
@@ -2133,7 +2133,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                    .FirstOrDefault(r => r.RequestSerial == RequestAction.RequestSerial
                                      && r.EmployeeId == RequestAction.EmployeeId
                                      && r.Ss_EmployeeId == RequestAction.Ss_EmployeeId
-                                     && r.ID == RequestAction.ID);
+                                     && r.ActionSerial == RequestAction.ActionSerial);
 
 
                 if (existingRecord != null)
@@ -2244,7 +2244,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                         //1- Get Last ConfigID For This Requst
                         var LastActionRecord = _context.SS_RequestActions
     .Where(S => S.FormCode == RequestAction.FormCode && S.RequestSerial == RequestAction.RequestSerial)
-    .OrderByDescending(S => S.ID)  
+    .OrderByDescending(S => S.ActionSerial)  
     .FirstOrDefault();
                         if (LastActionRecord != null)
                         {
@@ -2269,7 +2269,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                     _context.SS_RequestActions.Add(newAction);
 
                                     _context.SaveChanges();
-                                    newAction.ActionSerial = newAction.ID;
+                                    newAction.ActionSerial = newAction.ActionSerial;
                                     _context.SaveChanges();
                                     // Update كل الـ Records المرتبطة بنفس الـ RequestSerial
                                     var relatedRecords = _context.SS_RequestActions
@@ -2364,7 +2364,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                         };
                         _context.SS_RequestActions.Add(newAction);
                         _context.SaveChanges();
-                        newAction.ActionSerial = newAction.ID;
+                        newAction.ActionSerial = newAction.ActionSerial;
                         _context.SaveChanges();
 
                     }
@@ -2410,7 +2410,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                         _context.SS_RequestActions.Add(newAction);
                         _context.SaveChanges();
 
-                        newAction.ActionSerial = newAction.ID;
+                        newAction.ActionSerial = newAction.ActionSerial;
                         _context.SaveChanges();
                     }
                     if (ssEmpID > 0)
@@ -2449,7 +2449,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                     _context.SS_RequestActions.Add(newAction);
                     _context.SaveChanges();
 
-                    newAction.ActionSerial = newAction.ID;
+                    newAction.ActionSerial = newAction.ActionSerial;
                     _context.SaveChanges();
                     var employeeToken = _context.Sys_Users
     .Where(u => u.RelEmployee == int.Parse(Configuration.EmployeeID) && u.DeviceToken != null)
