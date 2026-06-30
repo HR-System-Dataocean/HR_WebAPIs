@@ -413,6 +413,35 @@ namespace VenusHR.API.Controllers.SelfService
             }
         }
 
+        [HttpGet, Route("GetSysObjectId")]
+        public ActionResult<ApiResponse<object>> GetSysObjectId([FromQuery] string objectCode, [FromQuery] int Lang = 0)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(objectCode))
+                {
+                    var message = Lang == 1 ? "رمز الكائن مطلوب" : "Object code is required";
+                    return BadRequest(ApiResponse<object>.Fail(message));
+                }
+
+                var objectId = Convert.ToInt32(_Master.GetSysObjectId(objectCode));
+
+                if (objectId == 0)
+                {
+                    var message = Lang == 1 ? "لم يتم العثور على الكائن" : "Object not found";
+                    return NotFound(ApiResponse<object>.Fail(message));
+                }
+
+                var successMsg = Lang == 1 ? "تم جلب معرف الكائن بنجاح" : "Object ID retrieved successfully";
+                return Ok(ApiResponse<object>.Ok(new { ObjectId = objectId }, successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
         [HttpPost, Route("SaveRequestAction")]
         public ActionResult<ApiResponse<object>> SaveRequestAction(SS_RequestAction RequestAction, [FromQuery] int Lang = 0)
         {
