@@ -11,7 +11,7 @@ namespace VenusHR.Application.Common.Interfaces.Documents
                              DateTime? issueDate = null, int? issuedCityId = null,
                              DateTime? expiryDate = null, string? documentNumber = null,
                              string? referenceNumber = null, DateTime? lastRenewalDate = null,
-                             string? folderName = null);
+                             string? folderName = null, object objectDocumentsDet = null);
 
         // جلب المرفقات الخاصة بسجل معين
         object GetAttachments(int objectId, long recordId);

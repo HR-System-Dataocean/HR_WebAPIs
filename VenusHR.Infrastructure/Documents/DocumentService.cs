@@ -28,7 +28,7 @@ namespace VenusHR.Infrastructure.Services.Documents
                                     DateTime? issueDate = null, int? issuedCityId = null,
                                     DateTime? expiryDate = null, string? documentNumber = null,
                                     string? referenceNumber = null, DateTime? lastRenewalDate = null,
-                                    string? folderName = null)
+                                    string? folderName = null,object documentsDetailObjectId=null)
         {
             try
             {
@@ -117,10 +117,12 @@ namespace VenusHR.Infrastructure.Services.Documents
                 // حفظ المعلومات في قاعدة البيانات
                 // استخراج اسم المجلد الأخير فقط للحفظ في قاعدة البيانات
                 var folderForDb = !string.IsNullOrEmpty(folderName) ? folderName : new DirectoryInfo(uploadsBasePath).Name;
-
+                 // اسم الجدول
+               
+                //clsObjects.Find(" Code = REPLACE('" & ClsDocumentsDetails.Table.Trim() & "',' ' ,'')")
                 var attachment = new sys_ObjectsAttachments
                 {
-                    ObjectID = objectId,
+                    ObjectID = (int)documentsDetailObjectId,
                     RecordID = documentDetail.ID, // RecordID هنا بيكون الـ ID الخاص بالـ DocumentDetail
                     EngName = engName,
                     ArbName = arbName,

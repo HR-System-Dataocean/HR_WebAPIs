@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using VenusHR.Application.Common.Interfaces.Documents;
 using WorkFlow_EF;
 using VenusHR.API.Models;
+using VenusHR.Application.Common.Interfaces.SelfService;
 
 namespace VenusHR.API.Controllers
 {
@@ -14,10 +15,12 @@ namespace VenusHR.API.Controllers
     public class DocumentsController : ControllerBase
     {
         private readonly IDocumentsService _documentsService;
+        private readonly IMaster _masterService;
 
-        public DocumentsController(IDocumentsService documentsService)
+        public DocumentsController(IDocumentsService documentsService, IMaster masterService)
         {
             _documentsService = documentsService;
+            _masterService = masterService;
         }
 
         [HttpPost("upload-attachment")]
@@ -38,7 +41,8 @@ namespace VenusHR.API.Controllers
                     var message = Lang == 1 ? "معرّفات المستند غير صحيحة" : "Invalid document identifiers";
                     return BadRequest(ApiResponse<object>.Fail(message));
                 }
-
+                string documentDetailTableName = "sys_DocumentsDetails";
+                object objectDocumentsDet = _masterService.GetSysObjectId(documentDetailTableName);
                 using (var stream = request.File.OpenReadStream())
                 {
                     var result = _documentsService.SaveAttachment(
@@ -55,7 +59,8 @@ namespace VenusHR.API.Controllers
                         request.DocumentNumber,
                         request.ReferenceNumber,
                         request.LastRenewalDate,
-                        request.FolderName
+                        request.FolderName,
+                        objectDocumentsDet
                     );
 
                     if (result is GeneralOutputClass<object> output)

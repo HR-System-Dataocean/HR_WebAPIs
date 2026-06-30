@@ -1761,7 +1761,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             return result == null || result == DBNull.Value ? string.Empty : Convert.ToString(result) ?? string.Empty;
         }
 
-        private int GetSysObjectId(string objectCode)
+        public int GetSysObjectId(string objectCode)
         {
             var connection = _context.Database.GetDbConnection();
             if (connection.State != ConnectionState.Open)
@@ -3286,9 +3286,9 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             }
         }
 
-
-
-
-
+        object IMaster.GetSysObjectId(string v)
+        {
+            return GetSysObjectId(v);
+        }
     }
 }
