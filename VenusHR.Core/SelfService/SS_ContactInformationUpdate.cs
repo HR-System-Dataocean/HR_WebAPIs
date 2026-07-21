@@ -29,6 +29,23 @@ public partial class SS_ContactInformationUpdate
     [StringLength(50)]
     [Column("RequesterUser")]
     public string? RequesterUser { get; set; }
+
+    [StringLength(255)]
+    [Column("E_Mail")]
+    public string? EMail { get; set; }
+
+    [StringLength(100)]
+    [Column("Phone")]
+    public string? Phone { get; set; }
+
+    [StringLength(100)]
+    [Column("Mobile")]
+    public string? Mobile { get; set; }
+
+    [StringLength(500)]
+    [Column("AddressAsPerContract")]
+    public string? AddressAsPerContract { get; set; }
+
     public int? RequestStautsTypeId { get; set; }
 
 }

@@ -18,4 +18,10 @@ public partial class SS_BusinessOrtrainingTravel
     public string? RequesterUser { get; set; }
 
     public int? RequestStautsTypeId { get; set; }
+
+    public string? FromDate { get; set; }
+
+    public string? ToDate { get; set; }
+
+    public int? TravelReasonId { get; set; }
 }

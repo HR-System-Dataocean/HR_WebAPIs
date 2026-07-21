@@ -63,6 +63,8 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<SS_BusinessOrtrainingTravel> SS_BusinessOrtrainingTravel { get; set; }
         public virtual DbSet<SS_ContactInformationUpdate> SS_ContactInformationUpdate { get; set; }
         public virtual DbSet<SS_ChamberofCommerceLetterRequest> SS_ChamberofCommerceLetterRequest { get; set; }
+        public virtual DbSet<SS_ChangeWorkHoursRequest> SS_ChangeWorkHoursRequest { get; set; }
+        public virtual DbSet<SS_ConflictofInterestFormRequest> SS_ConflictofInterestFormRequest { get; set; }
         public virtual DbSet<SS_DependentsInformationUpdate> SS_DependentsInformationUpdate { get; set; }
         public virtual DbSet<SS_DaycareSupportReaquest> SS_DaycareSupportReaquest { get; set; }
         public virtual DbSet<SS_EducationFeesCompensationApplication> SS_EducationFeesCompensationApplication { get; set; }
@@ -96,6 +98,7 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<sys_DocumentsDetails> sys_DocumentsDetails { get; set; }
         public virtual DbSet<sys_ObjectsAttachments> sys_ObjectsAttachments { get; set; }
         public virtual DbSet<RevokedToken> RevokedTokens { get; set; }
+        public virtual DbSet<UserActiveToken> UserActiveTokens { get; set; }
         public virtual DbSet<hrs_LocationGeoPoints> hrs_LocationGeoPoints { get; set; }
         public virtual DbSet<AttendanceNotification> AttendanceNotifications { get; set; }
  

@@ -15,6 +15,7 @@ namespace VenusHR.Infrastructure.Services
         string GenerateToken(Hrs_Employees employee);
         ClaimsPrincipal? ValidateToken(string token);
         Task RevokeTokenAsync(string token, string? reason = null);
+        bool IsTokenActive(int employeeId, string jti);
     }
 
     public class JwtService : IJwtService
@@ -22,7 +23,6 @@ namespace VenusHR.Infrastructure.Services
         private readonly string _secretKey;
         private readonly string _issuer;
         private readonly string _audience;
-        private readonly int _expiryMinutes;
         private readonly ApplicationDBContext _context;
 
         public JwtService(IConfiguration configuration, ApplicationDBContext context)
@@ -30,14 +30,17 @@ namespace VenusHR.Infrastructure.Services
             _secretKey = configuration["JwtSettings:SecretKey"] ?? "YourDefaultSecretKeyThatShouldBeAtLeast32CharactersLong!";
             _issuer = configuration["JwtSettings:Issuer"] ?? "VenusHR";
             _audience = configuration["JwtSettings:Audience"] ?? "VenusHRUsers";
-            _expiryMinutes = int.Parse(configuration["JwtSettings:ExpiryMinutes"] ?? "60");
             _context = context;
         }
 
         public string GenerateToken(Hrs_Employees employee)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_secretKey);
+            var key = Encoding.UTF8.GetBytes(_secretKey);
+            var jti = Guid.NewGuid().ToString();
+            var now = DateTime.UtcNow;
+            // Include a real exp claim (required by JWT middleware). Actual session end is logout / new login.
+            var expires = now.AddYears(10);
 
             var claims = new List<Claim>
             {
@@ -46,27 +49,51 @@ namespace VenusHR.Infrastructure.Services
                 new Claim(ClaimTypes.Email, employee.E_Mail ?? ""),
                 new Claim("EmployeeId", employee.id.ToString()),
                 new Claim("CompanyId", employee.CompanyId.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, jti)
             };
 
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+            var jwt = new JwtSecurityToken(
+                issuer: _issuer,
+                audience: _audience,
+                claims: claims,
+                notBefore: now,
+                expires: expires,
+                signingCredentials: credentials);
+
+            // Logging in again replaces the active token, invalidating any previous one.
+            var previousTokens = _context.UserActiveTokens.Where(t => t.EmployeeId == employee.id);
+            _context.UserActiveTokens.RemoveRange(previousTokens);
+            _context.UserActiveTokens.Add(new UserActiveToken
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(_expiryMinutes),
-                Issuer = _issuer,
-                Audience = _audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
+                EmployeeId = employee.id,
+                Jti = jti,
+                IssuedAt = now
+            });
+            _context.SaveChanges();
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            return tokenHandler.WriteToken(jwt);
+        }
+
+        public bool IsTokenActive(int employeeId, string jti)
+        {
+            return _context.UserActiveTokens.Any(t => t.EmployeeId == employeeId && t.Jti == jti);
         }
 
         public async Task RevokeTokenAsync(string token, string? reason = null)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(token);
-            
+
+            // Remove the active-token record so the token is immediately invalid.
+            var employeeIdClaim = jwtToken.Claims.FirstOrDefault(c => c.Type == "EmployeeId")?.Value;
+            if (int.TryParse(employeeIdClaim, out var employeeId))
+            {
+                var activeTokens = _context.UserActiveTokens.Where(t => t.EmployeeId == employeeId);
+                _context.UserActiveTokens.RemoveRange(activeTokens);
+            }
+
+            // Kept as an audit trail of revocations.
             var revokedToken = new RevokedToken
             {
                 Token = token,
@@ -74,7 +101,7 @@ namespace VenusHR.Infrastructure.Services
                 ExpiresAt = jwtToken.ValidTo,
                 Reason = reason ?? "User logout"
             };
-            
+
             _context.RevokedTokens.Add(revokedToken);
             await _context.SaveChangesAsync();
         }
@@ -83,17 +110,8 @@ namespace VenusHR.Infrastructure.Services
         {
             try
             {
-                // Check if token is revoked
-                var isRevoked = _context.RevokedTokens
-                    .Any(rt => rt.Token == token && rt.ExpiresAt > DateTime.UtcNow);
-                
-                if (isRevoked)
-                {
-                    return null;
-                }
-
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(_secretKey);
+                var key = Encoding.UTF8.GetBytes(_secretKey);
 
                 var validationParameters = new TokenValidationParameters
                 {
@@ -103,11 +121,22 @@ namespace VenusHR.Infrastructure.Services
                     ValidIssuer = _issuer,
                     ValidateAudience = true,
                     ValidAudience = _audience,
-                    ValidateLifetime = true,
+                    // Lifetime is controlled by UserActiveTokens (logout / new login), not by exp time.
+                    ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero
                 };
 
                 var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
+
+                // Token is only valid while it is the user's current active token
+                // (i.e. the user has not logged out or logged in again since it was issued).
+                var jti = principal.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
+                var employeeIdClaim = principal.FindFirst("EmployeeId")?.Value;
+                if (jti == null || !int.TryParse(employeeIdClaim, out var employeeId) || !IsTokenActive(employeeId, jti))
+                {
+                    return null;
+                }
+
                 return principal;
             }
             catch

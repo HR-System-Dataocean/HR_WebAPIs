@@ -20,4 +20,6 @@ public partial class SS_AdvanceHousingRequest
     public int? RequestStautsTypeId { get; set; }
 
     public DateTime InstallmentDate { get; set; }
+
+    public int? InstallmentsCount { get; set; }
 }

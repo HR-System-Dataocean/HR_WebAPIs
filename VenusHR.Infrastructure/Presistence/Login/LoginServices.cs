@@ -91,7 +91,8 @@ namespace VenusHR.Infrastructure.Presistence.Login
                             {
                                 Employee = employee,
                                 Token = token,
-                                TokenExpiry = DateTime.UtcNow.AddMinutes(60)
+                                // Token does not expire by time; it stays valid until logout or a new login.
+                                TokenExpiry = (DateTime?)null
                             };
                         }
                         else

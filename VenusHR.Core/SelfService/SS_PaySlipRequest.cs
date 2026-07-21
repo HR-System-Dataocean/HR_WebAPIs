@@ -18,4 +18,6 @@ public partial class SS_PaySlipRequest
     public string? RequesterUser { get; set; }
 
     public int? RequestStautsTypeId { get; set; }
+
+    public string? Recipient { get; set; }
 }

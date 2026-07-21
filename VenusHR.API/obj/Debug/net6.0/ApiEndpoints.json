@@ -3838,6 +3838,37 @@
   },
   {
     "ContainingType": "VenusHR.API.Controllers.SelfService.SMasterController",
+    "Method": "GetSysObjectId",
+    "RelativePath": "api/SMaster/GetSysObjectId",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "objectCode",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Lang",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "VenusHR.API.Models.ApiResponse\u00601[[System.Object, System.Private.CoreLib, Version=6.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "VenusHR.API.Controllers.SelfService.SMasterController",
     "Method": "GetUserMenuPermissions",
     "RelativePath": "api/SMaster/GetUserMenuPermissions/{userId}",
     "HttpMethod": "GET",

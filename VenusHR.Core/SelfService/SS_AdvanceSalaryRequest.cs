@@ -18,4 +18,8 @@ public partial class SS_AdvanceSalaryRequest
     public string? RequesterUser { get; set; }
 
     public int? RequestStautsTypeId { get; set; }
+
+    public DateTime? InstallmentDate { get; set; }
+
+    public int? InstallmentsCount { get; set; }
 }

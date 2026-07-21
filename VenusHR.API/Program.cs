@@ -14,6 +14,7 @@ using VenusHR.Application.Common.Interfaces.SelfService;
 using VenusHR.Infrastructure.Services;
 using VenusHR.Core.Master;
 using VenusHR.Infrastructure;
+using VenusHR.Infrastructure.Presistence;
 using VenusHR.Infrastructure.Presistence.Attendance;
 using VenusHR.Infrastructure.Presistence.HRServices;
 using VenusHR.Infrastructure.Presistence.Login;
@@ -110,7 +111,8 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"] ?? "VenusHR",
         ValidateAudience = true,
         ValidAudience = jwtSettings["Audience"] ?? "VenusHRUsers",
-        ValidateLifetime = true,
+        // Lifetime is controlled by UserActiveTokens (logout / new login), not by exp time.
+        ValidateLifetime = false,
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
         ClockSkew = TimeSpan.Zero
@@ -129,6 +131,28 @@ builder.Services.AddAuthentication(options =>
             }
 
             return Task.CompletedTask;
+        },
+        // Reject tokens that are no longer the user's current active token
+        // (user logged out, or logged in again and got a new token).
+        OnTokenValidated = async context =>
+        {
+            var jti = context.Principal?.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti)?.Value;
+            var employeeIdClaim = context.Principal?.FindFirst("EmployeeId")?.Value;
+
+            if (jti == null || !int.TryParse(employeeIdClaim, out var employeeId))
+            {
+                context.Fail("Invalid token.");
+                return;
+            }
+
+            var db = context.HttpContext.RequestServices.GetRequiredService<ApplicationDBContext>();
+            var isActive = await db.UserActiveTokens
+                .AnyAsync(t => t.EmployeeId == employeeId && t.Jti == jti);
+
+            if (!isActive)
+            {
+                context.Fail("Token has been revoked. Please log in again.");
+            }
         }
     };
 });
@@ -137,12 +161,41 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IMaster, MasterService>();
 builder.Services.AddScoped<IHRMaster, HRMasreService>();
 builder.Services.AddScoped<IAnnualVacationRequestService, AnnualVacationRequestSevice>();
+builder.Services.AddScoped<IAdvanceHousingRequestService, AdvanceHousingRequestService>();
+builder.Services.AddScoped<IAdvanceSalaryRequestService, AdvanceSalaryRequestService>();
+builder.Services.AddScoped<IAnnualTicketRelatedRequestsService, AnnualTicketRelatedRequestsService>();
+builder.Services.AddScoped<IAssaultEscalationFormRequestService, AssaultEscalationFormRequestService>();
+builder.Services.AddScoped<IBankAccountUpdateService, BankAccountUpdateService>();
+builder.Services.AddScoped<IBusinessOrtrainingTravelService, BusinessOrtrainingTravelService>();
+builder.Services.AddScoped<IChamberofCommerceLetterRequestService, ChamberofCommerceLetterRequestService>();
+builder.Services.AddScoped<IChangeWorkHoursRequestService, ChangeWorkHoursRequestService>();
+builder.Services.AddScoped<IConflictofInterestFormRequestService, ConflictofInterestFormRequestService>();
+builder.Services.AddScoped<IContactInformationUpdateService, ContactInformationUpdateService>();
+builder.Services.AddScoped<IDaycareSupportReaquestService, DaycareSupportReaquestService>();
+builder.Services.AddScoped<IDependentsInformationUpdateService, DependentsInformationUpdateService>();
+builder.Services.AddScoped<IEducationFeesCompensationApplicationService, EducationFeesCompensationApplicationService>();
+builder.Services.AddScoped<IEducationSupportRequestService, EducationSupportRequestService>();
+builder.Services.AddScoped<IEmployeeFileUpdateService, EmployeeFileUpdateService>();
+builder.Services.AddScoped<IEndOfServiceRequestService, EndOfServiceRequestService>();
+builder.Services.AddScoped<IExecuseRequestService, ExecuseRequestService>();
+builder.Services.AddScoped<IExitEntryRequestService, ExitEntryRequestService>();
+builder.Services.AddScoped<IGrievanceFormRequestService, GrievanceFormRequestService>();
+builder.Services.AddScoped<IInterviewEvaluationFormRequestService, InterviewEvaluationFormRequestService>();
+builder.Services.AddScoped<ILoanLetterRequestService, LoanLetterRequestService>();
+builder.Services.AddScoped<IMedicalInsuranceAdjustmentsService, MedicalInsuranceAdjustmentsService>();
+builder.Services.AddScoped<IOccurrenceVarianceReportingLetterService, OccurrenceVarianceReportingLetterService>();
+builder.Services.AddScoped<IOtherLegalDocumentUpdatesService, OtherLegalDocumentUpdatesService>();
+builder.Services.AddScoped<IOtherLetterRequestService, OtherLetterRequestService>();
+builder.Services.AddScoped<IOvertimeRequestService, OvertimeRequestService>();
+builder.Services.AddScoped<IPaySlipRequestService, PaySlipRequestService>();
+builder.Services.AddScoped<IPhysiciansPrivilegingFormRequestService, PhysiciansPrivilegingFormRequestService>();
 builder.Services.AddScoped<ILoginServices, LoginServices>();
 builder.Services.AddScoped<IAttendance, AttendanceSercives>();
 builder.Services.AddScoped<IDocumentsService, DocumentsService>();
 builder.Services.AddSingleton<IUserIdProvider, EmployeeIdUserIdProvider>();
 builder.Services.AddSingleton<IOnlineUserTracker, OnlineUserTracker>();
 builder.Services.AddScoped<IFcmPushNotificationSender, FcmPushNotificationSender>();
+builder.Services.AddHostedService<VenusHR.API.Auth.AuthTokensSchemaInitializer>();
 builder.Services.AddHostedService<AttendanceNotificationsSchemaInitializer>();
 builder.Services.AddHostedService<AttendanceNotificationWorker>();
 
