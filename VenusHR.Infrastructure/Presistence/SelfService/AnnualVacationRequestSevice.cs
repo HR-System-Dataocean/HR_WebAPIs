@@ -238,8 +238,12 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                     .Max(); 
                 double DurationDays =(double) _context.hrs_ContractsVacations.Where(M => M.ContractID == ContractID && AllWorkingDays >M.FromMonth && AllWorkingDays <M.ToMonth).Select(M => M.DurationDays).FirstOrDefault();
                 int RequiredWorkingMonths= (int)_context.hrs_ContractsVacations.Where(M => M.ContractID == ContractID && AllWorkingDays > M.FromMonth && AllWorkingDays < M.ToMonth).Select(M => M.RequiredWorkingMonths).FirstOrDefault();
-                double DaysFactor = DurationDays / RequiredWorkingMonths;
-                double NewBalance = LastWorkingDays * DaysFactor;
+                        double DaysFactor = DurationDays / RequiredWorkingMonths;
+                        if (RequiredWorkingMonths==0)
+                        {
+                            DaysFactor = 0;
+                        }
+                        double NewBalance = LastWorkingDays * DaysFactor;
                 double DueDays = NewBalance + OldBalance;
                 Result.ResultObject = Math.Round(DueDays,2);
                 Result.ErrorCode = 1;

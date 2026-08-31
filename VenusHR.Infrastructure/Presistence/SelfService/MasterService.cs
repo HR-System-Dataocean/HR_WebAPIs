@@ -74,6 +74,9 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           on SS_RequestActions.EmployeeId equals Hrs_Employees.id
                                           join SS_RequestTypes in _context.SS_RequestTypes
                                           on SS_RequestActions.FormCode equals SS_RequestTypes.RequestCode
+                                          join SS_VFollowup in _context.SS_VFollowup
+                                          on new { RequestSerial = SS_RequestActions.RequestSerial, FormCode = SS_RequestActions.FormCode }
+                                          equals new { RequestSerial = SS_VFollowup.ID, FormCode = SS_VFollowup.FormCode }
                                            join SS_UserActions in _context.SS_UserActions
                                           on SS_RequestActions.ActionId equals SS_UserActions.Id into _U
                                           from x in _U.DefaultIfEmpty()
@@ -86,6 +89,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                               FormCode = SS_RequestTypes.RequestCode,
                                                RequestCode = SS_RequestActions.RequestSerial,
                                               ConfigID = SS_RequestActions.ConfigId,
+                                              RequestDate = SS_VFollowup.RequestDate.ToString("yyyy-MM-dd"),
                                               EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName,
                                            };
                     
@@ -98,6 +102,9 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                               on SS_RequestActions.EmployeeId equals Hrs_Employees.id
                                           join SS_RequestTypes in _context.SS_RequestTypes
                                           on SS_RequestActions.FormCode equals SS_RequestTypes.RequestCode
+                                          join SS_VFollowup in _context.SS_VFollowup
+                                          on new { RequestSerial = SS_RequestActions.RequestSerial, FormCode = SS_RequestActions.FormCode }
+                                          equals new { RequestSerial = SS_VFollowup.ID, FormCode = SS_VFollowup.FormCode }
                                            join SS_UserActions in _context.SS_UserActions
                                           on SS_RequestActions.ActionId equals SS_UserActions.Id into _U
                                           from x in _U.DefaultIfEmpty()
@@ -109,6 +116,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                               FormCode = SS_RequestTypes.RequestCode,
                                               RequestCode = SS_RequestActions.RequestSerial,
                                               ConfigID = SS_RequestActions.ConfigId,
+                                              RequestDate = SS_VFollowup.RequestDate.ToString("yyyy-MM-dd"),
                                               EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
             }
@@ -118,6 +126,9 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                 Result.ErrorCode = 0;
                 Result.ErrorMessage = ex.Message;
             }
+
+            Result.ErrorCode = 1;
+            Result.ErrorMessage ="";
             return Result;
         }
 
