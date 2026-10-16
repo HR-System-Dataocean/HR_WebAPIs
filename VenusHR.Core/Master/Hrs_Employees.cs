@@ -140,6 +140,8 @@ namespace VenusHR.Core.Master
 
         public string? BankAccountType { get; set; }
 
+        public bool? IsHRTeam { get; set; }
+
         //public virtual ICollection<HrsContract> HrsContracts { get; } = new List<HrsContract>();
 
      }

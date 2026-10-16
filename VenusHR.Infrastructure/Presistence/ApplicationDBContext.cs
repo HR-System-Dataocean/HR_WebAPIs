@@ -101,6 +101,7 @@ namespace VenusHR.Infrastructure.Presistence
         public virtual DbSet<UserActiveToken> UserActiveTokens { get; set; }
         public virtual DbSet<hrs_LocationGeoPoints> hrs_LocationGeoPoints { get; set; }
         public virtual DbSet<AttendanceNotification> AttendanceNotifications { get; set; }
+        public virtual DbSet<sys_MobileConfig> sys_MobileConfig { get; set; }
  
 
 
@@ -143,6 +144,14 @@ namespace VenusHR.Infrastructure.Presistence
             });
 
             modelBuilder.Entity<hrs_Fingerprint_CheckInOut>().HasNoKey();
+
+            modelBuilder.Entity<sys_MobileConfig>(entity =>
+            {
+                entity.ToTable("sys_MobileConfig");
+                entity.HasKey(x => x.CompanyId);
+                entity.Property(x => x.CompanyId).ValueGeneratedNever();
+                entity.Property(x => x.EmpCanUploadProfilePic).HasDefaultValue(false);
+            });
 
             modelBuilder.Entity<AttendanceNotification>(entity =>
             {

@@ -88,5 +88,12 @@ namespace VenusHR.Application.Common.Interfaces.HR_Master
 
         // 🔹 إضافة موظف جديد
         Task<GeneralOutputClass<object>> SaveNewEmployeeFormAsync(Hrs_NewEmployee newEmployee);
+
+        // 🔹 إعدادات تطبيق الجوال
+        Task<GeneralOutputClass<object>> GetAllMobileConfigsAsync();
+        Task<GeneralOutputClass<object>> GetMobileConfigByCompanyIdAsync(int companyId);
+        Task<GeneralOutputClass<object>> CreateMobileConfigAsync(sys_MobileConfig mobileConfig);
+        Task<GeneralOutputClass<object>> UpdateMobileConfigAsync(int companyId, sys_MobileConfig mobileConfig);
+        Task<GeneralOutputClass<object>> DeleteMobileConfigAsync(int companyId);
     }
 }

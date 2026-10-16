@@ -373,7 +373,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                          join SS_RequestActions in _context.SS_RequestActions
                                          on SS_VacationRequest.ID equals SS_RequestActions.RequestSerial
                                           where (SS_VacationRequest.ID == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID=SS_RequestActions.ConfigId,SS_VacationRequest.EmployeeID, RequestSerial= SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, Formcode = SS_VacationRequest.VacationType, RequestDate = SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), StartDate= SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate=SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays, SS_VacationRequest.TotalBalance, ContactNo=SS_VacationRequest.ContactNo, Remarks= SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID=SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial,SS_VacationRequest.EmployeeID, RequestSerial= SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, Formcode = SS_VacationRequest.VacationType, RequestDate = SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), StartDate= SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate=SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays, SS_VacationRequest.TotalBalance, ContactNo=SS_VacationRequest.ContactNo, Remarks= SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -383,7 +383,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                        on SS_VacationRequest.ID equals SS_RequestActions.RequestSerial
                                           where (SS_VacationRequest.ID == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, Formcode=SS_VacationRequest.VacationType, RequestDate= SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), StartDate=SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate= SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays, SS_VacationRequest.TotalBalance, ContactNo = SS_VacationRequest.ContactNo, Remarks = SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, Formcode=SS_VacationRequest.VacationType, RequestDate= SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), StartDate=SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate= SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays, SS_VacationRequest.TotalBalance, ContactNo = SS_VacationRequest.ContactNo, Remarks = SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -415,7 +415,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_VacationsTypes in _context.hrs_VacationsTypes
                                           on SS_VacationRequest.VacationTypeID equals hrs_VacationsTypes.Id
                                           where (SS_VacationRequest.ID == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID,
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID,
                                               RequestCode = SS_VacationRequest.Code,
                                               RequestDate = SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"),
                                               VacationType= hrs_VacationsTypes.ArbName, 
@@ -433,7 +433,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join hrs_VacationsTypes in _context.hrs_VacationsTypes
                                           on SS_VacationRequest.VacationTypeID equals hrs_VacationsTypes.Id
                                           where (SS_VacationRequest.ID == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, RequestDate = SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), VacationType = hrs_VacationsTypes.EngName, StartDate = SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate = SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays,Reamarks= SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_VacationRequest.EmployeeID, RequestSerial = SS_VacationRequest.ID, RequestCode = SS_VacationRequest.Code, RequestDate = SS_VacationRequest.RequestDate.ToString("yyyy-MM-dd"), VacationType = hrs_VacationsTypes.EngName, StartDate = SS_VacationRequest.StartDate.ToString("yyyy-MM-dd"), EndDate = SS_VacationRequest.EndDate.ToString("yyyy-MM-dd"), SS_VacationRequest.NoOfDays,Reamarks= SS_VacationRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -462,7 +462,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                           on SS_ExecuseRequest.Id equals SS_RequestActions.RequestSerial
                                           where (SS_ExecuseRequest.Id == RequestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ExecuseRequest.EmployeeId,
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ExecuseRequest.EmployeeId,
                                             RequestSerial = SS_ExecuseRequest.Id, RequestCode = SS_ExecuseRequest.Code,
                                             RequestDate = SS_ExecuseRequest.RequestDate.ToString("yyyy-MM-dd"),
                                             SS_ExecuseRequest.ExecuseType,
@@ -483,7 +483,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           where (SS_ExecuseRequest.Id == RequestID && SS_RequestActions.ConfigId == ConfigID)
                                           select new
                                           {
-                                              ConfigID = SS_RequestActions.ConfigId,
+                                              ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial,
                                               SS_ExecuseRequest.EmployeeId,
                                               RequestSerial = SS_ExecuseRequest.Id,
                                               RequestCode = SS_ExecuseRequest.Code,
@@ -529,7 +529,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           where (eos.Id == RequestID && action.ConfigId == ConfigID)
                                           select new
                                           {
-                                              ConfigID = action.ConfigId,
+                                              ConfigID = action.ConfigId, ActionSerial = action.ActionSerial,
                                               eos.EmployeeId,
                                               eos.ServiceYears,
                                               eos.SerciveMonths,
@@ -556,7 +556,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           where (eos.Id == RequestID && action.ConfigId == ConfigID)
                                           select new
                                           {
-                                              ConfigID = action.ConfigId,
+                                              ConfigID = action.ConfigId, ActionSerial = action.ActionSerial,
                                               eos.EmployeeId,
                                               eos.ServiceYears,
                                               eos.SerciveMonths,
@@ -596,7 +596,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                           on SS_ExitEntryRequest.Id equals SS_RequestActions.RequestSerial
                                           where (SS_ExitEntryRequest.Id == RequestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ExitEntryRequest.EmployeeId, RequestSerial = SS_ExitEntryRequest.Id, RequestCode = SS_ExitEntryRequest.Code, RequestDate= SS_ExitEntryRequest.RequestDate.ToString("yyyy-MM-dd"), ExitDate= SS_ExitEntryRequest.ExitDate.ToString("yyyy-MM-dd"), ReturnDate= SS_ExitEntryRequest.EntryDate.ToString("yyyy-MM-dd"), SS_ExitEntryRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ExitEntryRequest.EmployeeId, RequestSerial = SS_ExitEntryRequest.Id, RequestCode = SS_ExitEntryRequest.Code, RequestDate= SS_ExitEntryRequest.RequestDate.ToString("yyyy-MM-dd"), ExitDate= SS_ExitEntryRequest.ExitDate.ToString("yyyy-MM-dd"), ReturnDate= SS_ExitEntryRequest.EntryDate.ToString("yyyy-MM-dd"), SS_ExitEntryRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -606,7 +606,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                           on SS_ExitEntryRequest.Id equals SS_RequestActions.RequestSerial
                                           where (SS_ExitEntryRequest.Id == RequestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ExitEntryRequest.EmployeeId, RequestSerial = SS_ExitEntryRequest.Id, RequestCode = SS_ExitEntryRequest.Code, RequestDate= SS_ExitEntryRequest.RequestDate.ToString("yyyy-MM-dd"), ExitDate= SS_ExitEntryRequest.ExitDate.ToString("yyyy-MM-dd"), ReturnDate = SS_ExitEntryRequest.EntryDate.ToString("yyyy-MM-dd"), SS_ExitEntryRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ExitEntryRequest.EmployeeId, RequestSerial = SS_ExitEntryRequest.Id, RequestCode = SS_ExitEntryRequest.Code, RequestDate= SS_ExitEntryRequest.RequestDate.ToString("yyyy-MM-dd"), ExitDate= SS_ExitEntryRequest.ExitDate.ToString("yyyy-MM-dd"), ReturnDate = SS_ExitEntryRequest.EntryDate.ToString("yyyy-MM-dd"), SS_ExitEntryRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -638,7 +638,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AnnualTicketRelatedRequests.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AnnualTicketRelatedRequests.EmployeeId, RequestSerial = SS_AnnualTicketRelatedRequests.Id, RequestCode = SS_AnnualTicketRelatedRequests.Code, RequestDate=SS_AnnualTicketRelatedRequests.RequestDate.ToString("yyyy-MM-dd"), TicketDate= SS_AnnualTicketRelatedRequests.TicketDate.ToString("yyyy-MM-dd"), SS_AnnualTicketRelatedRequests.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AnnualTicketRelatedRequests.EmployeeId, RequestSerial = SS_AnnualTicketRelatedRequests.Id, RequestCode = SS_AnnualTicketRelatedRequests.Code, RequestDate=SS_AnnualTicketRelatedRequests.RequestDate.ToString("yyyy-MM-dd"), TicketDate= SS_AnnualTicketRelatedRequests.TicketDate.ToString("yyyy-MM-dd"), SS_AnnualTicketRelatedRequests.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -651,7 +651,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AnnualTicketRelatedRequests.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AnnualTicketRelatedRequests.EmployeeId, RequestSerial = SS_AnnualTicketRelatedRequests.Id, RequestCode = SS_AnnualTicketRelatedRequests.Code, RequestDate = SS_AnnualTicketRelatedRequests.RequestDate.ToString("yyyy-MM-dd"), TicketDate = SS_AnnualTicketRelatedRequests.TicketDate.ToString("yyyy-MM-dd"), SS_AnnualTicketRelatedRequests.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AnnualTicketRelatedRequests.EmployeeId, RequestSerial = SS_AnnualTicketRelatedRequests.Id, RequestCode = SS_AnnualTicketRelatedRequests.Code, RequestDate = SS_AnnualTicketRelatedRequests.RequestDate.ToString("yyyy-MM-dd"), TicketDate = SS_AnnualTicketRelatedRequests.TicketDate.ToString("yyyy-MM-dd"), SS_AnnualTicketRelatedRequests.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -684,7 +684,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_LoanLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_LoanLetterRequest.EmployeeId, RequestSerial = SS_LoanLetterRequest.Id, RequestCode = SS_LoanLetterRequest.Code, RequestDate= SS_LoanLetterRequest.RequestDate.ToString("yyyy-MM-dd"),  SS_LoanLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_LoanLetterRequest.EmployeeId, RequestSerial = SS_LoanLetterRequest.Id, RequestCode = SS_LoanLetterRequest.Code, RequestDate= SS_LoanLetterRequest.RequestDate.ToString("yyyy-MM-dd"),  SS_LoanLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -697,7 +697,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_LoanLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_LoanLetterRequest.EmployeeId, RequestSerial = SS_LoanLetterRequest.Id, RequestCode = SS_LoanLetterRequest.Code, RequestDate = SS_LoanLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_LoanLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_LoanLetterRequest.EmployeeId, RequestSerial = SS_LoanLetterRequest.Id, RequestCode = SS_LoanLetterRequest.Code, RequestDate = SS_LoanLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_LoanLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -729,7 +729,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OtherLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OtherLetterRequest.EmployeeId, RequestSerial = SS_OtherLetterRequest.Id, RequestCode = SS_OtherLetterRequest.Code, RequestDate= SS_OtherLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OtherLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OtherLetterRequest.EmployeeId, RequestSerial = SS_OtherLetterRequest.Id, RequestCode = SS_OtherLetterRequest.Code, RequestDate= SS_OtherLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OtherLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -742,7 +742,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OtherLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OtherLetterRequest.EmployeeId, RequestSerial = SS_OtherLetterRequest.Id, RequestCode = SS_OtherLetterRequest.Code, RequestDate = SS_OtherLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OtherLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OtherLetterRequest.EmployeeId, RequestSerial = SS_OtherLetterRequest.Id, RequestCode = SS_OtherLetterRequest.Code, RequestDate = SS_OtherLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OtherLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -774,7 +774,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_ChamberofCommerceLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ChamberofCommerceLetterRequest.EmployeeId, RequestSerial = SS_ChamberofCommerceLetterRequest.Id, RequestCode = SS_ChamberofCommerceLetterRequest.Code, RequestDate= SS_ChamberofCommerceLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_ChamberofCommerceLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ChamberofCommerceLetterRequest.EmployeeId, RequestSerial = SS_ChamberofCommerceLetterRequest.Id, RequestCode = SS_ChamberofCommerceLetterRequest.Code, RequestDate= SS_ChamberofCommerceLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_ChamberofCommerceLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -787,7 +787,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_ChamberofCommerceLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ChamberofCommerceLetterRequest.EmployeeId, RequestSerial = SS_ChamberofCommerceLetterRequest.Id, RequestCode = SS_ChamberofCommerceLetterRequest.Code, RequestDate = SS_ChamberofCommerceLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_ChamberofCommerceLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ChamberofCommerceLetterRequest.EmployeeId, RequestSerial = SS_ChamberofCommerceLetterRequest.Id, RequestCode = SS_ChamberofCommerceLetterRequest.Code, RequestDate = SS_ChamberofCommerceLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_ChamberofCommerceLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -819,7 +819,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_SCFHSLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_SCFHSLetterRequest.EmployeeId, RequestSerial = SS_SCFHSLetterRequest.Id, RequestCode = SS_SCFHSLetterRequest.Code, RequestDate=SS_SCFHSLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_SCFHSLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_SCFHSLetterRequest.EmployeeId, RequestSerial = SS_SCFHSLetterRequest.Id, RequestCode = SS_SCFHSLetterRequest.Code, RequestDate=SS_SCFHSLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_SCFHSLetterRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -832,7 +832,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_SCFHSLetterRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_SCFHSLetterRequest.EmployeeId, RequestSerial = SS_SCFHSLetterRequest.Id, RequestCode = SS_SCFHSLetterRequest.Code, RequestDate = SS_SCFHSLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_SCFHSLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_SCFHSLetterRequest.EmployeeId, RequestSerial = SS_SCFHSLetterRequest.Id, RequestCode = SS_SCFHSLetterRequest.Code, RequestDate = SS_SCFHSLetterRequest.RequestDate.ToString("yyyy-MM-dd"), SS_SCFHSLetterRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -864,7 +864,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_PaySlipRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_PaySlipRequest.EmployeeId, RequestSerial = SS_PaySlipRequest.Id, RequestCode = SS_PaySlipRequest.Code, RequestDate= SS_PaySlipRequest.RequestDate.ToString("yyyy-MM-dd"), SS_PaySlipRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_PaySlipRequest.EmployeeId, RequestSerial = SS_PaySlipRequest.Id, RequestCode = SS_PaySlipRequest.Code, RequestDate= SS_PaySlipRequest.RequestDate.ToString("yyyy-MM-dd"), SS_PaySlipRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -877,7 +877,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_PaySlipRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_PaySlipRequest.EmployeeId, RequestSerial = SS_PaySlipRequest.Id, RequestCode = SS_PaySlipRequest.Code, RequestDate= SS_PaySlipRequest.RequestDate.ToString("yyyy-MM-dd"), SS_PaySlipRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_PaySlipRequest.EmployeeId, RequestSerial = SS_PaySlipRequest.Id, RequestCode = SS_PaySlipRequest.Code, RequestDate= SS_PaySlipRequest.RequestDate.ToString("yyyy-MM-dd"), SS_PaySlipRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -909,7 +909,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_TrainingRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_TrainingRequest.EmployeeId, RequestSerial = SS_TrainingRequest.Id, RequestCode = SS_TrainingRequest.Code, RequestDate= SS_TrainingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_TrainingRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_TrainingRequest.EmployeeId, RequestSerial = SS_TrainingRequest.Id, RequestCode = SS_TrainingRequest.Code, RequestDate= SS_TrainingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_TrainingRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -922,7 +922,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_TrainingRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_TrainingRequest.EmployeeId, RequestSerial = SS_TrainingRequest.Id, RequestCode = SS_TrainingRequest.Code, RequestDate=SS_TrainingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_TrainingRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_TrainingRequest.EmployeeId, RequestSerial = SS_TrainingRequest.Id, RequestCode = SS_TrainingRequest.Code, RequestDate=SS_TrainingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_TrainingRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -951,7 +951,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                           on SS_DaycareSupportReaquest.Id equals SS_RequestActions.RequestSerial
                                           where (SS_DaycareSupportReaquest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_DaycareSupportReaquest.EmployeeId, RequestSerial = SS_DaycareSupportReaquest.Id, RequestCode = SS_DaycareSupportReaquest.Code, RequestDate= SS_DaycareSupportReaquest.RequestDate.ToString("yyyy-MM-dd"), SS_DaycareSupportReaquest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_DaycareSupportReaquest.EmployeeId, RequestSerial = SS_DaycareSupportReaquest.Id, RequestCode = SS_DaycareSupportReaquest.Code, RequestDate= SS_DaycareSupportReaquest.RequestDate.ToString("yyyy-MM-dd"), SS_DaycareSupportReaquest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -961,7 +961,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
                                           join SS_RequestActions in _context.SS_RequestActions
                                           on SS_DaycareSupportReaquest.Id equals SS_RequestActions.RequestSerial
                                           where (SS_DaycareSupportReaquest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_DaycareSupportReaquest.EmployeeId, RequestSerial = SS_DaycareSupportReaquest.Id, RequestCode = SS_DaycareSupportReaquest.Code, RequestDate= SS_DaycareSupportReaquest.RequestDate.ToString("yyyy-MM-dd"), SS_DaycareSupportReaquest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_DaycareSupportReaquest.EmployeeId, RequestSerial = SS_DaycareSupportReaquest.Id, RequestCode = SS_DaycareSupportReaquest.Code, RequestDate= SS_DaycareSupportReaquest.RequestDate.ToString("yyyy-MM-dd"), SS_DaycareSupportReaquest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -993,7 +993,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_EducationSupportRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_EducationSupportRequest.EmployeeId, RequestSerial = SS_EducationSupportRequest.Id, RequestCode = SS_EducationSupportRequest.Code, RequestDate=SS_EducationSupportRequest.RequestDate.ToString("yyyy-MM-dd"), SS_EducationSupportRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EducationSupportRequest.EmployeeId, RequestSerial = SS_EducationSupportRequest.Id, RequestCode = SS_EducationSupportRequest.Code, RequestDate=SS_EducationSupportRequest.RequestDate.ToString("yyyy-MM-dd"), SS_EducationSupportRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1006,7 +1006,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_EducationSupportRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_EducationSupportRequest.EmployeeId, RequestSerial = SS_EducationSupportRequest.Id, RequestCode = SS_EducationSupportRequest.Code, RequestDate=SS_EducationSupportRequest.RequestDate.ToString("yyyy-MM-dd"), SS_EducationSupportRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EducationSupportRequest.EmployeeId, RequestSerial = SS_EducationSupportRequest.Id, RequestCode = SS_EducationSupportRequest.Code, RequestDate=SS_EducationSupportRequest.RequestDate.ToString("yyyy-MM-dd"), SS_EducationSupportRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1038,7 +1038,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AdvanceHousingRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AdvanceHousingRequest.EmployeeId, RequestSerial = SS_AdvanceHousingRequest.Id, RequestCode = SS_AdvanceHousingRequest.Code, RequestDate= SS_AdvanceHousingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceHousingRequest.Remarks, InstallmentDate= SS_AdvanceHousingRequest.InstallmentDate.ToString("yyyy-MM-dd"), EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AdvanceHousingRequest.EmployeeId, RequestSerial = SS_AdvanceHousingRequest.Id, RequestCode = SS_AdvanceHousingRequest.Code, RequestDate= SS_AdvanceHousingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceHousingRequest.Remarks, InstallmentDate= SS_AdvanceHousingRequest.InstallmentDate.ToString("yyyy-MM-dd"), EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1051,7 +1051,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AdvanceHousingRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AdvanceHousingRequest.EmployeeId, RequestSerial = SS_AdvanceHousingRequest.Id, RequestCode = SS_AdvanceHousingRequest.Code, RequestDate=SS_AdvanceHousingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceHousingRequest.Remarks, InstallmentDate= SS_AdvanceHousingRequest.InstallmentDate.ToString("yyyy-MM-dd"), EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AdvanceHousingRequest.EmployeeId, RequestSerial = SS_AdvanceHousingRequest.Id, RequestCode = SS_AdvanceHousingRequest.Code, RequestDate=SS_AdvanceHousingRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceHousingRequest.Remarks, InstallmentDate= SS_AdvanceHousingRequest.InstallmentDate.ToString("yyyy-MM-dd"), EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1083,7 +1083,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AdvanceSalaryRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AdvanceSalaryRequest.EmployeeId, RequestSerial = SS_AdvanceSalaryRequest.Id, RequestCode = SS_AdvanceSalaryRequest.Code, RequestDate= SS_AdvanceSalaryRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceSalaryRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AdvanceSalaryRequest.EmployeeId, RequestSerial = SS_AdvanceSalaryRequest.Id, RequestCode = SS_AdvanceSalaryRequest.Code, RequestDate= SS_AdvanceSalaryRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceSalaryRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1096,7 +1096,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AdvanceSalaryRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AdvanceSalaryRequest.EmployeeId, RequestSerial = SS_AdvanceSalaryRequest.Id, RequestCode = SS_AdvanceSalaryRequest.Code, RequestDate = SS_AdvanceSalaryRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceSalaryRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AdvanceSalaryRequest.EmployeeId, RequestSerial = SS_AdvanceSalaryRequest.Id, RequestCode = SS_AdvanceSalaryRequest.Code, RequestDate = SS_AdvanceSalaryRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AdvanceSalaryRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1128,7 +1128,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OvertimeRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OvertimeRequest.EmployeeId, RequestSerial = SS_OvertimeRequest.Id, RequestCode = SS_OvertimeRequest.Code, RequestDate=SS_OvertimeRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.Remarks, OvertimeDate=SS_OvertimeRequest.OvertimeDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.HoursCount, SS_OvertimeRequest.MinutsCount, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OvertimeRequest.EmployeeId, RequestSerial = SS_OvertimeRequest.Id, RequestCode = SS_OvertimeRequest.Code, RequestDate=SS_OvertimeRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.Remarks, OvertimeDate=SS_OvertimeRequest.OvertimeDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.HoursCount, SS_OvertimeRequest.MinutsCount, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1141,7 +1141,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OvertimeRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OvertimeRequest.EmployeeId, RequestSerial = SS_OvertimeRequest.Id, RequestCode = SS_OvertimeRequest.Code, RequestDate = SS_OvertimeRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.Remarks, OvertimeDate = SS_OvertimeRequest.OvertimeDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.HoursCount, SS_OvertimeRequest.MinutsCount, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OvertimeRequest.EmployeeId, RequestSerial = SS_OvertimeRequest.Id, RequestCode = SS_OvertimeRequest.Code, RequestDate = SS_OvertimeRequest.RequestDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.Remarks, OvertimeDate = SS_OvertimeRequest.OvertimeDate.ToString("yyyy-MM-dd"), SS_OvertimeRequest.HoursCount, SS_OvertimeRequest.MinutsCount, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1173,7 +1173,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                               where (SS_EducationFeesCompensationApplication.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                              select new { ConfigID = SS_RequestActions.ConfigId, SS_EducationFeesCompensationApplication.EmployeeId, RequestSerial = SS_EducationFeesCompensationApplication.Id, RequestCode = SS_EducationFeesCompensationApplication.Code, RequestDate= SS_EducationFeesCompensationApplication.RequestDate.ToString("yyyy-MM-dd"), SS_EducationFeesCompensationApplication.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                              select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EducationFeesCompensationApplication.EmployeeId, RequestSerial = SS_EducationFeesCompensationApplication.Id, RequestCode = SS_EducationFeesCompensationApplication.Code, RequestDate= SS_EducationFeesCompensationApplication.RequestDate.ToString("yyyy-MM-dd"), SS_EducationFeesCompensationApplication.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                     }
                     else
                     {
@@ -1186,7 +1186,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_EducationFeesCompensationApplication.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_EducationFeesCompensationApplication.EmployeeId, RequestSerial = SS_EducationFeesCompensationApplication.Id, RequestCode = SS_EducationFeesCompensationApplication.Code, RequestDate = SS_EducationFeesCompensationApplication.RequestDate.ToString("yyyy-MM-dd"), SS_EducationFeesCompensationApplication.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EducationFeesCompensationApplication.EmployeeId, RequestSerial = SS_EducationFeesCompensationApplication.Id, RequestCode = SS_EducationFeesCompensationApplication.Code, RequestDate = SS_EducationFeesCompensationApplication.RequestDate.ToString("yyyy-MM-dd"), SS_EducationFeesCompensationApplication.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                     }
 
                     Result.ErrorMessage = "";
@@ -1218,7 +1218,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_GrievanceFormRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_GrievanceFormRequest.EmployeeId, RequestSerial = SS_GrievanceFormRequest.Id, RequestCode = SS_GrievanceFormRequest.Code, RequestDate= SS_GrievanceFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_GrievanceFormRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_GrievanceFormRequest.EmployeeId, RequestSerial = SS_GrievanceFormRequest.Id, RequestCode = SS_GrievanceFormRequest.Code, RequestDate= SS_GrievanceFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_GrievanceFormRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1231,7 +1231,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_GrievanceFormRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_GrievanceFormRequest.EmployeeId, RequestSerial = SS_GrievanceFormRequest.Id, RequestCode = SS_GrievanceFormRequest.Code, RequestDate=SS_GrievanceFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_GrievanceFormRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_GrievanceFormRequest.EmployeeId, RequestSerial = SS_GrievanceFormRequest.Id, RequestCode = SS_GrievanceFormRequest.Code, RequestDate=SS_GrievanceFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_GrievanceFormRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1263,7 +1263,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AssaultEscalationFormRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AssaultEscalationFormRequest.EmployeeId, RequestSerial = SS_AssaultEscalationFormRequest.Id, RequestCode = SS_AssaultEscalationFormRequest.Code, RequestDate=SS_AssaultEscalationFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AssaultEscalationFormRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AssaultEscalationFormRequest.EmployeeId, RequestSerial = SS_AssaultEscalationFormRequest.Id, RequestCode = SS_AssaultEscalationFormRequest.Code, RequestDate=SS_AssaultEscalationFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AssaultEscalationFormRequest.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1276,7 +1276,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_AssaultEscalationFormRequest.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_AssaultEscalationFormRequest.EmployeeId, RequestSerial = SS_AssaultEscalationFormRequest.Id, RequestCode = SS_AssaultEscalationFormRequest.Code, RequestDate=SS_AssaultEscalationFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AssaultEscalationFormRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_AssaultEscalationFormRequest.EmployeeId, RequestSerial = SS_AssaultEscalationFormRequest.Id, RequestCode = SS_AssaultEscalationFormRequest.Code, RequestDate=SS_AssaultEscalationFormRequest.RequestDate.ToString("yyyy-MM-dd"), SS_AssaultEscalationFormRequest.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1310,7 +1310,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_BankAccountUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, BankName = sys_Banks.ArbName, SS_BankAccountUpdate.BankAccountNumber, SS_BankAccountUpdate.EmployeeId, RequestSerial = SS_BankAccountUpdate.Id, RequestCode = SS_BankAccountUpdate.Code, RequestDate=SS_BankAccountUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_BankAccountUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, BankName = sys_Banks.ArbName, SS_BankAccountUpdate.BankAccountNumber, SS_BankAccountUpdate.EmployeeId, RequestSerial = SS_BankAccountUpdate.Id, RequestCode = SS_BankAccountUpdate.Code, RequestDate=SS_BankAccountUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_BankAccountUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1325,7 +1325,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_BankAccountUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, BankName = sys_Banks.EngName, SS_BankAccountUpdate.BankAccountNumber, SS_BankAccountUpdate.EmployeeId, RequestSerial = SS_BankAccountUpdate.Id, RequestCode = SS_BankAccountUpdate.Code, RequestDate=SS_BankAccountUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_BankAccountUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, BankName = sys_Banks.EngName, SS_BankAccountUpdate.BankAccountNumber, SS_BankAccountUpdate.EmployeeId, RequestSerial = SS_BankAccountUpdate.Id, RequestCode = SS_BankAccountUpdate.Code, RequestDate=SS_BankAccountUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_BankAccountUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
 
 
                     Result.ErrorMessage = "";
@@ -1357,7 +1357,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_ContactInformationUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ContactInformationUpdate.EmployeeId, RequestSerial = SS_ContactInformationUpdate.Id, RequestCode = SS_ContactInformationUpdate.Code, RequestDate=SS_ContactInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_ContactInformationUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ContactInformationUpdate.EmployeeId, RequestSerial = SS_ContactInformationUpdate.Id, RequestCode = SS_ContactInformationUpdate.Code, RequestDate=SS_ContactInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_ContactInformationUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1370,7 +1370,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_ContactInformationUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_ContactInformationUpdate.EmployeeId, RequestSerial = SS_ContactInformationUpdate.Id, RequestCode = SS_ContactInformationUpdate.Code, RequestDate=SS_ContactInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_ContactInformationUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_ContactInformationUpdate.EmployeeId, RequestSerial = SS_ContactInformationUpdate.Id, RequestCode = SS_ContactInformationUpdate.Code, RequestDate=SS_ContactInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_ContactInformationUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1402,7 +1402,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_DependentsInformationUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_DependentsInformationUpdate.EmployeeId, RequestSerial = SS_DependentsInformationUpdate.Id, RequestCode = SS_DependentsInformationUpdate.Code, RequestDate= SS_DependentsInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_DependentsInformationUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_DependentsInformationUpdate.EmployeeId, RequestSerial = SS_DependentsInformationUpdate.Id, RequestCode = SS_DependentsInformationUpdate.Code, RequestDate= SS_DependentsInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_DependentsInformationUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1415,7 +1415,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_DependentsInformationUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_DependentsInformationUpdate.EmployeeId, RequestSerial = SS_DependentsInformationUpdate.Id, RequestCode = SS_DependentsInformationUpdate.Code, RequestDate = SS_DependentsInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_DependentsInformationUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_DependentsInformationUpdate.EmployeeId, RequestSerial = SS_DependentsInformationUpdate.Id, RequestCode = SS_DependentsInformationUpdate.Code, RequestDate = SS_DependentsInformationUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_DependentsInformationUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1447,7 +1447,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_MedicalInsuranceAdjustments.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_MedicalInsuranceAdjustments.EmployeeId, RequestSerial = SS_MedicalInsuranceAdjustments.Id, RequestCode = SS_MedicalInsuranceAdjustments.Code, RequestDate=SS_MedicalInsuranceAdjustments.RequestDate.ToString("yyyy-MM-dd"), SS_MedicalInsuranceAdjustments.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_MedicalInsuranceAdjustments.EmployeeId, RequestSerial = SS_MedicalInsuranceAdjustments.Id, RequestCode = SS_MedicalInsuranceAdjustments.Code, RequestDate=SS_MedicalInsuranceAdjustments.RequestDate.ToString("yyyy-MM-dd"), SS_MedicalInsuranceAdjustments.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1460,7 +1460,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_MedicalInsuranceAdjustments.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_MedicalInsuranceAdjustments.EmployeeId, RequestSerial = SS_MedicalInsuranceAdjustments.Id, RequestCode = SS_MedicalInsuranceAdjustments.Code, RequestDate= SS_MedicalInsuranceAdjustments.RequestDate.ToString("yyyy-MM-dd"), SS_MedicalInsuranceAdjustments.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_MedicalInsuranceAdjustments.EmployeeId, RequestSerial = SS_MedicalInsuranceAdjustments.Id, RequestCode = SS_MedicalInsuranceAdjustments.Code, RequestDate= SS_MedicalInsuranceAdjustments.RequestDate.ToString("yyyy-MM-dd"), SS_MedicalInsuranceAdjustments.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1492,7 +1492,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OtherLegalDocumentUpdates.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OtherLegalDocumentUpdates.EmployeeId, RequestSerial = SS_OtherLegalDocumentUpdates.Id, RequestCode = SS_OtherLegalDocumentUpdates.Code, SS_OtherLegalDocumentUpdates.RequestDate, SS_OtherLegalDocumentUpdates.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OtherLegalDocumentUpdates.EmployeeId, RequestSerial = SS_OtherLegalDocumentUpdates.Id, RequestCode = SS_OtherLegalDocumentUpdates.Code, SS_OtherLegalDocumentUpdates.RequestDate, SS_OtherLegalDocumentUpdates.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1505,7 +1505,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_OtherLegalDocumentUpdates.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_OtherLegalDocumentUpdates.EmployeeId, RequestSerial = SS_OtherLegalDocumentUpdates.Id, RequestCode = SS_OtherLegalDocumentUpdates.Code, SS_OtherLegalDocumentUpdates.RequestDate, SS_OtherLegalDocumentUpdates.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_OtherLegalDocumentUpdates.EmployeeId, RequestSerial = SS_OtherLegalDocumentUpdates.Id, RequestCode = SS_OtherLegalDocumentUpdates.Code, SS_OtherLegalDocumentUpdates.RequestDate, SS_OtherLegalDocumentUpdates.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -1537,7 +1537,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_EmployeeFileUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_EmployeeFileUpdate.EmployeeId, RequestSerial = SS_EmployeeFileUpdate.Id, RequestCode = SS_EmployeeFileUpdate.Code, RequestDate=SS_EmployeeFileUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_EmployeeFileUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EmployeeFileUpdate.EmployeeId, RequestSerial = SS_EmployeeFileUpdate.Id, RequestCode = SS_EmployeeFileUpdate.Code, RequestDate=SS_EmployeeFileUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_EmployeeFileUpdate.Remarks, EmployeeName = Hrs_Employees.ArbName + " " + Hrs_Employees.FatherArbName + " " + Hrs_Employees.GrandArbName + " " + Hrs_Employees.FamilyArbName };
                 }
                 else
                 {
@@ -1550,7 +1550,7 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
 
 
                                           where (SS_EmployeeFileUpdate.Id == ReauestID && SS_RequestActions.ConfigId == ConfigID)
-                                          select new { ConfigID = SS_RequestActions.ConfigId, SS_EmployeeFileUpdate.EmployeeId, RequestSerial = SS_EmployeeFileUpdate.Id, RequestCode = SS_EmployeeFileUpdate.Code, RequestDate = SS_EmployeeFileUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_EmployeeFileUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
+                                          select new { ConfigID = SS_RequestActions.ConfigId, ActionSerial = SS_RequestActions.ActionSerial, SS_EmployeeFileUpdate.EmployeeId, RequestSerial = SS_EmployeeFileUpdate.Id, RequestCode = SS_EmployeeFileUpdate.Code, RequestDate = SS_EmployeeFileUpdate.RequestDate.ToString("yyyy-MM-dd"), SS_EmployeeFileUpdate.Remarks, EmployeeName = Hrs_Employees.EngName + " " + Hrs_Employees.FatherEngName + " " + Hrs_Employees.GrandEngName + " " + Hrs_Employees.FamilyEngName };
                 }
 
                 Result.ErrorMessage = "";
@@ -2719,15 +2719,17 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             .FirstOrDefault();
             var hoursAllowed = companySettings?.ExecuseRequestHoursallowed ?? 0;
 
+            var excuseTimeText = (request.ExecuseTime ?? string.Empty).Trim().Replace(',', '.');
+            if (!decimal.TryParse(excuseTimeText, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out decimal excuseTime)
+                || excuseTime <= 0)
+            {
+                Result.ErrorCode = 0;
+                Result.ErrorMessage = "Invalid excuse time format";
+                return Result;
+            }
+
             if (hoursAllowed > 0)
             {
-                 if (!decimal.TryParse(request.ExecuseTime, out decimal excuseTime))
-                {
-                    Result.ErrorCode = 0;
-                    Result.ErrorMessage = "Invalid excuse time format";
-                    return Result;
-                }
-
                 if (excuseTime > hoursAllowed)
                 {
                     Result.ErrorCode = 0;
@@ -2754,13 +2756,6 @@ namespace VenusHR.Infrastructure.Presistence.SelfService
             }
             else
             {
-                 if (!int.TryParse(request.ExecuseTime, out int excuseTime))
-                {
-                    Result.ErrorCode = 0;
-                    Result.ErrorMessage = "Invalid excuse time format";
-                    return Result;
-                }
-
                 SaveGenericRequest(
                     request,
                     requestType,
@@ -3621,30 +3616,72 @@ Code = u.Code
 
             try
             {
-                Result.ResultObject = from SS_VFollowup in _context.SS_VFollowup
-                                      join statusType in _context.SS_RequestStatuesTypes
-                                      on SS_VFollowup.RequestStautsTypeID equals statusType.Id
-                                      where SS_VFollowup.EmployeeID == EmployeeID
-                                      orderby SS_VFollowup.RequestDate descending
-                                      select new
-                                      {
-                                          Id = SS_VFollowup.ID,
-                                          RequestCode = SS_VFollowup.RequestSerial,
-                                          RequestType = Lang == 1 ?
-                                              SS_VFollowup.RequestArbName :
-                                              SS_VFollowup.RequestEngName,
-                                          RequestDate = SS_VFollowup.RequestDate.ToString("yyyy-MM-dd"),
-                                          Status = Lang == 1 ?
-                                              statusType.AraName :
-                                              statusType.EngName,
-                                         RequestName = Lang == 1 ?
-                                              SS_VFollowup.RequestArbName :
-                                              SS_VFollowup.RequestEngName,
-                                          //VacationType = SS_VFollowup.VacationType,
-                                          FormCode = SS_VFollowup.FormCode,
-                                             CanViewDetails = true,
-                                          HasStages = true
-                                      };
+                var requests = (from SS_VFollowup in _context.SS_VFollowup
+                                join statusType in _context.SS_RequestStatuesTypes
+                                on SS_VFollowup.RequestStautsTypeID equals statusType.Id
+                                where SS_VFollowup.EmployeeID == EmployeeID
+                                orderby SS_VFollowup.RequestDate descending
+                                select new
+                                {
+                                    Id = SS_VFollowup.ID,
+                                    RequestCode = SS_VFollowup.RequestSerial,
+                                    RequestType = Lang == 1 ?
+                                        SS_VFollowup.RequestArbName :
+                                        SS_VFollowup.RequestEngName,
+                                    RequestDate = SS_VFollowup.RequestDate.ToString("yyyy-MM-dd"),
+                                    Status = Lang == 1 ?
+                                        statusType.AraName :
+                                        statusType.EngName,
+                                    RequestName = Lang == 1 ?
+                                        SS_VFollowup.RequestArbName :
+                                        SS_VFollowup.RequestEngName,
+                                    //VacationType = SS_VFollowup.VacationType,
+                                    FormCode = SS_VFollowup.FormCode,
+                                    CanViewDetails = true,
+                                    HasStages = true
+                                }).ToList();
+
+                var requestIds = requests.Select(r => r.Id).Distinct().ToList();
+                var formCodes = requests.Select(r => r.FormCode).Distinct().ToList();
+
+                var actionsLookup = _context.SS_RequestActions
+                    .Where(a => requestIds.Contains(a.RequestSerial)
+                             && formCodes.Contains(a.FormCode)
+                             && (a.IsHidden == null || a.IsHidden == false))
+                    .OrderBy(a => a.ActionSerial)
+                    .Select(a => new
+                    {
+                        a.RequestSerial,
+                        a.FormCode,
+                        a.ConfigId,
+                        a.ActionId,
+                        a.ActionDate,
+                        a.ActionRemarks
+                    })
+                    .ToList()
+                    .ToLookup(a => (a.RequestSerial, a.FormCode));
+
+                Result.ResultObject = requests.Select(r => new
+                {
+                    r.Id,
+                    r.RequestCode,
+                    r.RequestType,
+                    r.RequestDate,
+                    r.Status,
+                    r.RequestName,
+                    r.FormCode,
+                    r.CanViewDetails,
+                    r.HasStages,
+                    RequestActions = actionsLookup[(r.Id, r.FormCode)]
+                        .Select(a => new
+                        {
+                            ConfigID = a.ConfigId,
+                            ActionId = a.ActionId,
+                            ActionDate = a.ActionDate,
+                            Remarks = a.ActionRemarks
+                        })
+                        .ToList()
+                }).ToList();
 
                 Result.ErrorCode = 1;
                 Result.ErrorMessage = "Success";

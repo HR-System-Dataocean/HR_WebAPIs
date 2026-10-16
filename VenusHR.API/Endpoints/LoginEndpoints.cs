@@ -13,6 +13,58 @@ public static class LoginEndpoints
          app.MapPost("/api/auth/login", Login).AllowAnonymous();
         app.MapGet("/api/auth/status", Status).RequireAuthorization();
         app.MapPost("/api/auth/logout", Logout).RequireAuthorization();
+        app.MapPost("/api/auth/change-password", ChangePassword).RequireAuthorization();
+    }
+
+    private static IResult ChangePassword(
+        [FromBody] ChangePasswordRequest request,
+        HttpContext httpContext,
+        ILoginServices loginService,
+        [FromQuery] int lang = 2)
+    {
+        if (request == null)
+        {
+            var message = lang == 1 ? "بيانات الطلب غير صحيحة" : "Invalid request data";
+            return Results.BadRequest(ApiResponse.Fail(message));
+        }
+
+        var username = httpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            var message = lang == 1 ? "المستخدم غير مصرح له" : "Unauthorized user";
+            return Results.Json(ApiResponse.Fail(message), statusCode: 401);
+        }
+
+        try
+        {
+            var result = loginService.ChangePassword(
+                username,
+                request.CurrentPassword,
+                request.NewPassword,
+                request.ConfirmPassword,
+                lang);
+
+            if (result is WorkFlow_EF.GeneralOutputClass<object> output)
+            {
+                if (output.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "فشل تغيير كلمة المرور" : "Change password failed";
+                    return Results.BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                }
+
+                return Results.Ok(ApiResponse<object>.Ok(
+                    null,
+                    output.ErrorMessage ?? (lang == 1 ? "تم تغيير كلمة المرور بنجاح" : "Password changed successfully")));
+            }
+
+            var errorMsg = lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+            return Results.Json(ApiResponse<object>.Fail(errorMsg), statusCode: 500);
+        }
+        catch (Exception ex)
+        {
+            var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+            return Results.Json(ApiResponse<object>.Fail(message, 500, ex.Message), statusCode: 500);
+        }
     }
 
     private static async Task<IResult> Login(
@@ -101,4 +153,16 @@ public class LoginRequest
     public string Password { get; set; } = string.Empty;
 
     public string? DeviceToken { get; set; }
+}
+
+public class ChangePasswordRequest
+{
+    [Required(ErrorMessage = "Current password is required")]
+    public string CurrentPassword { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "New password is required")]
+    public string NewPassword { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Confirm password is required")]
+    public string ConfirmPassword { get; set; } = string.Empty;
 }

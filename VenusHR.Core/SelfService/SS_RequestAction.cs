@@ -25,7 +25,7 @@ public partial class SS_RequestAction
 
     public DateTime? ActionDate { get; set; }
 
-    public string? ConfirmedNoOfdays { get; set; }
+    public int? ConfirmedNoOfdays { get; set; }
 
     public string? ActionRemarks { get; set; }
 

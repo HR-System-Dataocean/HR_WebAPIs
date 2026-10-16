@@ -474,6 +474,127 @@ namespace VenusHR.API.Controllers
             }
         }
 
+        [HttpGet("GetAllMobileConfigs")]
+        public async Task<ActionResult<ApiResponse<object>>> GetAllMobileConfigs([FromQuery] int lang = 0)
+        {
+            try
+            {
+                var result = await _hrMaster.GetAllMobileConfigsAsync();
+
+                if (result.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "فشل جلب إعدادات الجوال" : "Failed to retrieve mobile configs";
+                    return BadRequest(ApiResponse<object>.Fail(result.ErrorMessage ?? message, result.ErrorCode));
+                }
+
+                var successMsg = lang == 1 ? "تم جلب إعدادات الجوال بنجاح" : "Mobile configs retrieved successfully";
+                return Ok(ApiResponse<object>.Ok(result.ResultObject, result.ErrorMessage ?? successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet("GetMobileConfigByCompanyId/{companyId}")]
+        public async Task<ActionResult<ApiResponse<object>>> GetMobileConfigByCompanyId(int companyId, [FromQuery] int lang = 0)
+        {
+            try
+            {
+                var result = await _hrMaster.GetMobileConfigByCompanyIdAsync(companyId);
+
+                if (result.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "إعدادات الجوال غير موجودة" : "Mobile config not found";
+                    return NotFound(ApiResponse<object>.Fail(lang == 1 ? message : result.ErrorMessage ?? message, result.ErrorCode));
+                }
+
+                var successMsg = lang == 1 ? "تم جلب إعدادات الجوال بنجاح" : "Mobile config retrieved successfully";
+                return Ok(ApiResponse<object>.Ok(result.ResultObject, result.ErrorMessage ?? successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpPost("CreateMobileConfig")]
+        public async Task<ActionResult<ApiResponse<object>>> CreateMobileConfig([FromBody] sys_MobileConfig mobileConfig, [FromQuery] int lang = 0)
+        {
+            try
+            {
+                if (mobileConfig == null || mobileConfig.CompanyId <= 0)
+                {
+                    var invalidMsg = lang == 1 ? "رقم الشركة مطلوب" : "CompanyId is required";
+                    return BadRequest(ApiResponse<object>.Fail(invalidMsg));
+                }
+
+                var result = await _hrMaster.CreateMobileConfigAsync(mobileConfig);
+
+                if (result.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "فشل إنشاء إعدادات الجوال" : "Failed to create mobile config";
+                    return BadRequest(ApiResponse<object>.Fail(result.ErrorMessage ?? message, result.ErrorCode));
+                }
+
+                var successMsg = lang == 1 ? "تم إنشاء إعدادات الجوال بنجاح" : "Mobile config created successfully";
+                return Ok(ApiResponse<object>.Ok(result.ResultObject, result.ErrorMessage ?? successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpPut("UpdateMobileConfig/{companyId}")]
+        public async Task<ActionResult<ApiResponse<object>>> UpdateMobileConfig(int companyId, [FromBody] sys_MobileConfig mobileConfig, [FromQuery] int lang = 0)
+        {
+            try
+            {
+                var result = await _hrMaster.UpdateMobileConfigAsync(companyId, mobileConfig);
+
+                if (result.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "فشل تحديث إعدادات الجوال" : "Failed to update mobile config";
+                    return BadRequest(ApiResponse<object>.Fail(result.ErrorMessage ?? message, result.ErrorCode));
+                }
+
+                var successMsg = lang == 1 ? "تم تحديث إعدادات الجوال بنجاح" : "Mobile config updated successfully";
+                return Ok(ApiResponse<object>.Ok(result.ResultObject, result.ErrorMessage ?? successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpDelete("DeleteMobileConfig/{companyId}")]
+        public async Task<ActionResult<ApiResponse<object>>> DeleteMobileConfig(int companyId, [FromQuery] int lang = 0)
+        {
+            try
+            {
+                var result = await _hrMaster.DeleteMobileConfigAsync(companyId);
+
+                if (result.ErrorCode == 0)
+                {
+                    var message = lang == 1 ? "فشل حذف إعدادات الجوال" : "Failed to delete mobile config";
+                    return BadRequest(ApiResponse<object>.Fail(result.ErrorMessage ?? message, result.ErrorCode));
+                }
+
+                var successMsg = lang == 1 ? "تم حذف إعدادات الجوال بنجاح" : "Mobile config deleted successfully";
+                return Ok(ApiResponse<object>.Ok(null, successMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = lang == 1 ? "حدث خطأ في الخادم" : "Server error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
         [HttpGet("GetAllEducations/{lang}")]
         public async Task<ActionResult<ApiResponse<object>>> GetAllEducations(int lang = 0)
         {

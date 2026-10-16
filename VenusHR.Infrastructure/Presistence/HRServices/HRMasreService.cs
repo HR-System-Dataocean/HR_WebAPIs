@@ -161,6 +161,140 @@ namespace VenusHR.Infrastructure.Presistence.HRServices
         }
         #endregion
 
+        #region إعدادات تطبيق الجوال
+        public async Task<GeneralOutputClass<object>> GetAllMobileConfigsAsync()
+        {
+            var result = new GeneralOutputClass<object>();
+            try
+            {
+                result.ResultObject = await _context.sys_MobileConfig.AsNoTracking().ToListAsync();
+                result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                result.ResultObject = null;
+                result.ErrorCode = 0;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralOutputClass<object>> GetMobileConfigByCompanyIdAsync(int companyId)
+        {
+            var result = new GeneralOutputClass<object>();
+            try
+            {
+                var mobileConfig = await _context.sys_MobileConfig.FindAsync(companyId);
+                if (mobileConfig == null)
+                {
+                    result.ErrorCode = 0;
+                    result.ErrorMessage = $"Mobile config for company {companyId} not found";
+                }
+                else
+                {
+                    result.ResultObject = mobileConfig;
+                    result.ErrorCode = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.ResultObject = null;
+                result.ErrorCode = 0;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralOutputClass<object>> CreateMobileConfigAsync(sys_MobileConfig mobileConfig)
+        {
+            var result = new GeneralOutputClass<object>();
+            try
+            {
+                if (await _context.sys_MobileConfig.AnyAsync(x => x.CompanyId == mobileConfig.CompanyId))
+                {
+                    result.ErrorCode = 0;
+                    result.ErrorMessage = $"Mobile config for company {mobileConfig.CompanyId} already exists";
+                    return result;
+                }
+
+                mobileConfig.RegDate = DateTime.Now;
+                _context.sys_MobileConfig.Add(mobileConfig);
+                await _context.SaveChangesAsync();
+
+                result.ResultObject = mobileConfig;
+                result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                result.ResultObject = null;
+                result.ErrorCode = 0;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralOutputClass<object>> UpdateMobileConfigAsync(int companyId, sys_MobileConfig mobileConfig)
+        {
+            var result = new GeneralOutputClass<object>();
+            try
+            {
+                var existing = await _context.sys_MobileConfig.FindAsync(companyId);
+                if (existing == null)
+                {
+                    result.ErrorCode = 0;
+                    result.ErrorMessage = $"Mobile config for company {companyId} not found";
+                    return result;
+                }
+
+                existing.EmpCanUploadProfilePic = mobileConfig.EmpCanUploadProfilePic;
+                existing.Remarks = mobileConfig.Remarks;
+                existing.RegUserID = mobileConfig.RegUserID;
+                existing.RegComputerID = mobileConfig.RegComputerID;
+                existing.CancelDate = mobileConfig.CancelDate;
+
+                await _context.SaveChangesAsync();
+
+                result.ResultObject = existing;
+                result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                result.ResultObject = null;
+                result.ErrorCode = 0;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+
+        public async Task<GeneralOutputClass<object>> DeleteMobileConfigAsync(int companyId)
+        {
+            var result = new GeneralOutputClass<object>();
+            try
+            {
+                var existing = await _context.sys_MobileConfig.FindAsync(companyId);
+                if (existing == null)
+                {
+                    result.ErrorCode = 0;
+                    result.ErrorMessage = $"Mobile config for company {companyId} not found";
+                    return result;
+                }
+
+                _context.sys_MobileConfig.Remove(existing);
+                await _context.SaveChangesAsync();
+
+                result.ResultObject = true;
+                result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                result.ResultObject = null;
+                result.ErrorCode = 0;
+                result.ErrorMessage = ex.Message;
+            }
+            return result;
+        }
+        #endregion
+
         #region الجنسيات
         public async Task<GeneralOutputClass<object>> GetAllNationalitiesAsync(int lang = 0)
         {

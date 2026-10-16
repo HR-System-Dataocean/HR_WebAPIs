@@ -11,5 +11,6 @@ namespace VenusHR.Application.Common.Interfaces.Login
     public interface ILoginServices
     {
         object Login(string username, string password,int Lang, string deviceToken);
+        object ChangePassword(string username, string currentPassword, string newPassword, string confirmPassword, int Lang);
     }
 }

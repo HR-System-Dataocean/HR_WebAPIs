@@ -64,15 +64,21 @@ namespace VenusHR.API.Controllers.Attendance
                     request.MacAddress
                 );
 
+                bool isCheckOut = string.Equals(CheckType?.Trim(), "Out", StringComparison.OrdinalIgnoreCase);
+
                 if (result is GeneralOutputClass<object> output)
                 {
                     if (output.ErrorCode == 0)
                     {
-                        var message = Lang == 1 ? "فشل تسجيل الحضور" : "Check-in/out failed";
+                        var message = isCheckOut
+                            ? (Lang == 1 ? "فشل تسجيل المغادرة" : "Check-out failed")
+                            : (Lang == 1 ? "فشل تسجيل الحضور" : "Check-in/out failed");
                         return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
                     }
 
-                    var successMsg = Lang == 1 ? "تم تسجيل الحضور بنجاح" : "Check-in/out successful";
+                    var successMsg = isCheckOut
+                        ? (Lang == 1 ? "تم تسجيل المغادرة بنجاح" : "Check-out successful")
+                        : (Lang == 1 ? "تم تسجيل الحضور بنجاح" : "Check-in/out successful");
                     return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
                 }
 
@@ -128,6 +134,89 @@ namespace VenusHR.API.Controllers.Attendance
             catch (Exception ex)
             {
                 var message = Lang == 1 ? "حدث خطأ في جلب سجل الحضور" : "Error retrieving attendance history";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet, Route("api/Attendance/ManagerTeamAttendance")]
+        public ActionResult<ApiResponse<object>> GetManagerTeamAttendance(
+            [FromQuery] DateTime? Date = null,
+            [FromQuery] int Lang = 0)
+        {
+            var managerId = int.TryParse(User.FindFirst("EmployeeId")?.Value, out var id) ? id : 0;
+            if (managerId <= 0)
+            {
+                var message = Lang == 1 ? "غير مصرح" : "Unauthorized";
+                return Unauthorized(ApiResponse<object>.Fail(message, 401));
+            }
+
+            try
+            {
+                var result = _attendance.GetManagerTeamAttendance(managerId, Date, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب حضور الفريق" : "Failed to retrieve team attendance";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب حضور فريق المدير بنجاح" : "Team attendance retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب حضور الفريق" : "Error retrieving team attendance";
+                return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
+            }
+        }
+
+        [HttpGet, Route("api/Attendance/AllEmployeesAttendance")]
+        public ActionResult<ApiResponse<object>> GetAllEmployeesAttendance(
+            [FromQuery] DateTime? Date = null,
+            [FromQuery] int? DepartmentID = null,
+            [FromQuery] int Lang = 0)
+        {
+            var requesterId = int.TryParse(User.FindFirst("EmployeeId")?.Value, out var id) ? id : 0;
+            if (requesterId <= 0)
+            {
+                var message = Lang == 1 ? "غير مصرح" : "Unauthorized";
+                return Unauthorized(ApiResponse<object>.Fail(message, 401));
+            }
+
+            if (!_context.Hrs_Employees.Any(e => e.id == requesterId && e.IsHRTeam == true))
+            {
+                var message = Lang == 1 ? "غير مسموح لك بعرض حضور كل الموظفين" : "You are not allowed to view all employees attendance";
+                return StatusCode(403, ApiResponse<object>.Fail(message, 403));
+            }
+
+            try
+            {
+                var result = _attendance.GetAllEmployeesAttendance(requesterId, Date, DepartmentID, Lang);
+
+                if (result is GeneralOutputClass<object> output)
+                {
+                    if (output.ErrorCode == 0)
+                    {
+                        var message = Lang == 1 ? "فشل جلب حضور الموظفين" : "Failed to retrieve employees attendance";
+                        return BadRequest(ApiResponse<object>.Fail(output.ErrorMessage ?? message, output.ErrorCode));
+                    }
+
+                    var successMsg = Lang == 1 ? "تم جلب حضور الموظفين بنجاح" : "Employees attendance retrieved successfully";
+                    return Ok(ApiResponse<object>.Ok(output.ResultObject, output.ErrorMessage ?? successMsg));
+                }
+
+                var errorMsg = Lang == 1 ? "حدث خطأ غير متوقع" : "An unexpected error occurred";
+                return StatusCode(500, ApiResponse<object>.Fail(errorMsg));
+            }
+            catch (Exception ex)
+            {
+                var message = Lang == 1 ? "حدث خطأ أثناء جلب حضور الموظفين" : "Error retrieving employees attendance";
                 return StatusCode(500, ApiResponse<object>.Fail(message, 500, ex.Message));
             }
         }

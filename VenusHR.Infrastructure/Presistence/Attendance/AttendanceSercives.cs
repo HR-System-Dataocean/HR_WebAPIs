@@ -27,6 +27,7 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
         public object CheckInOut(int EmployeeID, double Latitude, double longitude, DateTime CheckingDatetime, string DeviceID, string deviceModel, string osVersion, string networkType, int Lang, string CheckType, string? macAddress = null)
         {
             Result = new GeneralOutputClass<object>();
+            bool isCheckOut = string.Equals(CheckType?.Trim(), "Out", StringComparison.OrdinalIgnoreCase);
             try
             {
                 var employee = _context.Hrs_Employees.FirstOrDefault(e => e.id == EmployeeID);
@@ -141,15 +142,19 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     _context.Hrs_Mobile_Attendance.Add(attendanceRecord);
                     _context.SaveChanges();
 
+                    var successMessage = isCheckOut
+                        ? ((Lang == 1) ? "تم تسجيل المغادرة بنجاح" : "Check-out successful")
+                        : ((Lang == 1) ? "تم تسجيل الحضور بنجاح" : "Check-in successful");
+
                     Result.ResultObject = new
                     {
                         CheckInId = attendanceRecord.ID,
                         CheckInTime = CheckingDatetime,
                         Distance = Math.Round(closestDistance ?? 0, 2),
-                        Message = (Lang == 1) ? "تم تسجيل الحضور بنجاح" : "Check-in successful",
+                        Message = successMessage,
                         IsWithinRange = true
                     };
-                    Result.ErrorMessage = (Lang == 1) ? "تم تسجيل الحضور بنجاح" : "Check-in successful";
+                    Result.ErrorMessage = successMessage;
                     Result.ErrorCode = 1;
                 }
                 else
@@ -171,7 +176,9 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             }
             catch (Exception ex)
             {
-                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء تسجيل الحضور" : "An error occurred during check-in";
+                Result.ErrorMessage = isCheckOut
+                    ? ((Lang == 1) ? "حدث خطأ أثناء تسجيل المغادرة" : "An error occurred during check-out")
+                    : ((Lang == 1) ? "حدث خطأ أثناء تسجيل الحضور" : "An error occurred during check-in");
                 Result.ErrorCode = 0;
                  Console.WriteLine($"CheckIn Error: {ex.Message}");
             }
@@ -444,6 +451,203 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
 
             return Result;
         }
+
+        public object GetManagerTeamAttendance(int ManagerID, DateTime? Date, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var manager = _context.Hrs_Employees.AsNoTracking().FirstOrDefault(e => e.id == ManagerID);
+                if (manager == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var now = DateTime.Now;
+                var day = (Date ?? now).Date;
+
+                var employeesQuery = _context.Hrs_Employees.Where(e => e.ManagerId == ManagerID);
+                var employees = BuildDailyAttendanceRows(employeesQuery, day, Lang);
+
+                Result.ResultObject = new
+                {
+                    Date = day.ToString("yyyy-MM-dd"),
+                    ManagerID = manager.id,
+                    ManagerName = Lang == 1
+                        ? JoinName(manager.ArbName, manager.FamilyArbName)
+                        : JoinName(manager.EngName, manager.FamilyEngName),
+                    AsOfTime = now.ToString("HH:mm"),
+                    TeamCount = employees.Count,
+                    CheckedInCount = employees.Count(e => e.Status != "NotCheckedIn"),
+                    AtWorkCount = employees.Count(e => e.Status == "AtWork"),
+                    CheckedOutCount = employees.Count(e => e.Status == "CheckedOut"),
+                    NotCheckedInCount = employees.Count(e => e.Status == "NotCheckedIn"),
+                    Employees = employees
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب حضور فريق المدير بنجاح" : "Team attendance retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب حضور الفريق" : "Error retrieving team attendance";
+                Result.ErrorCode = 0;
+                Console.WriteLine($"GetManagerTeamAttendance Error: {ex.Message}");
+            }
+
+            return Result;
+        }
+
+        public object GetAllEmployeesAttendance(int RequesterID, DateTime? Date, int? DepartmentID, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var requester = _context.Hrs_Employees.AsNoTracking().FirstOrDefault(e => e.id == RequesterID);
+                if (requester == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                if (requester.IsHRTeam != true)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "غير مسموح لك بعرض حضور كل الموظفين" : "You are not allowed to view all employees attendance";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var now = DateTime.Now;
+                var day = (Date ?? now).Date;
+
+                var employeesQuery = _context.Hrs_Employees.AsQueryable();
+                string scope = Lang == 1 ? "كل الإدارات" : "All departments";
+                if (DepartmentID.HasValue && DepartmentID.Value > 0)
+                {
+                    employeesQuery = employeesQuery.Where(e => e.DepartmentId == DepartmentID.Value);
+                    var department = _context.sys_Departments.AsNoTracking().FirstOrDefault(d => d.ID == DepartmentID.Value);
+                    scope = (Lang == 1 ? department?.ArbName : department?.EngName) ?? scope;
+                }
+
+                var rows = BuildDailyAttendanceRows(employeesQuery, day, Lang);
+
+                var departments = rows
+                    .GroupBy(r => new { r.DepartmentID, r.DepartmentCode, r.Department })
+                    .OrderBy(g => g.Key.DepartmentID == null)
+                    .ThenBy(g => g.Key.DepartmentCode)
+                    .ThenBy(g => g.Key.DepartmentID)
+                    .Select(g => new
+                    {
+                        DepartmentID = g.Key.DepartmentID,
+                        Department = g.Key.Department ?? (Lang == 1 ? "بدون إدارة" : "No department"),
+                        EmployeesCount = g.Count(),
+                        CheckedInCount = g.Count(r => r.Status != "NotCheckedIn"),
+                        Employees = g.ToList()
+                    })
+                    .ToList();
+
+                Result.ResultObject = new
+                {
+                    Date = day.ToString("yyyy-MM-dd"),
+                    Scope = scope,
+                    AsOfTime = now.ToString("HH:mm"),
+                    TotalEmployees = rows.Count,
+                    CheckedInCount = rows.Count(r => r.Status != "NotCheckedIn"),
+                    AtWorkCount = rows.Count(r => r.Status == "AtWork"),
+                    CheckedOutCount = rows.Count(r => r.Status == "CheckedOut"),
+                    NotCheckedInCount = rows.Count(r => r.Status == "NotCheckedIn"),
+                    Departments = departments
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب حضور الموظفين بنجاح" : "Employees attendance retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب حضور الموظفين" : "Error retrieving employees attendance";
+                Result.ErrorCode = 0;
+                Console.WriteLine($"GetAllEmployeesAttendance Error: {ex.Message}");
+            }
+
+            return Result;
+        }
+
+        private List<DailyAttendanceRowDto> BuildDailyAttendanceRows(IQueryable<Hrs_Employees> employeesQuery, DateTime day, int Lang)
+        {
+            var dayEnd = day.AddDays(1);
+            var activeEmployees = employeesQuery
+                .Where(e => e.CancelDate == null && (e.ExcludeDate == null || e.ExcludeDate >= day));
+
+            var employees = (from emp in activeEmployees
+                             join dep in _context.sys_Departments on emp.DepartmentId equals dep.ID into deps
+                             from dep in deps.DefaultIfEmpty()
+                             orderby emp.Code
+                             select new
+                             {
+                                 emp.id,
+                                 emp.Code,
+                                 emp.ArbName,
+                                 emp.FatherArbName,
+                                 emp.FamilyArbName,
+                                 emp.EngName,
+                                 emp.FatherEngName,
+                                 emp.FamilyEngName,
+                                 DepartmentID = dep != null ? (int?)dep.ID : null,
+                                 DepartmentCode = dep != null ? dep.Code : null,
+                                 DepartmentArbName = dep != null ? dep.ArbName : null,
+                                 DepartmentEngName = dep != null ? dep.EngName : null
+                             })
+                            .AsNoTracking()
+                            .ToList();
+
+            var punches = (from a in _context.Hrs_Mobile_Attendance
+                           join e in activeEmployees on a.EmployeeID equals e.id
+                           where a.CheckingDatetime >= day && a.CheckingDatetime < dayEnd
+                           select new { a.EmployeeID, a.CheckingDatetime, a.CheckType })
+                          .AsNoTracking()
+                          .ToList()
+                          .GroupBy(a => a.EmployeeID)
+                          .ToDictionary(g => g.Key, g => g.OrderBy(a => a.CheckingDatetime).ToList());
+
+            return employees.Select(t =>
+            {
+                punches.TryGetValue(t.id, out var records);
+                records ??= new();
+
+                var firstIn = records.FirstOrDefault(r => string.Equals(r.CheckType?.Trim(), "IN", StringComparison.OrdinalIgnoreCase))
+                              ?? records.FirstOrDefault();
+                var lastRecord = records.LastOrDefault();
+                bool isCheckedOut = lastRecord != null
+                    && string.Equals(lastRecord.CheckType?.Trim(), "OUT", StringComparison.OrdinalIgnoreCase);
+
+                string status = firstIn == null ? "NotCheckedIn" : isCheckedOut ? "CheckedOut" : "AtWork";
+
+                return new DailyAttendanceRowDto
+                {
+                    EmployeeID = t.id,
+                    EmployeeCode = t.Code,
+                    EmployeeName = Lang == 1
+                        ? JoinName(t.ArbName, t.FatherArbName, t.FamilyArbName)
+                        : JoinName(t.EngName, t.FatherEngName, t.FamilyEngName),
+                    DepartmentID = t.DepartmentID,
+                    DepartmentCode = t.DepartmentCode,
+                    Department = Lang == 1 ? t.DepartmentArbName : t.DepartmentEngName,
+                    FirstCheckIn = firstIn?.CheckingDatetime.ToString("HH:mm"),
+                    LastCheckOut = isCheckedOut ? lastRecord!.CheckingDatetime.ToString("HH:mm") : null,
+                    Status = status,
+                    StatusText = status switch
+                    {
+                        "AtWork" => Lang == 1 ? "في العمل" : "At work",
+                        "CheckedOut" => Lang == 1 ? "منصرف" : "Checked out",
+                        _ => Lang == 1 ? "لم يسجل حضوراً" : "Not checked in"
+                    }
+                };
+            }).ToList();
+        }
+
+        private static string JoinName(params string?[] parts) =>
+            string.Join(" ", parts.Where(p => !string.IsNullOrWhiteSpace(p)).Select(p => p!.Trim()));
 
         private (TimeSpan? ExpectedStart, int GraceMinutes) GetEmployeeWorkSchedule(int employeeId, DateTime referenceDate)
         {
