@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {}
+    "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {}
   },
   "projects": {
-    "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {
+    "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
+        "projectUniqueName": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
         "projectName": "VenusHR.Application",
-        "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
+        "projectPath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\obj\\",
+        "outputPath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -30,10 +30,11 @@
         },
         "frameworks": {
           "net6.0": {
+            "framework": "net6.0",
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
-                "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj"
+              "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
+                "projectPath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj"
               }
             }
           }
@@ -48,10 +49,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net6.0": {
+          "framework": "net6.0",
           "targetAlias": "net6.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore": {
@@ -83,18 +85,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
+    "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj",
+        "projectUniqueName": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj",
         "projectName": "VenusHR.Core",
-        "projectPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj",
+        "projectPath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\VenusHR.Core.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Core\\obj\\",
+        "outputPath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Core\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -113,6 +115,7 @@
         },
         "frameworks": {
           "net6.0": {
+            "framework": "net6.0",
             "targetAlias": "net6.0",
             "projectReferences": {}
           }
@@ -127,10 +130,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "10.0.100"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net6.0": {
+          "framework": "net6.0",
           "targetAlias": "net6.0",
           "imports": [
             "net461",
@@ -148,7 +152,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "kGztojHTIkU=",
+  "dgSpecHash": "6x5MqPbYyVc=",
   "success": true,
-  "projectFilePath": "D:\\OcApp\\AAAGitHup\\mergeSience\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
+  "projectFilePath": "D:\\New folder\\HR-System-Dataocean\\HR_WebAPIs\\VenusHR.Application\\VenusHR.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.18\\microsoft.entityframeworkcore.7.0.18.nupkg.sha512",
     "C:\\Users\\Dell\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.18\\microsoft.entityframeworkcore.abstractions.7.0.18.nupkg.sha512",

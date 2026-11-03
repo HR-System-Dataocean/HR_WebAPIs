@@ -499,7 +499,91 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             return Result;
         }
 
+        public object GetManagerTeamAttendanceByTime(int ManagerID, DateTime? Date, string? Time, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                if (ManagerID <= 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "معرف المدير غير صحيح" : "Invalid manager ID";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var manager = _context.Hrs_Employees.AsNoTracking().FirstOrDefault(e => e.id == ManagerID);
+                if (manager == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var now = DateTime.Now;
+                var day = (Date ?? now).Date;
+
+                TimeSpan asOfTime;
+                if (string.IsNullOrWhiteSpace(Time))
+                {
+                    asOfTime = now.TimeOfDay;
+                }
+                else if (!TimeSpan.TryParse(Time.Trim(), out asOfTime)
+                         || asOfTime < TimeSpan.Zero
+                         || asOfTime >= TimeSpan.FromDays(1))
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الوقت غير صالح. استخدم صيغة مثل 14:30" : "Invalid time. Use format like 14:30";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var employeesQuery = _context.Hrs_Employees.Where(e => e.ManagerId == ManagerID);
+                var employees = BuildDailyAttendanceRows(employeesQuery, day, Lang, asOfTime);
+
+                Result.ResultObject = new
+                {
+                    Date = day.ToString("yyyy-MM-dd"),
+                    ManagerID = manager.id,
+                    ManagerName = Lang == 1
+                        ? JoinName(manager.ArbName, manager.FamilyArbName)
+                        : JoinName(manager.EngName, manager.FamilyEngName),
+                    AsOfTime = $"{asOfTime.Hours:D2}:{asOfTime.Minutes:D2}",
+                    TeamCount = employees.Count,
+                    CheckedInCount = employees.Count(e => e.Status != "NotCheckedIn"),
+                    AtWorkCount = employees.Count(e => e.Status == "AtWork"),
+                    CheckedOutCount = employees.Count(e => e.Status == "CheckedOut"),
+                    NotCheckedInCount = employees.Count(e => e.Status == "NotCheckedIn"),
+                    Employees = employees
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب حضور فريق المدير بنجاح" : "Team attendance retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب حضور الفريق" : "Error retrieving team attendance";
+                Result.ErrorCode = 0;
+                Console.WriteLine($"GetManagerTeamAttendanceByTime Error: {ex.Message}");
+            }
+
+            return Result;
+        }
+
         public object GetAllEmployeesAttendance(int RequesterID, DateTime? Date, int? DepartmentID, int Lang)
+        {
+            return BuildAllEmployeesAttendance(RequesterID, Date, null, DepartmentID, Lang, useAsOfTimeFilter: false);
+        }
+
+        public object GetAllEmployeesAttendanceByTime(int RequesterID, DateTime? Date, string? Time, int? DepartmentID, int Lang)
+        {
+            return BuildAllEmployeesAttendance(RequesterID, Date, Time, DepartmentID, Lang, useAsOfTimeFilter: true);
+        }
+
+        private object BuildAllEmployeesAttendance(
+            int RequesterID,
+            DateTime? Date,
+            string? Time,
+            int? DepartmentID,
+            int Lang,
+            bool useAsOfTimeFilter)
         {
             Result = new GeneralOutputClass<object>();
             try
@@ -522,6 +606,20 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 var now = DateTime.Now;
                 var day = (Date ?? now).Date;
 
+                TimeSpan asOfTime;
+                if (string.IsNullOrWhiteSpace(Time))
+                {
+                    asOfTime = now.TimeOfDay;
+                }
+                else if (!TimeSpan.TryParse(Time.Trim(), out asOfTime)
+                         || asOfTime < TimeSpan.Zero
+                         || asOfTime >= TimeSpan.FromDays(1))
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الوقت غير صالح. استخدم صيغة مثل 14:30" : "Invalid time. Use format like 14:30";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
                 var employeesQuery = _context.Hrs_Employees.AsQueryable();
                 string scope = Lang == 1 ? "كل الإدارات" : "All departments";
                 if (DepartmentID.HasValue && DepartmentID.Value > 0)
@@ -531,7 +629,16 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     scope = (Lang == 1 ? department?.ArbName : department?.EngName) ?? scope;
                 }
 
-                var rows = BuildDailyAttendanceRows(employeesQuery, day, Lang);
+                var rows = BuildDailyAttendanceRows(
+                    employeesQuery,
+                    day,
+                    Lang,
+                    useAsOfTimeFilter ? asOfTime : null);
+
+                var atWorkCount = rows.Count(r => r.Status == "AtWork");
+                var checkedOutCount = rows.Count(r => r.Status == "CheckedOut");
+                var notCheckedInCount = rows.Count(r => r.Status == "NotCheckedIn");
+                var checkedInCount = rows.Count(r => r.Status != "NotCheckedIn");
 
                 var departments = rows
                     .GroupBy(r => new { r.DepartmentID, r.DepartmentCode, r.Department })
@@ -541,23 +648,46 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     .Select(g => new
                     {
                         DepartmentID = g.Key.DepartmentID,
+                        DepartmentCode = g.Key.DepartmentCode,
                         Department = g.Key.Department ?? (Lang == 1 ? "بدون إدارة" : "No department"),
                         EmployeesCount = g.Count(),
                         CheckedInCount = g.Count(r => r.Status != "NotCheckedIn"),
-                        Employees = g.ToList()
+                        AtWorkCount = g.Count(r => r.Status == "AtWork"),
+                        CheckedOutCount = g.Count(r => r.Status == "CheckedOut"),
+                        NotCheckedInCount = g.Count(r => r.Status == "NotCheckedIn"),
+                        Employees = g.Select(e => new
+                        {
+                            e.EmployeeID,
+                            e.EmployeeCode,
+                            e.EmployeeName,
+                            e.FirstCheckIn,
+                            e.LastCheckOut,
+                            e.Status,
+                            e.StatusText
+                        }).ToList()
                     })
                     .ToList();
 
                 Result.ResultObject = new
                 {
+                    ReportType = Lang == 1 ? "تقرير يومي حسب الإدارات" : "Daily report by department",
                     Date = day.ToString("yyyy-MM-dd"),
+                    DisplayDate = day.ToString("dd/MM/yyyy"),
+                    DayName = GetDayName(day.DayOfWeek, Lang),
                     Scope = scope,
-                    AsOfTime = now.ToString("HH:mm"),
+                    AsOfTime = $"{asOfTime.Hours:D2}:{asOfTime.Minutes:D2}",
                     TotalEmployees = rows.Count,
-                    CheckedInCount = rows.Count(r => r.Status != "NotCheckedIn"),
-                    AtWorkCount = rows.Count(r => r.Status == "AtWork"),
-                    CheckedOutCount = rows.Count(r => r.Status == "CheckedOut"),
-                    NotCheckedInCount = rows.Count(r => r.Status == "NotCheckedIn"),
+                    CheckedInCount = checkedInCount,
+                    AtWorkCount = atWorkCount,
+                    CheckedOutCount = checkedOutCount,
+                    NotCheckedInCount = notCheckedInCount,
+                    Summary = new
+                    {
+                        TotalEmployees = rows.Count,
+                        AtWork = atWorkCount,
+                        CheckedOut = checkedOutCount,
+                        NotCheckedIn = notCheckedInCount
+                    },
                     Departments = departments
                 };
                 Result.ErrorMessage = (Lang == 1) ? "تم جلب حضور الموظفين بنجاح" : "Employees attendance retrieved successfully";
@@ -573,9 +703,519 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             return Result;
         }
 
-        private List<DailyAttendanceRowDto> BuildDailyAttendanceRows(IQueryable<Hrs_Employees> employeesQuery, DateTime day, int Lang)
+        private static string GetDayName(DayOfWeek dayOfWeek, int Lang) => Lang == 1
+            ? dayOfWeek switch
+            {
+                DayOfWeek.Saturday => "السبت",
+                DayOfWeek.Sunday => "الأحد",
+                DayOfWeek.Monday => "الإثنين",
+                DayOfWeek.Tuesday => "الثلاثاء",
+                DayOfWeek.Wednesday => "الأربعاء",
+                DayOfWeek.Thursday => "الخميس",
+                DayOfWeek.Friday => "الجمعة",
+                _ => string.Empty
+            }
+            : dayOfWeek.ToString();
+
+        public object GetAllEmployeesPeriodAttendance(
+            int RequesterID,
+            DateTime FromDate,
+            DateTime ToDate,
+            int? DepartmentID,
+            int Lang)
         {
-            var dayEnd = day.AddDays(1);
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                var requester = _context.Hrs_Employees.AsNoTracking().FirstOrDefault(e => e.id == RequesterID);
+                if (requester == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                if (requester.IsHRTeam != true)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "غير مسموح لك بعرض حضور كل الموظفين" : "You are not allowed to view all employees attendance";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var from = FromDate.Date;
+                var to = ToDate.Date;
+                if (from > to)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "تاريخ البداية يجب أن يكون قبل تاريخ النهاية" : "From date must be before to date";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var workingDays = GetWorkingDays(from, to);
+                var workDaysCount = workingDays.Count;
+                var rangeEndExclusive = to.AddDays(1);
+
+                var employeesQuery = _context.Hrs_Employees
+                    .Where(e => e.CancelDate == null && (e.ExcludeDate == null || e.ExcludeDate >= from));
+
+                string scope = Lang == 1 ? "كل الإدارات" : "All departments";
+                if (DepartmentID.HasValue && DepartmentID.Value > 0)
+                {
+                    employeesQuery = employeesQuery.Where(e => e.DepartmentId == DepartmentID.Value);
+                    var department = _context.sys_Departments.AsNoTracking().FirstOrDefault(d => d.ID == DepartmentID.Value);
+                    scope = (Lang == 1 ? department?.ArbName : department?.EngName) ?? scope;
+                }
+
+                var employees = (from emp in employeesQuery
+                                 join dep in _context.sys_Departments on emp.DepartmentId equals dep.ID into deps
+                                 from dep in deps.DefaultIfEmpty()
+                                 orderby emp.Code
+                                 select new
+                                 {
+                                     emp.id,
+                                     emp.Code,
+                                     emp.ArbName,
+                                     emp.FatherArbName,
+                                     emp.FamilyArbName,
+                                     emp.EngName,
+                                     emp.FatherEngName,
+                                     emp.FamilyEngName,
+                                     DepartmentID = dep != null ? (int?)dep.ID : null,
+                                     DepartmentCode = dep != null ? dep.Code : null,
+                                     DepartmentArbName = dep != null ? dep.ArbName : null,
+                                     DepartmentEngName = dep != null ? dep.EngName : null
+                                 })
+                                .AsNoTracking()
+                                .ToList();
+
+                var employeeIds = employees.Select(e => e.id).ToList();
+                var punches = _context.Hrs_Mobile_Attendance
+                    .AsNoTracking()
+                    .Where(a => employeeIds.Contains(a.EmployeeID)
+                        && a.CheckingDatetime >= from
+                        && a.CheckingDatetime < rangeEndExclusive)
+                    .Select(a => new { a.EmployeeID, a.CheckingDatetime, a.CheckType })
+                    .ToList()
+                    .GroupBy(a => a.EmployeeID)
+                    .ToDictionary(
+                        g => g.Key,
+                        g => g.GroupBy(x => x.CheckingDatetime.Date)
+                              .ToDictionary(dg => dg.Key, dg => dg.OrderBy(x => x.CheckingDatetime).ToList()));
+
+                var rows = new List<PeriodAttendanceEmployeeDto>();
+
+                foreach (var emp in employees)
+                {
+                    punches.TryGetValue(emp.id, out var byDay);
+                    byDay ??= new();
+
+                    int completed = 0;
+                    int missingCheckout = 0;
+                    int noMovement = 0;
+                    long totalMinutes = 0;
+
+                    foreach (var day in workingDays)
+                    {
+                        if (!byDay.TryGetValue(day, out var dayRecords) || dayRecords.Count == 0)
+                        {
+                            noMovement++;
+                            continue;
+                        }
+
+                        var firstIn = dayRecords.FirstOrDefault(r =>
+                                          string.Equals(r.CheckType?.Trim(), "IN", StringComparison.OrdinalIgnoreCase))
+                                      ?? dayRecords.FirstOrDefault();
+                        var lastOut = dayRecords.LastOrDefault(r =>
+                            string.Equals(r.CheckType?.Trim(), "OUT", StringComparison.OrdinalIgnoreCase));
+
+                        if (firstIn != null && lastOut != null && lastOut.CheckingDatetime > firstIn.CheckingDatetime)
+                        {
+                            completed++;
+                            totalMinutes += (long)(lastOut.CheckingDatetime - firstIn.CheckingDatetime).TotalMinutes;
+                        }
+                        else if (firstIn != null)
+                        {
+                            missingCheckout++;
+                        }
+                        else
+                        {
+                            noMovement++;
+                        }
+                    }
+
+                    rows.Add(new PeriodAttendanceEmployeeDto
+                    {
+                        EmployeeID = emp.id,
+                        EmployeeCode = emp.Code,
+                        EmployeeName = Lang == 1
+                            ? JoinName(emp.ArbName, emp.FatherArbName, emp.FamilyArbName)
+                            : JoinName(emp.EngName, emp.FatherEngName, emp.FamilyEngName),
+                        DepartmentID = emp.DepartmentID,
+                        DepartmentCode = emp.DepartmentCode,
+                        Department = Lang == 1 ? emp.DepartmentArbName : emp.DepartmentEngName,
+                        WorkDays = workDaysCount,
+                        CompletedDays = completed,
+                        MissingCheckoutDays = missingCheckout,
+                        NoMovementDays = noMovement,
+                        TotalDurationMinutes = totalMinutes,
+                        TotalDuration = FormatDuration(totalMinutes)
+                    });
+                }
+
+                var totalCompleted = rows.Sum(r => r.CompletedDays);
+                var totalMissingCheckout = rows.Sum(r => r.MissingCheckoutDays);
+                var totalNoMovement = rows.Sum(r => r.NoMovementDays);
+                var totalMinutesAll = rows.Sum(r => r.TotalDurationMinutes);
+
+                var departments = rows
+                    .GroupBy(r => new { r.DepartmentID, r.DepartmentCode, r.Department })
+                    .OrderBy(g => g.Key.DepartmentID == null)
+                    .ThenBy(g => g.Key.DepartmentCode)
+                    .ThenBy(g => g.Key.DepartmentID)
+                    .Select(g => new
+                    {
+                        DepartmentID = g.Key.DepartmentID,
+                        DepartmentCode = g.Key.DepartmentCode,
+                        Department = g.Key.Department ?? (Lang == 1 ? "بدون إدارة" : "No department"),
+                        EmployeesCount = g.Count(),
+                        Employees = g.Select(e => new
+                        {
+                            e.EmployeeID,
+                            e.EmployeeCode,
+                            e.EmployeeName,
+                            e.WorkDays,
+                            e.CompletedDays,
+                            e.MissingCheckoutDays,
+                            e.NoMovementDays,
+                            e.TotalDuration,
+                            e.TotalDurationMinutes
+                        }).ToList()
+                    })
+                    .ToList();
+
+                Result.ResultObject = new
+                {
+                    ReportType = Lang == 1 ? "ملخص فترة - سطر لكل موظف" : "Period summary - one line per employee",
+                    FromDate = from.ToString("yyyy-MM-dd"),
+                    ToDate = to.ToString("yyyy-MM-dd"),
+                    DisplayPeriod = $"{from:dd/MM/yyyy} – {to:dd/MM/yyyy}",
+                    Scope = scope,
+                    TotalEmployees = rows.Count,
+                    WorkingDays = workDaysCount,
+                    Summary = new
+                    {
+                        CompletedDays = totalCompleted,
+                        MissingCheckoutDays = totalMissingCheckout,
+                        NoMovementDays = totalNoMovement,
+                        TotalAttendanceHours = (int)(totalMinutesAll / 60),
+                        TotalDuration = FormatDuration(totalMinutesAll),
+                        TotalDurationMinutes = totalMinutesAll
+                    },
+                    Departments = departments
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب ملخص الفترة بنجاح" : "Period attendance summary retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب ملخص الفترة" : "Error retrieving period attendance summary";
+                Result.ErrorCode = 0;
+                Console.WriteLine($"GetAllEmployeesPeriodAttendance Error: {ex.Message}");
+            }
+
+            return Result;
+        }
+
+        private static List<DateTime> GetWorkingDays(DateTime from, DateTime to)
+        {
+            var days = new List<DateTime>();
+            for (var d = from.Date; d <= to.Date; d = d.AddDays(1))
+            {
+                // Friday + Saturday weekend (common MENA calendar)
+                if (d.DayOfWeek == DayOfWeek.Friday || d.DayOfWeek == DayOfWeek.Saturday)
+                    continue;
+                days.Add(d);
+            }
+            return days;
+        }
+
+        private static string FormatDuration(long totalMinutes)
+        {
+            if (totalMinutes < 0) totalMinutes = 0;
+            var hours = totalMinutes / 60;
+            var minutes = totalMinutes % 60;
+            return $"{hours}:{minutes:D2}";
+        }
+
+        private static string FormatTime12(DateTime dt, int Lang)
+        {
+            var hour24 = dt.Hour;
+            var minute = dt.Minute;
+            var isPm = hour24 >= 12;
+            var hour12 = hour24 % 12;
+            if (hour12 == 0) hour12 = 12;
+
+            if (Lang == 1)
+                return $"{hour12:D2}:{minute:D2} {(isPm ? "م" : "ص")}";
+
+            return $"{hour12:D2}:{minute:D2} {(isPm ? "PM" : "AM")}";
+        }
+
+        public object GetEmployeePeriodAttendanceDetail(int EmployeeID, DateTime FromDate, DateTime ToDate, int Lang)
+        {
+            Result = new GeneralOutputClass<object>();
+            try
+            {
+                if (EmployeeID <= 0)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "معرف الموظف غير صحيح" : "Invalid employee ID";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var from = FromDate.Date;
+                var to = ToDate.Date;
+                if (from > to)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "تاريخ البداية يجب أن يكون قبل تاريخ النهاية" : "From date must be before to date";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                var employee = (from emp in _context.Hrs_Employees.AsNoTracking()
+                                join dep in _context.sys_Departments on emp.DepartmentId equals dep.ID into deps
+                                from dep in deps.DefaultIfEmpty()
+                                where emp.id == EmployeeID
+                                select new
+                                {
+                                    emp.id,
+                                    emp.Code,
+                                    emp.ArbName,
+                                    emp.FatherArbName,
+                                    emp.FamilyArbName,
+                                    emp.EngName,
+                                    emp.FatherEngName,
+                                    emp.FamilyEngName,
+                                    emp.ManagerId,
+                                    DepartmentID = dep != null ? (int?)dep.ID : null,
+                                    DepartmentCode = dep != null ? dep.Code : null,
+                                    DepartmentArbName = dep != null ? dep.ArbName : null,
+                                    DepartmentEngName = dep != null ? dep.EngName : null
+                                }).FirstOrDefault();
+
+                if (employee == null)
+                {
+                    Result.ErrorMessage = (Lang == 1) ? "الموظف غير موجود" : "Employee not found";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                string? managerName = null;
+                if (employee.ManagerId.HasValue && employee.ManagerId.Value > 0)
+                {
+                    var manager = _context.Hrs_Employees.AsNoTracking()
+                        .Where(m => m.id == employee.ManagerId.Value)
+                        .Select(m => new
+                        {
+                            m.ArbName,
+                            m.FatherArbName,
+                            m.FamilyArbName,
+                            m.EngName,
+                            m.FatherEngName,
+                            m.FamilyEngName
+                        })
+                        .FirstOrDefault();
+
+                    if (manager != null)
+                    {
+                        managerName = Lang == 1
+                            ? JoinName(manager.ArbName, manager.FatherArbName, manager.FamilyArbName)
+                            : JoinName(manager.EngName, manager.FatherEngName, manager.FamilyEngName);
+                    }
+                }
+
+                var rangeEndExclusive = to.AddDays(1);
+                var punchesByDay = _context.Hrs_Mobile_Attendance
+                    .AsNoTracking()
+                    .Where(a => a.EmployeeID == EmployeeID
+                        && a.CheckingDatetime >= from
+                        && a.CheckingDatetime < rangeEndExclusive)
+                    .Select(a => new { a.CheckingDatetime, a.CheckType })
+                    .ToList()
+                    .GroupBy(a => a.CheckingDatetime.Date)
+                    .ToDictionary(g => g.Key, g => g.OrderBy(x => x.CheckingDatetime).ToList());
+
+                int completedDays = 0;
+                int missingCheckoutDays = 0;
+                int noMovementDays = 0;
+                long totalCompletedMinutes = 0;
+
+                var days = new List<object>();
+
+                for (var day = from; day <= to; day = day.AddDays(1))
+                {
+                    bool isWeeklyRest = day.DayOfWeek == DayOfWeek.Friday || day.DayOfWeek == DayOfWeek.Saturday;
+                    punchesByDay.TryGetValue(day, out var dayRecords);
+                    dayRecords ??= new();
+
+                    string? firstCheckIn = null;
+                    string? firstCheckIn24 = null;
+                    string? lastCheckOut = null;
+                    string? lastCheckOut24 = null;
+                    string? duration = null;
+                    long? durationMinutes = null;
+                    string status;
+                    string statusText;
+
+                    if (isWeeklyRest && dayRecords.Count == 0)
+                    {
+                        status = "WeeklyRest";
+                        statusText = Lang == 1 ? "راحة أسبوعية" : "Weekly rest";
+                    }
+                    else if (dayRecords.Count == 0)
+                    {
+                        noMovementDays++;
+                        status = "NoMovement";
+                        statusText = Lang == 1 ? "لا توجد حركات" : "No movements";
+                    }
+                    else
+                    {
+                        var firstIn = dayRecords.FirstOrDefault(r =>
+                                          string.Equals(r.CheckType?.Trim(), "IN", StringComparison.OrdinalIgnoreCase))
+                                      ?? dayRecords.FirstOrDefault();
+                        var lastOut = dayRecords.LastOrDefault(r =>
+                            string.Equals(r.CheckType?.Trim(), "OUT", StringComparison.OrdinalIgnoreCase));
+
+                        if (firstIn != null)
+                        {
+                            firstCheckIn24 = firstIn.CheckingDatetime.ToString("HH:mm");
+                            firstCheckIn = FormatTime12(firstIn.CheckingDatetime, Lang);
+                        }
+
+                        if (firstIn != null && lastOut != null && lastOut.CheckingDatetime > firstIn.CheckingDatetime)
+                        {
+                            lastCheckOut24 = lastOut.CheckingDatetime.ToString("HH:mm");
+                            lastCheckOut = FormatTime12(lastOut.CheckingDatetime, Lang);
+                            var spanMinutes = (long)(lastOut.CheckingDatetime - firstIn.CheckingDatetime).TotalMinutes;
+                            durationMinutes = spanMinutes;
+                            duration = FormatDuration(spanMinutes);
+
+                            // Count completed only on working days for summary cards
+                            if (!isWeeklyRest)
+                            {
+                                completedDays++;
+                                totalCompletedMinutes += spanMinutes;
+                            }
+                            else
+                            {
+                                totalCompletedMinutes += spanMinutes;
+                            }
+
+                            status = "Completed";
+                            statusText = Lang == 1 ? "مكتمل" : "Completed";
+                        }
+                        else if (firstIn != null)
+                        {
+                            if (!isWeeklyRest) missingCheckoutDays++;
+                            status = "MissingCheckout";
+                            statusText = Lang == 1 ? "دون انصراف" : "Missing checkout";
+                        }
+                        else if (isWeeklyRest)
+                        {
+                            status = "WeeklyRest";
+                            statusText = Lang == 1 ? "راحة أسبوعية" : "Weekly rest";
+                        }
+                        else
+                        {
+                            noMovementDays++;
+                            status = "NoMovement";
+                            statusText = Lang == 1 ? "لا توجد حركات" : "No movements";
+                        }
+                    }
+
+                    days.Add(new
+                    {
+                        Date = day.ToString("yyyy-MM-dd"),
+                        DisplayDate = day.ToString("dd/MM/yyyy"),
+                        DayName = GetDayName(day.DayOfWeek, Lang),
+                        DayAndDate = $"{GetDayName(day.DayOfWeek, Lang)} {day:dd/MM/yyyy}",
+                        IsWeeklyRest = isWeeklyRest,
+                        FirstCheckIn = firstCheckIn,
+                        FirstCheckIn24 = firstCheckIn24,
+                        LastCheckOut = lastCheckOut,
+                        LastCheckOut24 = lastCheckOut24,
+                        Duration = duration,
+                        DurationMinutes = durationMinutes,
+                        Status = status,
+                        StatusText = statusText
+                    });
+                }
+
+                var workingDays = GetWorkingDays(from, to).Count;
+                var restDays = Enumerable.Range(0, (to - from).Days + 1)
+                    .Select(i => from.AddDays(i))
+                    .Count(d => d.DayOfWeek == DayOfWeek.Friday || d.DayOfWeek == DayOfWeek.Saturday);
+                const int officialHolidays = 0; // reserved until official holiday calendar is available
+
+                Result.ResultObject = new
+                {
+                    ReportType = Lang == 1 ? "ملخص يومي لسجل الموظف" : "Daily summary of employee record",
+                    TimeZoneNote = Lang == 1 ? "التوقيت المحلي (السعودية)" : "Local time (Saudi Arabia)",
+                    Employee = new
+                    {
+                        EmployeeID = employee.id,
+                        EmployeeCode = employee.Code,
+                        EmployeeName = Lang == 1
+                            ? JoinName(employee.ArbName, employee.FatherArbName, employee.FamilyArbName)
+                            : JoinName(employee.EngName, employee.FatherEngName, employee.FamilyEngName),
+                        DepartmentID = employee.DepartmentID,
+                        DepartmentCode = employee.DepartmentCode,
+                        Department = Lang == 1 ? employee.DepartmentArbName : employee.DepartmentEngName,
+                        ManagerID = employee.ManagerId,
+                        ManagerName = managerName
+                    },
+                    FromDate = from.ToString("yyyy-MM-dd"),
+                    ToDate = to.ToString("yyyy-MM-dd"),
+                    DisplayPeriod = $"{from:dd/MM/yyyy} – {to:dd/MM/yyyy}",
+                    Calendar = new
+                    {
+                        WorkingDays = workingDays,
+                        RestDays = restDays,
+                        OfficialHolidays = officialHolidays
+                    },
+                    Summary = new
+                    {
+                        CompletedDays = completedDays,
+                        MissingCheckoutDays = missingCheckoutDays,
+                        NoMovementDays = noMovementDays,
+                        TotalDuration = FormatDuration(totalCompletedMinutes),
+                        TotalDurationMinutes = totalCompletedMinutes
+                    },
+                    Days = days
+                };
+                Result.ErrorMessage = (Lang == 1) ? "تم جلب تفاصيل حضور الموظف بنجاح" : "Employee attendance detail retrieved successfully";
+                Result.ErrorCode = 1;
+            }
+            catch (Exception ex)
+            {
+                Result.ErrorMessage = (Lang == 1) ? "حدث خطأ أثناء جلب تفاصيل حضور الموظف" : "Error retrieving employee attendance detail";
+                Result.ErrorCode = 0;
+                Console.WriteLine($"GetEmployeePeriodAttendanceDetail Error: {ex.Message}");
+            }
+
+            return Result;
+        }
+
+        private List<DailyAttendanceRowDto> BuildDailyAttendanceRows(
+            IQueryable<Hrs_Employees> employeesQuery,
+            DateTime day,
+            int Lang,
+            TimeSpan? asOfTime = null)
+        {
+            // Include the full target minute (e.g. Time=14:30 covers up to 14:30:59)
+            var dayEnd = asOfTime.HasValue
+                ? day.Add(asOfTime.Value).AddMinutes(1)
+                : day.AddDays(1);
             var activeEmployees = employeesQuery
                 .Where(e => e.CancelDate == null && (e.ExcludeDate == null || e.ExcludeDate >= day));
 
