@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VenusHR.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ca05fa2a217d3e1498ba4a87bab2bd7d1fc6a2d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab5ba6323b5efe56e449f2046ddb67cc3de7166f")]
 [assembly: System.Reflection.AssemblyProductAttribute("VenusHR.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VenusHR.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

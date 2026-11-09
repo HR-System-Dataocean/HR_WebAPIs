@@ -671,15 +671,15 @@ namespace VenusHR.API.Controllers.Attendance
                 return BadRequest(ApiResponse<object>.Fail(message));
             }
 
-            if (string.IsNullOrWhiteSpace(request.MacAddress))
+            if (string.IsNullOrWhiteSpace(request.DeviceID))
             {
-                var message = Lang == 1 ? "عنوان MAC مطلوب" : "MAC Address is required";
+                var message = Lang == 1 ? "معرف الجهاز مطلوب" : "Device ID is required";
                 return BadRequest(ApiResponse<object>.Fail(message));
             }
 
             try
             {
-                var result = _attendance.ChangeDevice(request.EmployeeID, request.MacAddress, Lang);
+                var result = _attendance.ChangeDevice(request.EmployeeID, request.DeviceID, Lang);
 
                 if (result is GeneralOutputClass<object> output)
                 {
@@ -803,8 +803,8 @@ namespace VenusHR.API.Controllers.Attendance
         [Required(ErrorMessage = "Employee ID is required")]
         public int EmployeeID { get; set; }
 
-        [Required(ErrorMessage = "MAC Address is required")]
-        public string MacAddress { get; set; } = null!;
+        [Required(ErrorMessage = "Device ID is required")]
+        public string DeviceID { get; set; } = null!;
     }
 
     public class ClearDeviceRequest

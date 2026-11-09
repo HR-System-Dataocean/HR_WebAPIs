@@ -303,15 +303,15 @@ public static class AttendanceEndpoints
             return Results.BadRequest(ApiResponse.Fail(message));
         }
 
-        if (string.IsNullOrWhiteSpace(request.MacAddress))
+        if (string.IsNullOrWhiteSpace(request.DeviceID))
         {
-            var message = lang == 1 ? "عنوان MAC مطلوب" : "MAC Address is required";
+            var message = lang == 1 ? "معرف الجهاز مطلوب" : "Device ID is required";
             return Results.BadRequest(ApiResponse.Fail(message));
         }
 
         try
         {
-            var result = attendanceService.ChangeDevice(request.EmployeeID, request.MacAddress, lang);
+            var result = attendanceService.ChangeDevice(request.EmployeeID, request.DeviceID, lang);
 
             if (result is GeneralOutputClass<object> output)
             {
@@ -397,8 +397,8 @@ public class ChangeDeviceRequest
     [Required(ErrorMessage = "Employee ID is required")]
     public int EmployeeID { get; set; }
 
-    [Required(ErrorMessage = "MAC Address is required")]
-    public string MacAddress { get; set; } = null!;
+    [Required(ErrorMessage = "Device ID is required")]
+    public string DeviceID { get; set; } = null!;
 }
 
 public class ClearDeviceRequest
