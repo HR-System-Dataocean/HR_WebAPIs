@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("VenusHR.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8007dd475a96b71e12220e2ecb01abe562458ea6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ab5ba6323b5efe56e449f2046ddb67cc3de7166f")]
 [assembly: System.Reflection.AssemblyProductAttribute("VenusHR.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VenusHR.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

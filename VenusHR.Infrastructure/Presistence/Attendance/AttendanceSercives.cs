@@ -38,30 +38,21 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     return Result;
                 }
 
-                var incomingMac = !string.IsNullOrWhiteSpace(macAddress) ? macAddress.Trim() :
-                                  !string.IsNullOrWhiteSpace(DeviceID) ? DeviceID.Trim() : null;
-
-                if (string.IsNullOrWhiteSpace(incomingMac))
+                if (string.IsNullOrWhiteSpace(DeviceID))
                 {
-                    Result.ErrorMessage = (Lang == 1) ? "معرف الجهاز (MAC Address) مطلوب" : "Device identifier (MAC Address) is required";
+                    Result.ErrorMessage = (Lang == 1) ? "معرف الجهاز مطلوب" : "Device ID is required";
                     Result.ErrorCode = 0;
                     return Result;
                 }
 
-                if (!string.IsNullOrWhiteSpace(employee.MacAddress))
+                var incomingDeviceId = DeviceID.Trim();
+                if (IsDeviceIdUsedByAnotherEmployee(EmployeeID, incomingDeviceId))
                 {
-                    if (!string.Equals(employee.MacAddress.Trim(), incomingMac, StringComparison.OrdinalIgnoreCase))
-                    {
-                        Result.ErrorMessage = (Lang == 1)
-                            ? "هذا الجهاز غير مسجل. يرجى التواصل مع إدارة الموارد البشرية لتغيير الجهاز"
-                            : "This device is not registered. Please contact HR to change your device";
-                        Result.ErrorCode = 0;
-                        return Result;
-                    }
-                }
-                else
-                {
-                    SetEmployeeMacAddress(EmployeeID, incomingMac);
+                    Result.ErrorMessage = (Lang == 1)
+                        ? "هذا الجهاز مستخدم لموظف آخر"
+                        : "This device is used for another employee";
+                    Result.ErrorCode = 0;
+                    return Result;
                 }
 
                  // Get location from hrs_LocationGeoPoints (employee-specific geo points)
@@ -1376,12 +1367,14 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     return Result;
                 }
 
+                var deviceId = GetEmployeeDeviceId(EmployeeID);
+
                 Result.ResultObject = new
                 {
                     EmployeeID = employee.id,
                     EmployeeCode = employee.Code,
-                    MacAddress = employee.MacAddress,
-                    IsDeviceRegistered = !string.IsNullOrWhiteSpace(employee.MacAddress)
+                    DeviceID = deviceId,
+                    IsDeviceRegistered = !string.IsNullOrWhiteSpace(deviceId)
                 };
                 Result.ErrorMessage = (Lang == 1) ? "تم جلب بيانات الجهاز بنجاح" : "Device info retrieved successfully";
                 Result.ErrorCode = 1;
@@ -1395,14 +1388,14 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
             return Result;
         }
 
-        public object ChangeDevice(int EmployeeID, string MacAddress, int Lang)
+        public object ChangeDevice(int EmployeeID, string DeviceID, int Lang)
         {
             Result = new GeneralOutputClass<object>();
             try
             {
-                if (string.IsNullOrWhiteSpace(MacAddress))
+                if (string.IsNullOrWhiteSpace(DeviceID))
                 {
-                    Result.ErrorMessage = (Lang == 1) ? "عنوان MAC مطلوب" : "MAC Address is required";
+                    Result.ErrorMessage = (Lang == 1) ? "معرف الجهاز مطلوب" : "Device ID is required";
                     Result.ErrorCode = 0;
                     return Result;
                 }
@@ -1415,16 +1408,25 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     return Result;
                 }
 
-                var previousMac = employee.MacAddress;
-                var newMac = MacAddress.Trim();
-                SetEmployeeMacAddress(EmployeeID, newMac);
+                var previousDeviceId = GetEmployeeDeviceId(EmployeeID);
+                var newDeviceId = DeviceID.Trim();
+                if (IsDeviceIdUsedByAnotherEmployee(EmployeeID, newDeviceId))
+                {
+                    Result.ErrorMessage = (Lang == 1)
+                        ? "هذا الجهاز مستخدم لموظف آخر"
+                        : "This device is used for another employee";
+                    Result.ErrorCode = 0;
+                    return Result;
+                }
+
+                SetEmployeeDeviceId(EmployeeID, newDeviceId);
 
                 Result.ResultObject = new
                 {
                     EmployeeID = employee.id,
                     EmployeeCode = employee.Code,
-                    PreviousMacAddress = previousMac,
-                    NewMacAddress = newMac
+                    PreviousDeviceID = previousDeviceId,
+                    NewDeviceID = newDeviceId
                 };
                 Result.ErrorMessage = (Lang == 1) ? "تم تغيير الجهاز بنجاح" : "Device changed successfully";
                 Result.ErrorCode = 1;
@@ -1451,14 +1453,14 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                     return Result;
                 }
 
-                var previousMac = employee.MacAddress;
-                SetEmployeeMacAddress(EmployeeID, null);
+                var previousDeviceId = GetEmployeeDeviceId(EmployeeID);
+                SetEmployeeDeviceId(EmployeeID, null);
 
                 Result.ResultObject = new
                 {
                     EmployeeID = employee.id,
                     EmployeeCode = employee.Code,
-                    ClearedMacAddress = previousMac
+                    ClearedDeviceID = previousDeviceId
                 };
                 Result.ErrorMessage = (Lang == 1) ? "تم إلغاء تسجيل الجهاز بنجاح" : "Device registration cleared successfully";
                 Result.ErrorCode = 1;
@@ -1575,10 +1577,27 @@ namespace VenusHR.Infrastructure.Presistence.Attendance
                 .ToList();
         }
 
-         private void SetEmployeeMacAddress(int employeeId, string? macAddress)
+        private string? GetEmployeeDeviceId(int employeeId)
+        {
+            return _context.Hrs_Mobile_Attendance
+                .Where(a => a.EmployeeID == employeeId && a.DeviceID != null && a.DeviceID != "")
+                .OrderByDescending(a => a.CheckingDatetime)
+                .Select(a => a.DeviceID)
+                .FirstOrDefault();
+        }
+
+        private bool IsDeviceIdUsedByAnotherEmployee(int employeeId, string deviceId)
+        {
+            return _context.Hrs_Mobile_Attendance.Any(a =>
+                a.EmployeeID != employeeId &&
+                a.DeviceID != null &&
+                a.DeviceID.ToLower() == deviceId.ToLower());
+        }
+
+        private void SetEmployeeDeviceId(int employeeId, string? deviceId)
         {
             _context.Database.ExecuteSqlInterpolated(
-                $"UPDATE Hrs_Employees SET MacAddress = {macAddress} WHERE id = {employeeId}");
+                $"UPDATE Hrs_Mobile_Attendance SET DeviceID = {deviceId} WHERE EmployeeID = {employeeId}");
         }
 
          private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
