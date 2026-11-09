@@ -79,3 +79,19 @@ D:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\r
 d:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\_build_check_output\VenusHR.Application.deps.json
 d:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\_build_check_output\VenusHR.Application.dll
 d:\OcApp\AAAGitHup\mergeSience\HR_WebAPIs\_build_check_output\VenusHR.Application.pdb
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.deps.json
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.dll
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Application.pdb
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Core.dll
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\bin\Debug\net6.0\VenusHR.Core.pdb
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.csproj.AssemblyReference.cache
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.AssemblyInfoInputs.cache
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.AssemblyInfo.cs
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.csproj.CoreCompileInputs.cache
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.sourcelink.json
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR..40DC8959.Up2Date
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.dll
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\refint\VenusHR.Application.dll
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\VenusHR.Application.pdb
+D:\New folder\HR-System-Dataocean\HR_WebAPIs\VenusHR.Application\obj\Debug\net6.0\ref\VenusHR.Application.dll

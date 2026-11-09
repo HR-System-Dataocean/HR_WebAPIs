@@ -20,7 +20,7 @@ namespace VenusHR.Application.Common.Interfaces.Attendance
         object GetEmployeePeriodAttendanceDetail(int EmployeeID, DateTime FromDate, DateTime ToDate, int Lang);
 
         object GetRegisteredDevice(int EmployeeID, int Lang);
-        object ChangeDevice(int EmployeeID, string MacAddress, int Lang);
+        object ChangeDevice(int EmployeeID, string DeviceID, int Lang);
         object ClearDevice(int EmployeeID, int Lang);
         object GetEmployeesExpectedStartBeforeTime(int? hour, int? minute, int Lang);
         List<ExpectedStartEmployeeDto> GetExpectedStartEmployeesBeforeTime(int? hour, int? minute);
